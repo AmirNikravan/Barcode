@@ -15,6 +15,10 @@ class MainWindow(QMainWindow):
         self.ui.pushButton_print.clicked.connect(self.handlePrint)
         self.ui.actionAbout.triggered.connect(self.showAboutMessageBox)
         self.ui.pushButton_preview.clicked.connect(self.handlePreview)
+        self.ui.tableWidget.setColumnWidth(0,200)
+        self.ui.tableWidget.setColumnWidth(1,450)
+        self.ui.tableWidget.setColumnWidth(2,200)
+        self.ui.tableWidget.setColumnWidth(3,450)
     def showAboutMessageBox(self):
         msg = QMessageBox()
         msg.setWindowTitle("About")

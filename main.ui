@@ -157,11 +157,11 @@ border-radius:10px
 
 </string>
       </property>
-      <attribute name="horizontalHeaderDefaultSectionSize">
-       <number>122</number>
-      </attribute>
       <attribute name="horizontalHeaderMinimumSectionSize">
        <number>38</number>
+      </attribute>
+      <attribute name="horizontalHeaderDefaultSectionSize">
+       <number>122</number>
       </attribute>
       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
        <bool>true</bool>
@@ -172,6 +172,16 @@ border-radius:10px
       <attribute name="verticalHeaderCascadingSectionResizes">
        <bool>false</bool>
       </attribute>
+      <column>
+       <property name="text">
+        <string>سریال</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>تصویر</string>
+       </property>
+      </column>
       <column>
        <property name="text">
         <string>سریال</string>
@@ -252,7 +262,7 @@ background-color: rgb(255, 166, 139);
      <x>0</x>
      <y>0</y>
      <width>604</width>
-     <height>18</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
