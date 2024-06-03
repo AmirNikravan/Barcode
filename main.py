@@ -1,11 +1,13 @@
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox ,QLabel,QTableWidgetItem
 import sys
+
+import barcode.itf
 from ui_main import Ui_MainWindow
 from barcode import Code128
 from barcode.writer import ImageWriter
 from PySide6 import QtGui, QtPrintSupport ,QtWidgets
 # from PyQt6 import QtGui
-
+import barcode
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -28,14 +30,16 @@ class MainWindow(QMainWindow):
         # print(self.lineEdit.text())
         try:
             self.barcode_serial = self.ui.lineEdit.text()
+            barcode.base.Barcode.default_writer_options['write_text'] = False
+
             if self.barcode_serial:
-                with open(f".\\images\\{self.barcode_serial}.jpeg", "wb") as f:
-                    Code128(f"{self.barcode_serial}", writer=ImageWriter()).write(f)
+                with open(f"./images/{self.barcode_serial}.jpeg", "wb") as f:
+                    Code128(f"{self.barcode_serial}", writer=ImageWriter(),).write(f)
 
-                pic = QtGui.QPixmap(f".\\images\\{self.barcode_serial}.jpeg")
-
+                pic = QtGui.QPixmap(f"./images/{self.barcode_serial}.jpeg")
+                
                 label = QtWidgets.QLabel()
-                label.width = 100
+                label.width = 10
                 label.height = 100
                 label.setPixmap(pic)
 
