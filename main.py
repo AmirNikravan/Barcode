@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox ,QLabel,QTableWidgetItem
 import sys
 from PIL import Image
+import barcode.base
 import barcode.itf
 from ui_main import Ui_MainWindow
 from barcode import Code128
@@ -31,13 +32,19 @@ class MainWindow(QMainWindow):
         try:
             self.barcode_serial = self.ui.lineEdit.text()
             barcode.base.Barcode.default_writer_options['write_text'] = False
-
             if self.barcode_serial:
+                barcode.base.Barcode.default_writer_options['text'] = f"IMEI={self.barcode_serial}"
+                options = {
+    # 'dpi': 200,
+    # 'module_height': 1,
+    'quiet_zone': 8,
+    'text_distance': 5
+}
                 with open(f"./images/{self.barcode_serial}.jpeg", "wb") as f:
-                    Code128(f"{self.barcode_serial}", writer=ImageWriter(),).write(f)
+                    Code128(f"{self.barcode_serial}", writer=ImageWriter(),).write(f,options=options)
                 with Image.open(f"./images/{self.barcode_serial}.jpeg") as img:
                     # Resize the image using LANCZOS filter for high-quality downsampling
-                    resized_img = img.resize((200, 50), Image.LANCZOS)
+                    resized_img = img.resize((300, 100), Image.LANCZOS)
                     # Save the resized image to the output path
                     resized_img.save(f"./images/{self.barcode_serial}.jpeg")
                     # print(f"Image saved to {output_path}"
