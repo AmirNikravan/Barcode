@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox ,QLabel,QTableWidgetItem
 import sys
-
+from PIL import Image
 import barcode.itf
 from ui_main import Ui_MainWindow
 from barcode import Code128
@@ -35,25 +35,26 @@ class MainWindow(QMainWindow):
             if self.barcode_serial:
                 with open(f"./images/{self.barcode_serial}.jpeg", "wb") as f:
                     Code128(f"{self.barcode_serial}", writer=ImageWriter(),).write(f)
-
+                with Image.open(f"./images/{self.barcode_serial}.jpeg") as img:
+                    # Resize the image using LANCZOS filter for high-quality downsampling
+                    resized_img = img.resize((200, 50), Image.LANCZOS)
+                    # Save the resized image to the output path
+                    resized_img.save(f"./images/{self.barcode_serial}.jpeg")
+                    # print(f"Image saved to {output_path}"
                 pic = QtGui.QPixmap(f"./images/{self.barcode_serial}.jpeg")
                 
                 label = QtWidgets.QLabel()
                 label.width = 10
                 label.height = 100
                 label.setPixmap(pic)
-
                 self.ui.tableWidget.setRowCount(self.ui.tableWidget.rowCount() + 1)
-                code = QTableWidgetItem(f"{self.barcode_serial}")
-                # barcode = QTableWidgetItem(f"{self.number}")
+                code = QTableWidgetItem(f"IMEI={self.barcode_serial}")
                 self.ui.tableWidget.setItem(self.ui.tableWidget.rowCount() - 1, 0, code)
-                # self.tableWidget.setItem(self.tableWidget.rowCount()-1, 1,  barcode)
                 self.ui.tableWidget.setCellWidget(
                     self.ui.tableWidget.rowCount() - 1, 1, label
                 )
-                self.ui.tableWidget.setColumnWidth(1, 200)
                 self.ui.tableWidget.setRowHeight(
-                    self.ui.tableWidget.rowCount() - 1, 220
+                    self.ui.tableWidget.rowCount() - 1, 100
                 )
         except Exception as e:
             print(f"Error inserting data into table: {e}")
