@@ -39,13 +39,21 @@ class MainWindow(QMainWindow):
             self.ui.lineEdit.clear()
             barcode.base.Barcode.default_writer_options['write_text'] = False
             if self.barcode_serial:
-                barcode.base.Barcode.default_writer_options['text'] = f"IMEI={self.barcode_serial}"
+                
                 options = {
     # 'dpi': 200,
-    # 'module_height': 1,
-    'quiet_zone': 8,
+    'module_height': 15,
+    'quiet_zone': 9,
     'text_distance': 5
-}
+}                               
+                if self.total % 2 ==1 :
+                    barcode.base.Barcode.default_writer_options['text'] = f"IMEI1={self.barcode_serial}"
+                    code = QTableWidgetItem(f"IMEI1={self.barcode_serial}")
+
+                else:
+                    barcode.base.Barcode.default_writer_options['text'] = f"IMEI2={self.barcode_serial}"
+                    code = QTableWidgetItem(f"IMEI2={self.barcode_serial}")
+
                 with open(f"./images/{self.barcode_serial}.jpeg", "wb") as f:
                     Code128(f"{self.barcode_serial}", writer=ImageWriter(),).write(f,options=options)
                 with Image.open(f"./images/{self.barcode_serial}.jpeg") as img:
@@ -60,7 +68,6 @@ class MainWindow(QMainWindow):
                 label.width = 10
                 label.height = 100
                 label.setPixmap(pic)
-                code = QTableWidgetItem(f"IMEI={self.barcode_serial}")
                 if self.total % 2 ==1 :
                     self.ui.tableWidget.setRowCount(self.ui.tableWidget.rowCount() + 1)
 
