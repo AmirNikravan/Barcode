@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(604, 548)
+        MainWindow.resize(654, 610)
         MainWindow.setMinimumSize(QSize(450, 450))
         MainWindow.setStyleSheet(u"background-color: rgb(255, 234, 237);")
         self.actionAbout = QAction(MainWindow)
@@ -54,7 +54,20 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalSpacer = QSpacerItem(278, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.pushButton = QPushButton(self.centralwidget)
+        self.pushButton.setObjectName(u"pushButton")
+        self.pushButton.setMinimumSize(QSize(50, 30))
+        self.pushButton.setStyleSheet(u"QPushButton{border-radius:11px;\n"
+"background-color: rgb(146, 193, 255);\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: rgb(255, 166, 139);\n"
+"}\n"
+"")
+
+        self.horizontalLayout.addWidget(self.pushButton)
+
+        self.horizontalSpacer = QSpacerItem(208, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
@@ -112,6 +125,10 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.line_2)
 
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setSpacing(6)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setContentsMargins(-1, 0, 9, -1)
         self.tableWidget = QTableWidget(self.centralwidget)
         if (self.tableWidget.columnCount() < 4):
             self.tableWidget.setColumnCount(4)
@@ -124,19 +141,24 @@ class Ui_MainWindow(object):
         __qtablewidgetitem3 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem3)
         self.tableWidget.setObjectName(u"tableWidget")
+        self.tableWidget.setMinimumSize(QSize(0, 0))
+        self.tableWidget.setMaximumSize(QSize(16777215, 16777215))
         self.tableWidget.setStyleSheet(u"background-color: rgb(255, 209, 171);\n"
 "\n"
 "\n"
 "border-radius:10px\n"
 "\n"
 "")
-        self.tableWidget.horizontalHeader().setMinimumSectionSize(38)
-        self.tableWidget.horizontalHeader().setDefaultSectionSize(122)
+        self.tableWidget.horizontalHeader().setMinimumSectionSize(31)
+        self.tableWidget.horizontalHeader().setDefaultSectionSize(157)
         self.tableWidget.horizontalHeader().setProperty("showSortIndicator", True)
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
         self.tableWidget.verticalHeader().setCascadingSectionResizes(False)
 
-        self.verticalLayout.addWidget(self.tableWidget)
+        self.horizontalLayout_3.addWidget(self.tableWidget)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_3)
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
@@ -177,7 +199,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 604, 22))
+        self.menubar.setGeometry(QRect(0, 0, 654, 22))
         self.menuHelp = QMenu(self.menubar)
         self.menuHelp.setObjectName(u"menuHelp")
         MainWindow.setMenuBar(self.menubar)
@@ -194,6 +216,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.actionAbout.setText(QCoreApplication.translate("MainWindow", u"About", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"IMEI SCANNER", None))
+        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"\u067e\u0627\u06a9", None))
         self.pushButton_scan.setText(QCoreApplication.translate("MainWindow", u"\u0627\u0636\u0627\u0641\u0647", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u0628\u0627\u0631\u06a9\u062f : ", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)

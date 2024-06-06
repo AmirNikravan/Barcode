@@ -7,7 +7,7 @@ from ui_main import Ui_MainWindow
 from barcode import Code128
 from barcode.writer import ImageWriter
 from PySide6 import QtGui, QtPrintSupport ,QtWidgets
-# from PyQt6 import QtGui
+from PySide6.QtCore import *
 import barcode
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -18,9 +18,9 @@ class MainWindow(QMainWindow):
         self.ui.pushButton_print.clicked.connect(self.handlePrint)
         self.ui.actionAbout.triggered.connect(self.showAboutMessageBox)
         self.ui.pushButton_preview.clicked.connect(self.handlePreview)
-        self.ui.tableWidget.setColumnWidth(0,200)
+        self.ui.tableWidget.setColumnWidth(0,180)
         self.ui.tableWidget.setColumnWidth(1,450)
-        self.ui.tableWidget.setColumnWidth(2,200)
+        self.ui.tableWidget.setColumnWidth(2,180)
         self.ui.tableWidget.setColumnWidth(3,450)
         self.ui.lineEdit.setFocus()
         self.ui.lineEdit.setMaxLength(15)
@@ -50,7 +50,7 @@ class MainWindow(QMainWindow):
                     Code128(f"{self.barcode_serial}", writer=ImageWriter(),).write(f,options=options)
                 with Image.open(f"./images/{self.barcode_serial}.jpeg") as img:
                     # Resize the image using LANCZOS filter for high-quality downsampling
-                    resized_img = img.resize((300, 100), Image.LANCZOS)
+                    resized_img = img.resize((400, 100), Image.LANCZOS)
                     # Save the resized image to the output path
                     resized_img.save(f"./images/{self.barcode_serial}.jpeg")
                     # print(f"Image saved to {output_path}"
@@ -76,6 +76,8 @@ class MainWindow(QMainWindow):
                 self.ui.tableWidget.setRowHeight(
                     self.ui.tableWidget.rowCount() - 1, 100
                 )
+                label.setAlignment(Qt.AlignCenter)
+
                 self.total += 1
         except Exception as e:
             print(f"Error inserting data into table: {e}")
