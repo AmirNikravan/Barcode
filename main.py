@@ -25,6 +25,7 @@ class MainWindow(QMainWindow):
         self.ui.lineEdit.setFocus()
         self.ui.lineEdit.setMaxLength(15)
         self.ui.lineEdit.returnPressed.connect(self.barcode_scan)
+        self.total = 1
     def showAboutMessageBox(self):
         msg = QMessageBox()
         msg.setWindowTitle("About")
@@ -59,15 +60,23 @@ class MainWindow(QMainWindow):
                 label.width = 10
                 label.height = 100
                 label.setPixmap(pic)
-                self.ui.tableWidget.setRowCount(self.ui.tableWidget.rowCount() + 1)
                 code = QTableWidgetItem(f"IMEI={self.barcode_serial}")
-                self.ui.tableWidget.setItem(self.ui.tableWidget.rowCount() - 1, 0, code)
-                self.ui.tableWidget.setCellWidget(
-                    self.ui.tableWidget.rowCount() - 1, 1, label
-                )
+                if self.total % 2 ==1 :
+                    self.ui.tableWidget.setRowCount(self.ui.tableWidget.rowCount() + 1)
+
+                    self.ui.tableWidget.setItem(self.ui.tableWidget.rowCount() - 1, 0, code)
+                    self.ui.tableWidget.setCellWidget(
+                        self.ui.tableWidget.rowCount() - 1, 1, label
+                    )
+                else :
+                    self.ui.tableWidget.setItem(self.ui.tableWidget.rowCount()-1, 2, code)
+                    self.ui.tableWidget.setCellWidget(
+                        self.ui.tableWidget.rowCount()-1, 3, label
+                    )
                 self.ui.tableWidget.setRowHeight(
                     self.ui.tableWidget.rowCount() - 1, 100
                 )
+                self.total += 1
         except Exception as e:
             print(f"Error inserting data into table: {e}")
         self.ui.lineEdit.setFocus()
