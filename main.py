@@ -26,6 +26,24 @@ class MainWindow(QMainWindow):
         self.ui.lineEdit.setMaxLength(15)
         self.ui.lineEdit.returnPressed.connect(self.barcode_scan)
         self.total = 1
+        self.ui.pushButton_clear.clicked.connect(self.clear_table)
+    def clear_table(self):
+        msg_box = QtWidgets.QMessageBox(self)
+        msg_box.setIcon(QtWidgets.QMessageBox.Warning)
+        msg_box.setWindowTitle("هشدار")
+        msg_box.setText('تمام داده های جدول پاک خواهند شد')
+        custom_button_1 = msg_box.addButton("قبول", QtWidgets.QMessageBox.AcceptRole)
+        custom_button_2 = msg_box.addButton("لغو", QtWidgets.QMessageBox.RejectRole)
+        msg_box.exec()
+        if msg_box.clickedButton() == custom_button_1:
+            self.ui.tableWidget.clear()
+            self.ui.tableWidget.setRowCount(0)
+            self.ui.tableWidget.setColumnCount(4)
+            self.ui.tableWidget.setHorizontalHeaderLabels(['سریال', 'تصویر', 'سریال', 'تصویر'])
+            self.total = 0
+        elif msg_box.clickedButton() == custom_button_2:
+            return
+
     def showAboutMessageBox(self):
         msg = QMessageBox()
         msg.setWindowTitle("About")

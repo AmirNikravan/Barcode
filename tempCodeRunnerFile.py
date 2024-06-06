@@ -1,2 +1,1 @@
-
-        except Exception as e:
+Barcode

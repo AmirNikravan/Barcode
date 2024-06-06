@@ -25,7 +25,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(654, 610)
+        MainWindow.resize(685, 603)
         MainWindow.setMinimumSize(QSize(450, 450))
         MainWindow.setStyleSheet(u"background-color: rgb(255, 234, 237);")
         self.actionAbout = QAction(MainWindow)
@@ -54,10 +54,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.pushButton = QPushButton(self.centralwidget)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setMinimumSize(QSize(50, 30))
-        self.pushButton.setStyleSheet(u"QPushButton{border-radius:11px;\n"
+        self.pushButton_clear = QPushButton(self.centralwidget)
+        self.pushButton_clear.setObjectName(u"pushButton_clear")
+        self.pushButton_clear.setMinimumSize(QSize(50, 30))
+        self.pushButton_clear.setStyleSheet(u"QPushButton{border-radius:11px;\n"
 "background-color: rgb(146, 193, 255);\n"
 "}\n"
 "QPushButton:hover{\n"
@@ -65,7 +65,7 @@ class Ui_MainWindow(object):
 "}\n"
 "")
 
-        self.horizontalLayout.addWidget(self.pushButton)
+        self.horizontalLayout.addWidget(self.pushButton_clear)
 
         self.horizontalSpacer = QSpacerItem(208, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -199,7 +199,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 654, 22))
+        self.menubar.setGeometry(QRect(0, 0, 685, 22))
         self.menuHelp = QMenu(self.menubar)
         self.menuHelp.setObjectName(u"menuHelp")
         MainWindow.setMenuBar(self.menubar)
@@ -216,7 +216,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.actionAbout.setText(QCoreApplication.translate("MainWindow", u"About", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"IMEI SCANNER", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"\u067e\u0627\u06a9", None))
+        self.pushButton_clear.setText(QCoreApplication.translate("MainWindow", u"\u067e\u0627\u06a9", None))
         self.pushButton_scan.setText(QCoreApplication.translate("MainWindow", u"\u0627\u0636\u0627\u0641\u0647", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u0628\u0627\u0631\u06a9\u062f : ", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
