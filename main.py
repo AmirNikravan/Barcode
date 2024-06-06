@@ -22,11 +22,13 @@ class MainWindow(QMainWindow):
         self.ui.tableWidget.setColumnWidth(1,450)
         self.ui.tableWidget.setColumnWidth(2,200)
         self.ui.tableWidget.setColumnWidth(3,450)
+        self.ui.lineEdit.setFocus()
     def showAboutMessageBox(self):
         msg = QMessageBox()
         msg.setWindowTitle("About")
         msg.setText("Developer : Amir Hossein Nikravan")
         msg.exec()
+        self.ui.lineEdit.setFocus()
     def barcode_scan(self):
         # print(self.lineEdit.text())
         try:
@@ -65,16 +67,17 @@ class MainWindow(QMainWindow):
                 )
         except Exception as e:
             print(f"Error inserting data into table: {e}")
-
+        self.ui.lineEdit.setFocus()
     def handlePrint(self):
         dialog = QtPrintSupport.QPrintDialog()
         if dialog.exec() == QtWidgets.QDialog.accepted:
             self.handlePaintRequest(dialog.printer())
+        self.ui.lineEdit.setFocus()
     def handlePreview(self):
         dialog = QtPrintSupport.QPrintPreviewDialog()
         dialog.paintRequested.connect(self.handlePaintRequest)
         dialog.exec()
-
+        self.ui.lineEdit.setFocus()
     def handlePaintRequest(self, printer):
         document = QtGui.QTextDocument()
 
