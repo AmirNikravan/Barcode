@@ -9,6 +9,8 @@ from barcode.writer import ImageWriter
 from PySide6 import QtGui, QtPrintSupport ,QtWidgets
 from PySide6.QtCore import *
 import barcode
+import re
+
 from directory import Directory
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -129,44 +131,101 @@ class MainWindow(QMainWindow):
         dialog.paintRequested.connect(self.handlePaintRequest)
         dialog.exec()
         self.ui.lineEdit.setFocus()
+
     def handlePaintRequest(self, printer):
         document = QtGui.QTextDocument()
-        cursor = QtGui.QTextCursor(document)
         total_barcodes = self.ui.tableWidget.rowCount()
-        barcodes_per_page = 10
+        barcodes_per_page = 10  # 10 rows per page
+
+        # Calculate total pages considering page breaks after every 10 rows
         total_pages = (total_barcodes + barcodes_per_page - 1) // barcodes_per_page
-        num_rows = 5
-        num_cols = 2
+
+        html = ""
         for page_num in range(total_pages):
-            # Start a new page
-            cursor.movePosition(QtGui.QTextCursor.MoveOperation.End)
-            cursor.insertBlock()
-            start_index = page_num * barcodes_per_page
-            end_index = min(start_index + barcodes_per_page, total_barcodes)
-            num_rows_batch = (end_index - start_index + num_cols - 1) // num_cols
-            num_cols_batch = min(num_cols, end_index - start_index)
-            for row_index in range(num_rows_batch):
-                cursor.movePosition(QtGui.QTextCursor.MoveOperation.End)
-                cursor.insertBlock()
-                cursor.movePosition(QtGui.QTextCursor.MoveOperation.EndOfBlock)
-                cursor.insertText('\n')
-                for col_index in range(num_cols_batch):
-                    barcode_index = start_index + row_index * num_cols_batch + col_index
-                    if barcode_index < end_index:
-                        item_text = self.ui.tableWidget.item(barcode_index, 0).text()
-                        with open(f".\\images\\{item_text}.jpeg", "wb") as f:
-                            Code128(item_text, writer=ImageWriter()).write(f)
-                        pic = QtGui.QPixmap(f".\\images\\{item_text}.jpeg")
-                        image_format = QtGui.QTextImageFormat()
-                        image_format.setWidth(310)
-                        image_format.setHeight(200)
-                        image_format.setName(f".\\images\\{item_text}.jpeg")  # Set the image file path
-                        cursor.insertImage(image_format)
+            html += """
+            <html>
+                <head>
+                    <style>
+                        table {
+                            border-collapse: collapse;
+                            width: 100%;
+                        }
+                        th, td {
+                            padding: 8px;
+                            text-align: left;
+                            border-bottom: 1px solid #ddd;
+                        }
+                        img {
+                            max-width: 0px;
+                            max-height: 80px;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <table>
+            """
+
+            # Loop through 10 rows per page
+            for row_num in range(page_num * barcodes_per_page, min(page_num * barcodes_per_page + barcodes_per_page, total_barcodes)):
+                # Check if data exists in the row (avoid empty rows)
+                if row_num < total_barcodes:
+                    html += "<tr>"
+                    # Access data from columns 1 and 3
+                    data1 = self.ui.tableWidget.item(row_num, 0).text() if self.ui.tableWidget.item(row_num, 0) else ""
+                    data3 = self.ui.tableWidget.item(row_num, 2).text() if self.ui.tableWidget.item(row_num, 2) else ""
+                    
+                    # Extracting the codes
+                    match1 = re.search(r'=(\S+)', data1)
+                    code1 = match1.group(1) if match1 else ""
+                    match3 = re.search(r'=(\S+)', data3)
+                    code3 = match3.group(1) if match3 else ""
+
+                    # Get the image path based on the barcode code
+                    img_path1 = os.path.join("./images", f"{code1}.jpeg")
+                    img_path3 = os.path.join("./images", f"{code3}.jpeg")
+
+                    # Check if the image exists
+                    if os.path.exists(img_path1):
+                        with Image.open(img_path1) as img:
+                            # Resize the image using LANCZOS filter for high-quality downsampling
+                            resized_img = img.resize((300, 100), Image.LANCZOS)
+                            # Save the resized image to the output path
+                            resized_img.save(img_path1)
+                            # print(f"Image saved to {output_path}"
+                        # Include the image path directly in the HTML and set the size
+                        html += f"<td><img src='{img_path1}' style='max-width: 50px; max-height: 50px;'></td>"
+                    else:
+                        html += "<td>No Image</td>"
+
+                    if os.path.exists(img_path3):
+                        with Image.open(img_path3) as img:
+                            # Resize the image using LANCZOS filter for high-quality downsampling
+                            resized_img = img.resize((300, 50), Image.LANCZOS)
+                            # Save the resized image to the output path
+                            resized_img.save(img_path3)
+                            # print(f"Image saved to {output_path}"
+                        # Include the image path directly in the HTML and set the size
+                        html += f"<td><img src='{img_path3}' style='max-width: 50px; max-height: 50px;'></td>"
+                    else:
+                        html += "<td>No Image</td>"
+                        
+                    html += "</tr>"
+
+            html += """
+                    </table>
+                </body>
+            </html>
+            """
+
             if page_num < total_pages - 1:
-                cursor.movePosition(QtGui.QTextCursor.MoveOperation.End)
-                cursor.insertBlock()
+                html += "<br style='page-break-after: always;'/>"
+
+        document.setHtml(html)
         printer.setOutputFormat(QtPrintSupport.QPrinter.OutputFormat.NativeFormat)
         document.print_(printer)
+
+
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
