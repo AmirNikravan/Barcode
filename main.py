@@ -9,6 +9,7 @@ from barcode.writer import ImageWriter
 from PySide6 import QtGui, QtPrintSupport ,QtWidgets
 from PySide6.QtCore import *
 import barcode
+from directory import Directory
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -27,6 +28,7 @@ class MainWindow(QMainWindow):
         self.ui.lineEdit.returnPressed.connect(self.barcode_scan)
         self.total = 1
         self.ui.pushButton_clear.clicked.connect(self.clear_table)
+        self.dir = Directory()
     def clear_table(self):
         msg_box = QtWidgets.QMessageBox(self)
         msg_box.setIcon(QtWidgets.QMessageBox.Warning)
@@ -43,7 +45,10 @@ class MainWindow(QMainWindow):
             self.total = 1
         elif msg_box.clickedButton() == custom_button_2:
             return
-
+    def closeEvent(self, event):
+        # Call the closeEvent method of the Directory instance
+        self.dir.closeEvent(event)
+        event.accept()
     def showAboutMessageBox(self):
         msg = QMessageBox()
         msg.setWindowTitle("About")
