@@ -40,7 +40,7 @@ class MainWindow(QMainWindow):
             self.ui.tableWidget.setRowCount(0)
             self.ui.tableWidget.setColumnCount(4)
             self.ui.tableWidget.setHorizontalHeaderLabels(['سریال', 'تصویر', 'سریال', 'تصویر'])
-            self.total = 0
+            self.total = 1
         elif msg_box.clickedButton() == custom_button_2:
             return
 
@@ -104,9 +104,16 @@ class MainWindow(QMainWindow):
                 label.setAlignment(Qt.AlignCenter)
 
                 self.total += 1
+                self.disable_editing(self.ui.tableWidget.rowCount() - 1)
+
         except Exception as e:
             print(f"Error inserting data into table: {e}")
         self.ui.lineEdit.setFocus()
+    def disable_editing(self, row):
+        for col in range(self.ui.tableWidget.columnCount()):
+            item = self.ui.tableWidget.item(row, col)
+            if item:
+                item.setFlags(item.flags() & ~Qt.ItemIsEditable)
     def handlePrint(self):
         dialog = QtPrintSupport.QPrintDialog()
         if dialog.exec() == QtWidgets.QDialog.accepted:
