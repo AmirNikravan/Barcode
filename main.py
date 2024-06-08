@@ -8,10 +8,12 @@ from barcode import Code128
 from barcode.writer import ImageWriter
 from PySide6 import QtGui, QtPrintSupport ,QtWidgets
 from PySide6.QtCore import *
+from PySide6.QtGui import *
 import barcode
 import re
-
+import qrcode
 from directory import Directory
+import qrcode
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -25,6 +27,7 @@ class MainWindow(QMainWindow):
         self.ui.actionAbout.triggered.connect(self.showAboutMessageBox)
         self.ui.toolButton_preview.clicked.connect(self.handlePreview)
         self.ui.toolButton_deleterow.clicked.connect(self.delete_selected_rows)
+        # self.ui.tableWidget.itemSelectionChanged.connect(self.changeRowColor)
         #table config
         self.ui.tableWidget.setColumnWidth(0,180)
         self.ui.tableWidget.setColumnWidth(1,450)
@@ -40,6 +43,20 @@ class MainWindow(QMainWindow):
         self.scan_timer = QTimer(self)
         self.scan_timer.setSingleShot(True)
         self.scan_timer.timeout.connect(self.enable_scanning)
+    # def changeRowColor(self):
+    #     selected_items = self.ui.tableWidget.selectedItems()
+    #     if selected_items:
+    #         selected_row = selected_items[0].row()
+    #         for column in range(self.ui.tableWidget.columnCount()):
+    #             self.ui.tableWidget.item(selected_row, column).setBackground(QColor(255, 0, 0))  # Change color as needed
+    #             self.ui.tableWidget.item(selected_row, column).setForeground(QColor(255, 255, 255))  # Change text color if needed
+
+    #         for row in range(self.ui.tableWidget.rowCount()):
+    #             if row != selected_row:
+    #                 for column in range(self.ui.tableWidget.columnCount()):
+    #                     self.ui.tableWidget.item(row, column).setBackground(QColor(255, 255, 255))  # Change color as needed
+    #                     self.ui.tableWidget.item(row, column).setForeground(QColor(0, 0, 0))  # Change text color if needed
+
     def delete_selected_rows(self):
         try:
             selected_ranges = self.ui.tableWidget.selectedRanges()
@@ -72,8 +89,11 @@ class MainWindow(QMainWindow):
                 self.total -= item_count
             elif msg_box.clickedButton() == custom_button_2:
                 return
+            
         except Exception as e:
             self.error_handler(f"Error Deleting Row: {e}")
+        self.ui.lineEdit.setFocus()
+  
     def get_item_count_in_row(self, row_index):
         try:
             item_count = 0
@@ -85,6 +105,7 @@ class MainWindow(QMainWindow):
             return int(item_count /2 )
         except Exception as e:
             self.error_handler(f"Error item count: {e}")
+        self.ui.lineEdit.setFocus()
 
     def clear_table(self):
         try:
@@ -105,6 +126,8 @@ class MainWindow(QMainWindow):
                 return
         except Exception as e:
             self.error_handler(f"Error Clearning Table: {e}")
+        self.ui.lineEdit.setFocus()
+
     def closeEvent(self, event):
         # Call the closeEvent method of the Directory instance
         self.dir.closeEvent(event)
@@ -115,6 +138,8 @@ class MainWindow(QMainWindow):
         msg.setText("Developer : Amir Hossein Nikravan")
         msg.exec()
         self.ui.lineEdit.setFocus()
+        self.ui.lineEdit.setFocus()
+
     def barcode_scan(self):
         try:
             try:
@@ -126,8 +151,8 @@ class MainWindow(QMainWindow):
             if self.barcode_serial:
                 
                 options = {
-    # 'dpi': 200,
-    'module_height': 15,
+    'dpi': 2000,
+    # 'module_height': 15,
     'quiet_zone': 9,
     'text_distance': 5
 }                               
@@ -140,13 +165,11 @@ class MainWindow(QMainWindow):
                     code = QTableWidgetItem(f"IMEI2={self.barcode_serial}")
                 try :
                     with open(f"./images/{self.barcode_serial}.jpeg", "wb") as f:
-                        Code128(f"{self.barcode_serial}", writer=ImageWriter(),).write(f,options=options)
+                        a=ImageWriter()
+                        Code128(f"{self.barcode_serial}", a,).write(f,options=options)
                     with Image.open(f"./images/{self.barcode_serial}.jpeg") as img:
-                        # Resize the image using LANCZOS filter for high-quality downsampling
                         resized_img = img.resize((400, 100), Image.LANCZOS)
-                        # Save the resized image to the output path
                         resized_img.save(f"./images/{self.barcode_serial}.jpeg")
-                        # print(f"Image saved to {output_path}"
                 except Exception as e:
                     self.error_handler(f"Error Creating Barcodes: {e}")
                 try:
@@ -179,6 +202,7 @@ class MainWindow(QMainWindow):
                 self.total += 1
                 self.disable_editing(self.ui.tableWidget.rowCount() - 1)
                 self.disable_scanning()
+                self.ui.lineEdit.setFocus()
 
         except Exception as e:
             self.error_handler(f"Error Barcode Scan Fucntion: {e}")
@@ -194,19 +218,21 @@ class MainWindow(QMainWindow):
     def handlePrint(self):
         try:
             dialog = QtPrintSupport.QPrintDialog()
-            if dialog.exec() == QtWidgets.QDialog.accepted:
+            if dialog.exec() == QtWidgets.QDialog.Accepted:
                 self.handlePaintRequest(dialog.printer())
-            self.ui.lineEdit.setFocus()
+            
         except Exception as e:
             self.error_handler(f"Error Handel Print: {e}")
+        self.ui.lineEdit.setFocus()
     def handlePreview(self):
         try : 
             dialog = QtPrintSupport.QPrintPreviewDialog()
             dialog.paintRequested.connect(self.handlePaintRequest)
             dialog.exec()
-            self.ui.lineEdit.setFocus()
         except Exception as e:
             self.error_handler(f"Error Handel Preview: {e}")
+        self.ui.lineEdit.setFocus()
+
     def handlePaintRequest(self, printer):
         try:
             document = QtGui.QTextDocument()
@@ -218,10 +244,21 @@ class MainWindow(QMainWindow):
 
             html = ""
             for page_num in range(total_pages):
+                qr_code = ''
                 html += """
                 <html>
                     <head>
                         <style>
+                            .centered-image {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 300px;
+        height: auto;
+        padding-left: 0; /* کاهش پدینگ چپی */
+        padding-right: 20px; /* حفظ پدینگ راستی */
+        text-align: center; /* قرار دادن تصویر در وسط */
+        }
                             table {
                                 border-collapse: collapse;
                                 width: 100%;
@@ -255,20 +292,25 @@ class MainWindow(QMainWindow):
                         code1 = match1.group(1) if match1 else ""
                         match3 = re.search(r'=(\S+)', data3)
                         code3 = match3.group(1) if match3 else ""
-
+                        qr_code += f'{code1},{code3}'
                         img_path1 = os.path.join("./images", f"{code1}.jpeg")
                         img_path3 = os.path.join("./images", f"{code3}.jpeg")
+                        
                         if os.path.exists(img_path1):
-
+                            with Image.open(img_path1) as img:
+                                resized_img = img.resize((300, 50), Image.LANCZOS)
+                                resized_img.save(img_path1)
                             html += f"<td><img src='{img_path1}' style='width: 50px;height: 50px;'></td>"
                         else:
-                            html += "<td>No Image</td>"
+                            html += "<td> </td>"
 
                         if os.path.exists(img_path3):
-
+                            with Image.open(img_path3) as img:
+                                resized_img = img.resize((300, 50), Image.LANCZOS)
+                                resized_img.save(img_path3)
                             html += f"<td><img src='{img_path3}' style='width: 50px; height: 10px;object-fit: fill;'></td>"
                         else:
-                            html += "<td>No Image</td>"
+                            html += "<td> </td>"
 
                         html += "</tr>"
 
@@ -277,7 +319,21 @@ class MainWindow(QMainWindow):
                     </body>
                 </html>
                 """
-
+                qr = qrcode.QRCode(
+                    version=1,
+                    error_correction=qrcode.constants.ERROR_CORRECT_L,
+                    box_size=10,
+                    border=4,
+                )
+                qr.add_data(qr_code.rstrip(","))  # حذف کاما و فاصله اضافی در انتهای متن
+                qr.make(fit=True)
+                qr_img = qr.make_image(fill_color="black", back_color="white")
+                qr_img.save(f"./images/page_{page_num}_qr_code.png")  # ذخیره کد QR به عنوان یک تصویر
+                with Image.open(f"./images/page_{page_num}_qr_code.png") as img:
+                    resized_img = img.resize((100, 100), Image.LANCZOS)
+                    resized_img.save(f"./images/page_{page_num}_qr_code.png")
+                # اضافه کردن تصویر کد QR به سند HTML
+                html += f"<img src='./images/page_{page_num}_qr_code.png'  class='centered-image'>"
                 if page_num < total_pages - 1:
                     html += "<br style='page-break-after: always;'/>"
 
@@ -286,6 +342,7 @@ class MainWindow(QMainWindow):
             document.print_(printer)
         except Exception as e:
             self.error_handler(f"Error Handel Paint Request: {e}")
+
     def disable_scanning(self):
         try:
             delay = self.ui.doubleSpinBox.value() * 1000  # Convert seconds to milliseconds

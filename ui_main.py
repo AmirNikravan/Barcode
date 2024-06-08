@@ -91,6 +91,7 @@ class Ui_MainWindow(object):
 
         self.doubleSpinBox = QDoubleSpinBox(self.centralwidget)
         self.doubleSpinBox.setObjectName(u"doubleSpinBox")
+        self.doubleSpinBox.setMinimumSize(QSize(64, 0))
         self.doubleSpinBox.setMaximum(10.000000000000000)
         self.doubleSpinBox.setSingleStep(0.100000000000000)
 
@@ -98,6 +99,7 @@ class Ui_MainWindow(object):
 
         self.label_3 = QLabel(self.centralwidget)
         self.label_3.setObjectName(u"label_3")
+        self.label_3.setMaximumSize(QSize(42, 16777215))
 
         self.horizontalLayout_2.addWidget(self.label_3)
 
@@ -136,7 +138,8 @@ class Ui_MainWindow(object):
 
         self.lineEdit = QLineEdit(self.centralwidget)
         self.lineEdit.setObjectName(u"lineEdit")
-        self.lineEdit.setMinimumSize(QSize(52, 30))
+        self.lineEdit.setMinimumSize(QSize(0, 30))
+        self.lineEdit.setMaximumSize(QSize(800, 16777215))
         self.lineEdit.setStyleSheet(u"QLineEdit{border-radius:5px;\n"
 "background-color: rgb(217, 255, 193);\n"
 "}\n"
@@ -234,19 +237,9 @@ class Ui_MainWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         MainWindow.setCentralWidget(self.centralwidget)
-        self.pushButton_scan.raise_()
-        self.label.raise_()
-        self.line.raise_()
-        self.line_2.raise_()
-        self.radioButton_tak.raise_()
-        self.radioButton_do.raise_()
-        self.toolButton_deleterow.raise_()
-        self.pushButton_clear.raise_()
-        self.toolButton_preview.raise_()
-        self.toolButton_print.raise_()
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 826, 22))
+        self.menubar.setGeometry(QRect(0, 0, 826, 18))
         self.menuHelp = QMenu(self.menubar)
         self.menuHelp.setObjectName(u"menuHelp")
         MainWindow.setMenuBar(self.menubar)

@@ -118,6 +118,12 @@ background-color: rgb(255, 166, 139);
       </item>
       <item>
        <widget class="QDoubleSpinBox" name="doubleSpinBox">
+        <property name="minimumSize">
+         <size>
+          <width>64</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="suffix">
          <string>ثانیه</string>
         </property>
@@ -131,6 +137,12 @@ background-color: rgb(255, 166, 139);
       </item>
       <item>
        <widget class="QLabel" name="label_3">
+        <property name="maximumSize">
+         <size>
+          <width>42</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="text">
          <string>تاخیر:</string>
         </property>
@@ -209,8 +221,14 @@ background-color: rgb(255, 166, 139);
        <widget class="QLineEdit" name="lineEdit">
         <property name="minimumSize">
          <size>
-          <width>52</width>
+          <width>0</width>
           <height>30</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>800</width>
+          <height>16777215</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -293,11 +311,11 @@ border-radius:10px
 
 </string>
         </property>
-        <attribute name="horizontalHeaderMinimumSectionSize">
-         <number>31</number>
-        </attribute>
         <attribute name="horizontalHeaderDefaultSectionSize">
          <number>165</number>
+        </attribute>
+        <attribute name="horizontalHeaderMinimumSectionSize">
+         <number>31</number>
         </attribute>
         <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
          <bool>true</bool>
@@ -389,16 +407,6 @@ border-radius:10px
      </layout>
     </item>
    </layout>
-   <zorder>pushButton_scan</zorder>
-   <zorder>label</zorder>
-   <zorder>line</zorder>
-   <zorder>line_2</zorder>
-   <zorder>radioButton_tak</zorder>
-   <zorder>radioButton_do</zorder>
-   <zorder>toolButton_deleterow</zorder>
-   <zorder>pushButton_clear</zorder>
-   <zorder>toolButton_preview</zorder>
-   <zorder>toolButton_print</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -406,7 +414,7 @@ border-radius:10px
      <x>0</x>
      <y>0</y>
      <width>826</width>
-     <height>22</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
