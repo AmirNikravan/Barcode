@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>685</width>
-    <height>603</height>
+    <width>826</width>
+    <height>630</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -23,6 +23,15 @@
    <string notr="true">background-color: rgb(255, 234, 237);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">QToolButton{border-radius:11px;
+background-color: rgb(146, 193, 255);
+}
+QToolButton:hover{
+background-color: rgb(255, 166, 139);
+}
+</string>
+   </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QLabel" name="label">
@@ -50,54 +59,56 @@
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QPushButton" name="pushButton_clear">
-        <property name="minimumSize">
+       <widget class="QToolButton" name="pushButton_clear">
+        <property name="maximumSize">
          <size>
-          <width>50</width>
-          <height>30</height>
+          <width>16777215</width>
+          <height>42</height>
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton{border-radius:11px;
-background-color: rgb(146, 193, 255);
-}
-QPushButton:hover{
-background-color: rgb(255, 166, 139);
-}
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
-         <string>پاک</string>
+         <string>حذف جدول</string>
+        </property>
+        <property name="icon">
+         <iconset resource="rcs.qrc">
+          <normaloff>:/icons/Icons/deletetable.png</normaloff>:/icons/Icons/deletetable.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>22</width>
+          <height>27</height>
+         </size>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
-        <property name="minimumSize">
-         <size>
-          <width>78</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>177</width>
-          <height>30</height>
-         </size>
-        </property>
+       <widget class="QToolButton" name="toolButton_deleterow">
         <property name="styleSheet">
-         <string notr="true">QPushButton{border-radius:11px;
-background-color: rgb(146, 193, 255);
-}
-QPushButton:hover{
-background-color: rgb(255, 166, 139);
-}
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>حذف سطر</string>
+        </property>
+        <property name="icon">
+         <iconset resource="rcs.qrc">
+          <normaloff>:/icons/Icons/deleterow.png</normaloff>:/icons/Icons/deleterow.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>26</width>
+          <height>23</height>
+         </size>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
         </property>
        </widget>
       </item>
@@ -131,45 +142,70 @@ background-color: rgb(255, 166, 139);
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>136</width>
+          <width>72</width>
           <height>20</height>
          </size>
         </property>
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_scan">
-        <property name="minimumSize">
+       <widget class="QToolButton" name="pushButton_scan">
+        <property name="maximumSize">
          <size>
-          <width>50</width>
-          <height>30</height>
+          <width>111</width>
+          <height>16777215</height>
          </size>
         </property>
-        <property name="font">
-         <font>
-          <family>Arial</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton{border-radius:11px;
-background-color: rgb(146, 193, 255);
-}
-QPushButton:hover{
-background-color: rgb(255, 166, 139);
-}
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
-         <string>اضافه</string>
+         <string>اسکن</string>
+        </property>
+        <property name="icon">
+         <iconset resource="rcs.qrc">
+          <normaloff>:/icons/Icons/scan.png</normaloff>:/icons/Icons/scan.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>26</width>
+          <height>31</height>
+         </size>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
         </property>
        </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QRadioButton" name="radioButton_tak">
+          <property name="text">
+           <string>تک بعدی</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="radioButton_do">
+          <property name="text">
+           <string>دوبعدی</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <widget class="QLineEdit" name="lineEdit">
         <property name="minimumSize">
          <size>
-          <width>94</width>
+          <width>52</width>
           <height>30</height>
          </size>
         </property>
@@ -293,73 +329,79 @@ border-radius:10px
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QPushButton" name="pushButton_print">
+       <widget class="QToolButton" name="toolButton_print">
         <property name="minimumSize">
          <size>
-          <width>0</width>
-          <height>25</height>
+          <width>31</width>
+          <height>0</height>
          </size>
         </property>
-        <property name="font">
-         <font>
-          <family>Arial</family>
-          <pointsize>16</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{border-radius:11px;
-background-color: rgb(146, 193, 255);
-}
-QPushButton:hover{
-background-color: rgb(255, 166, 139);
-}
-</string>
+        <property name="maximumSize">
+         <size>
+          <width>78</width>
+          <height>16777215</height>
+         </size>
         </property>
         <property name="text">
-         <string>چاپ</string>
+         <string>پرینت</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>Icons/print.png</normaloff>Icons/print.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>30</width>
+          <height>49</height>
+         </size>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_preview">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Arial</family>
-          <pointsize>16</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton{border-radius:11px;
-background-color: rgb(146, 193, 255);
-}
-QPushButton:hover{
-background-color: rgb(255, 166, 139);
-}
-</string>
-        </property>
+       <widget class="QToolButton" name="toolButton_preview">
         <property name="text">
          <string>پیش نمایش</string>
+        </property>
+        <property name="icon">
+         <iconset resource="rcs.qrc">
+          <normaloff>:/icons/Icons/preview.png</normaloff>:/icons/Icons/preview.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>30</width>
+          <height>49</height>
+         </size>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
         </property>
        </widget>
       </item>
      </layout>
     </item>
    </layout>
+   <zorder>pushButton_scan</zorder>
+   <zorder>label</zorder>
+   <zorder>line</zorder>
+   <zorder>line_2</zorder>
+   <zorder>radioButton_tak</zorder>
+   <zorder>radioButton_do</zorder>
+   <zorder>toolButton_deleterow</zorder>
+   <zorder>pushButton_clear</zorder>
+   <zorder>toolButton_preview</zorder>
+   <zorder>toolButton_print</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>685</width>
+     <width>826</width>
      <height>22</height>
     </rect>
    </property>
@@ -377,6 +419,8 @@ background-color: rgb(255, 166, 139);
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="rcs.qrc"/>
+ </resources>
  <connections/>
 </ui>

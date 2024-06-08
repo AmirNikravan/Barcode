@@ -16,22 +16,31 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QHeaderView,
-    QLabel, QLineEdit, QMainWindow, QMenu,
-    QMenuBar, QPushButton, QSizePolicy, QSpacerItem,
-    QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QDoubleSpinBox, QFrame, QHBoxLayout,
+    QHeaderView, QLabel, QLineEdit, QMainWindow,
+    QMenu, QMenuBar, QRadioButton, QSizePolicy,
+    QSpacerItem, QTableWidget, QTableWidgetItem, QToolButton,
+    QVBoxLayout, QWidget)
+import rcs_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(685, 603)
+        MainWindow.resize(826, 630)
         MainWindow.setMinimumSize(QSize(450, 450))
         MainWindow.setStyleSheet(u"background-color: rgb(255, 234, 237);")
         self.actionAbout = QAction(MainWindow)
         self.actionAbout.setObjectName(u"actionAbout")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
+        self.centralwidget.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+"background-color: rgb(146, 193, 255);\n"
+"}\n"
+"QToolButton:hover{\n"
+"background-color: rgb(255, 166, 139);\n"
+"}\n"
+"")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.label = QLabel(self.centralwidget)
@@ -52,45 +61,79 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.line)
 
-        self.horizontalLayout = QHBoxLayout()
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.pushButton_clear = QPushButton(self.centralwidget)
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.pushButton_clear = QToolButton(self.centralwidget)
         self.pushButton_clear.setObjectName(u"pushButton_clear")
-        self.pushButton_clear.setMinimumSize(QSize(50, 30))
-        self.pushButton_clear.setStyleSheet(u"QPushButton{border-radius:11px;\n"
-"background-color: rgb(146, 193, 255);\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(255, 166, 139);\n"
-"}\n"
-"")
+        self.pushButton_clear.setMaximumSize(QSize(16777215, 42))
+        self.pushButton_clear.setStyleSheet(u"")
+        icon = QIcon()
+        icon.addFile(u":/icons/Icons/deletetable.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton_clear.setIcon(icon)
+        self.pushButton_clear.setIconSize(QSize(22, 27))
+        self.pushButton_clear.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.horizontalLayout.addWidget(self.pushButton_clear)
+        self.horizontalLayout_2.addWidget(self.pushButton_clear)
 
-        self.horizontalSpacer = QSpacerItem(208, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.toolButton_deleterow = QToolButton(self.centralwidget)
+        self.toolButton_deleterow.setObjectName(u"toolButton_deleterow")
+        self.toolButton_deleterow.setStyleSheet(u"")
+        icon1 = QIcon()
+        icon1.addFile(u":/icons/Icons/deleterow.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_deleterow.setIcon(icon1)
+        self.toolButton_deleterow.setIconSize(QSize(26, 23))
+        self.toolButton_deleterow.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.horizontalLayout.addItem(self.horizontalSpacer)
+        self.horizontalLayout_2.addWidget(self.toolButton_deleterow)
 
-        self.pushButton_scan = QPushButton(self.centralwidget)
+        self.doubleSpinBox = QDoubleSpinBox(self.centralwidget)
+        self.doubleSpinBox.setObjectName(u"doubleSpinBox")
+        self.doubleSpinBox.setMaximum(10.000000000000000)
+        self.doubleSpinBox.setSingleStep(0.100000000000000)
+
+        self.horizontalLayout_2.addWidget(self.doubleSpinBox)
+
+        self.label_3 = QLabel(self.centralwidget)
+        self.label_3.setObjectName(u"label_3")
+
+        self.horizontalLayout_2.addWidget(self.label_3)
+
+        self.horizontalSpacer = QSpacerItem(72, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer)
+
+        self.pushButton_scan = QToolButton(self.centralwidget)
         self.pushButton_scan.setObjectName(u"pushButton_scan")
-        self.pushButton_scan.setMinimumSize(QSize(50, 30))
-        font1 = QFont()
-        font1.setFamilies([u"Arial"])
-        font1.setPointSize(12)
-        self.pushButton_scan.setFont(font1)
-        self.pushButton_scan.setStyleSheet(u"QPushButton{border-radius:11px;\n"
-"background-color: rgb(146, 193, 255);\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(255, 166, 139);\n"
-"}\n"
-"")
+        self.pushButton_scan.setMaximumSize(QSize(111, 16777215))
+        self.pushButton_scan.setStyleSheet(u"")
+        icon2 = QIcon()
+        icon2.addFile(u":/icons/Icons/scan.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton_scan.setIcon(icon2)
+        self.pushButton_scan.setIconSize(QSize(26, 31))
+        self.pushButton_scan.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.horizontalLayout.addWidget(self.pushButton_scan)
+        self.horizontalLayout_2.addWidget(self.pushButton_scan)
+
+        self.verticalLayout_2 = QVBoxLayout()
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.radioButton_tak = QRadioButton(self.centralwidget)
+        self.radioButton_tak.setObjectName(u"radioButton_tak")
+        self.radioButton_tak.setChecked(True)
+
+        self.verticalLayout_2.addWidget(self.radioButton_tak)
+
+        self.radioButton_do = QRadioButton(self.centralwidget)
+        self.radioButton_do.setObjectName(u"radioButton_do")
+        self.radioButton_do.setChecked(False)
+
+        self.verticalLayout_2.addWidget(self.radioButton_do)
+
+
+        self.horizontalLayout_2.addLayout(self.verticalLayout_2)
 
         self.lineEdit = QLineEdit(self.centralwidget)
         self.lineEdit.setObjectName(u"lineEdit")
-        self.lineEdit.setMinimumSize(QSize(120, 30))
+        self.lineEdit.setMinimumSize(QSize(52, 30))
         self.lineEdit.setStyleSheet(u"QLineEdit{border-radius:5px;\n"
 "background-color: rgb(217, 255, 193);\n"
 "}\n"
@@ -100,23 +143,23 @@ class Ui_MainWindow(object):
 "")
         self.lineEdit.setMaxLength(32777)
 
-        self.horizontalLayout.addWidget(self.lineEdit)
+        self.horizontalLayout_2.addWidget(self.lineEdit)
 
         self.label_2 = QLabel(self.centralwidget)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setMinimumSize(QSize(0, 50))
-        font2 = QFont()
-        font2.setFamilies([u"Arial"])
-        font2.setPointSize(18)
-        self.label_2.setFont(font2)
+        font1 = QFont()
+        font1.setFamilies([u"Arial"])
+        font1.setPointSize(18)
+        self.label_2.setFont(font1)
         self.label_2.setStyleSheet(u"border-radius:5px;\n"
 "color: rgb(67, 86, 92);\n"
 "")
 
-        self.horizontalLayout.addWidget(self.label_2)
+        self.horizontalLayout_2.addWidget(self.label_2)
 
 
-        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
 
         self.line_2 = QFrame(self.centralwidget)
         self.line_2.setObjectName(u"line_2")
@@ -150,7 +193,7 @@ class Ui_MainWindow(object):
 "\n"
 "")
         self.tableWidget.horizontalHeader().setMinimumSectionSize(31)
-        self.tableWidget.horizontalHeader().setDefaultSectionSize(157)
+        self.tableWidget.horizontalHeader().setDefaultSectionSize(165)
         self.tableWidget.horizontalHeader().setProperty("showSortIndicator", True)
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
         self.tableWidget.verticalHeader().setCascadingSectionResizes(False)
@@ -160,46 +203,47 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_3)
 
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.pushButton_print = QPushButton(self.centralwidget)
-        self.pushButton_print.setObjectName(u"pushButton_print")
-        self.pushButton_print.setMinimumSize(QSize(0, 25))
-        font3 = QFont()
-        font3.setFamilies([u"Arial"])
-        font3.setPointSize(16)
-        self.pushButton_print.setFont(font3)
-        self.pushButton_print.setStyleSheet(u"QPushButton{border-radius:11px;\n"
-"background-color: rgb(146, 193, 255);\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(255, 166, 139);\n"
-"}\n"
-"")
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.toolButton_print = QToolButton(self.centralwidget)
+        self.toolButton_print.setObjectName(u"toolButton_print")
+        self.toolButton_print.setMinimumSize(QSize(31, 0))
+        self.toolButton_print.setMaximumSize(QSize(78, 16777215))
+        icon3 = QIcon()
+        icon3.addFile(u"Icons/print.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_print.setIcon(icon3)
+        self.toolButton_print.setIconSize(QSize(30, 49))
+        self.toolButton_print.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.horizontalLayout_2.addWidget(self.pushButton_print)
+        self.horizontalLayout.addWidget(self.toolButton_print)
 
-        self.pushButton_preview = QPushButton(self.centralwidget)
-        self.pushButton_preview.setObjectName(u"pushButton_preview")
-        self.pushButton_preview.setMinimumSize(QSize(0, 25))
-        self.pushButton_preview.setFont(font3)
-        self.pushButton_preview.setStyleSheet(u"QPushButton{border-radius:11px;\n"
-"background-color: rgb(146, 193, 255);\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color: rgb(255, 166, 139);\n"
-"}\n"
-"")
+        self.toolButton_preview = QToolButton(self.centralwidget)
+        self.toolButton_preview.setObjectName(u"toolButton_preview")
+        icon4 = QIcon()
+        icon4.addFile(u":/icons/Icons/preview.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_preview.setIcon(icon4)
+        self.toolButton_preview.setIconSize(QSize(30, 49))
+        self.toolButton_preview.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
-        self.horizontalLayout_2.addWidget(self.pushButton_preview)
+        self.horizontalLayout.addWidget(self.toolButton_preview)
 
 
-        self.verticalLayout.addLayout(self.horizontalLayout_2)
+        self.verticalLayout.addLayout(self.horizontalLayout)
 
         MainWindow.setCentralWidget(self.centralwidget)
+        self.pushButton_scan.raise_()
+        self.label.raise_()
+        self.line.raise_()
+        self.line_2.raise_()
+        self.radioButton_tak.raise_()
+        self.radioButton_do.raise_()
+        self.toolButton_deleterow.raise_()
+        self.pushButton_clear.raise_()
+        self.toolButton_preview.raise_()
+        self.toolButton_print.raise_()
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 685, 22))
+        self.menubar.setGeometry(QRect(0, 0, 826, 22))
         self.menuHelp = QMenu(self.menubar)
         self.menuHelp.setObjectName(u"menuHelp")
         MainWindow.setMenuBar(self.menubar)
@@ -216,9 +260,14 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.actionAbout.setText(QCoreApplication.translate("MainWindow", u"About", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"IMEI SCANNER", None))
-        self.pushButton_clear.setText(QCoreApplication.translate("MainWindow", u"\u067e\u0627\u06a9", None))
-        self.pushButton_scan.setText(QCoreApplication.translate("MainWindow", u"\u0627\u0636\u0627\u0641\u0647", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u0628\u0627\u0631\u06a9\u062f : ", None))
+        self.pushButton_clear.setText(QCoreApplication.translate("MainWindow", u"\u062d\u0630\u0641 \u062c\u062f\u0648\u0644", None))
+        self.toolButton_deleterow.setText(QCoreApplication.translate("MainWindow", u"\u062d\u0630\u0641 \u0633\u0637\u0631", None))
+        self.doubleSpinBox.setSuffix(QCoreApplication.translate("MainWindow", u"\u062b\u0627\u0646\u06cc\u0647", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u062a\u0627\u062e\u06cc\u0631:", None))
+        self.pushButton_scan.setText(QCoreApplication.translate("MainWindow", u"\u0627\u0633\u06a9\u0646", None))
+        self.radioButton_tak.setText(QCoreApplication.translate("MainWindow", u"\u062a\u06a9 \u0628\u0639\u062f\u06cc", None))
+        self.radioButton_do.setText(QCoreApplication.translate("MainWindow", u"\u062f\u0648\u0628\u0639\u062f\u06cc", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u0628\u0627\u0631\u06a9\u062f: ", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"\u0633\u0631\u06cc\u0627\u0644", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
@@ -227,8 +276,8 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"\u0633\u0631\u06cc\u0627\u0644", None));
         ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
         ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u062a\u0635\u0648\u06cc\u0631", None));
-        self.pushButton_print.setText(QCoreApplication.translate("MainWindow", u"\u0686\u0627\u067e", None))
-        self.pushButton_preview.setText(QCoreApplication.translate("MainWindow", u"\u067e\u06cc\u0634 \u0646\u0645\u0627\u06cc\u0634", None))
+        self.toolButton_print.setText(QCoreApplication.translate("MainWindow", u"\u067e\u0631\u06cc\u0646\u062a", None))
+        self.toolButton_preview.setText(QCoreApplication.translate("MainWindow", u"\u067e\u06cc\u0634 \u0646\u0645\u0627\u06cc\u0634", None))
         self.menuHelp.setTitle(QCoreApplication.translate("MainWindow", u"Help", None))
     # retranslateUi
 

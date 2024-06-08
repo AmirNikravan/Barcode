@@ -131,7 +131,6 @@ class MainWindow(QMainWindow):
         dialog.paintRequested.connect(self.handlePaintRequest)
         dialog.exec()
         self.ui.lineEdit.setFocus()
-
     def handlePaintRequest(self, printer):
         document = QtGui.QTextDocument()
         total_barcodes = self.ui.tableWidget.rowCount()
@@ -173,42 +172,27 @@ class MainWindow(QMainWindow):
                     # Access data from columns 1 and 3
                     data1 = self.ui.tableWidget.item(row_num, 0).text() if self.ui.tableWidget.item(row_num, 0) else ""
                     data3 = self.ui.tableWidget.item(row_num, 2).text() if self.ui.tableWidget.item(row_num, 2) else ""
-                    
+
                     # Extracting the codes
                     match1 = re.search(r'=(\S+)', data1)
                     code1 = match1.group(1) if match1 else ""
                     match3 = re.search(r'=(\S+)', data3)
                     code3 = match3.group(1) if match3 else ""
 
-                    # Get the image path based on the barcode code
                     img_path1 = os.path.join("./images", f"{code1}.jpeg")
                     img_path3 = os.path.join("./images", f"{code3}.jpeg")
-
-                    # Check if the image exists
                     if os.path.exists(img_path1):
-                        with Image.open(img_path1) as img:
-                            # Resize the image using LANCZOS filter for high-quality downsampling
-                            resized_img = img.resize((300, 100), Image.LANCZOS)
-                            # Save the resized image to the output path
-                            resized_img.save(img_path1)
-                            # print(f"Image saved to {output_path}"
-                        # Include the image path directly in the HTML and set the size
-                        html += f"<td><img src='{img_path1}' style='max-width: 50px; max-height: 50px;'></td>"
+
+                        html += f"<td><img src='{img_path1}' style='width: 50px;height: 50px;'></td>"
                     else:
                         html += "<td>No Image</td>"
 
                     if os.path.exists(img_path3):
-                        with Image.open(img_path3) as img:
-                            # Resize the image using LANCZOS filter for high-quality downsampling
-                            resized_img = img.resize((300, 50), Image.LANCZOS)
-                            # Save the resized image to the output path
-                            resized_img.save(img_path3)
-                            # print(f"Image saved to {output_path}"
-                        # Include the image path directly in the HTML and set the size
-                        html += f"<td><img src='{img_path3}' style='max-width: 50px; max-height: 50px;'></td>"
+
+                        html += f"<td><img src='{img_path3}' style='width: 50px; height: 10px;object-fit: fill;'></td>"
                     else:
                         html += "<td>No Image</td>"
-                        
+
                     html += "</tr>"
 
             html += """
@@ -223,6 +207,9 @@ class MainWindow(QMainWindow):
         document.setHtml(html)
         printer.setOutputFormat(QtPrintSupport.QPrinter.OutputFormat.NativeFormat)
         document.print_(printer)
+
+
+
 
 
 
