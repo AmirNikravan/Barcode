@@ -29,6 +29,9 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(826, 630)
         MainWindow.setMinimumSize(QSize(450, 450))
+        icon = QIcon()
+        icon.addFile(u":/icons/Icons/mainicon.png", QSize(), QIcon.Normal, QIcon.Off)
+        MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet(u"background-color: rgb(255, 234, 237);")
         self.actionAbout = QAction(MainWindow)
         self.actionAbout.setObjectName(u"actionAbout")
@@ -67,9 +70,9 @@ class Ui_MainWindow(object):
         self.pushButton_clear.setObjectName(u"pushButton_clear")
         self.pushButton_clear.setMaximumSize(QSize(16777215, 42))
         self.pushButton_clear.setStyleSheet(u"")
-        icon = QIcon()
-        icon.addFile(u":/icons/Icons/deletetable.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.pushButton_clear.setIcon(icon)
+        icon1 = QIcon()
+        icon1.addFile(u":/icons/Icons/deletetable.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton_clear.setIcon(icon1)
         self.pushButton_clear.setIconSize(QSize(22, 27))
         self.pushButton_clear.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
@@ -78,9 +81,9 @@ class Ui_MainWindow(object):
         self.toolButton_deleterow = QToolButton(self.centralwidget)
         self.toolButton_deleterow.setObjectName(u"toolButton_deleterow")
         self.toolButton_deleterow.setStyleSheet(u"")
-        icon1 = QIcon()
-        icon1.addFile(u":/icons/Icons/deleterow.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_deleterow.setIcon(icon1)
+        icon2 = QIcon()
+        icon2.addFile(u":/icons/Icons/deleterow.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_deleterow.setIcon(icon2)
         self.toolButton_deleterow.setIconSize(QSize(26, 23))
         self.toolButton_deleterow.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
@@ -98,7 +101,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.label_3)
 
-        self.horizontalSpacer = QSpacerItem(72, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer = QSpacerItem(180, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
@@ -106,9 +109,9 @@ class Ui_MainWindow(object):
         self.pushButton_scan.setObjectName(u"pushButton_scan")
         self.pushButton_scan.setMaximumSize(QSize(111, 16777215))
         self.pushButton_scan.setStyleSheet(u"")
-        icon2 = QIcon()
-        icon2.addFile(u":/icons/Icons/scan.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.pushButton_scan.setIcon(icon2)
+        icon3 = QIcon()
+        icon3.addFile(u":/icons/Icons/scan.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton_scan.setIcon(icon3)
         self.pushButton_scan.setIconSize(QSize(26, 31))
         self.pushButton_scan.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
@@ -209,9 +212,9 @@ class Ui_MainWindow(object):
         self.toolButton_print.setObjectName(u"toolButton_print")
         self.toolButton_print.setMinimumSize(QSize(31, 0))
         self.toolButton_print.setMaximumSize(QSize(78, 16777215))
-        icon3 = QIcon()
-        icon3.addFile(u"Icons/print.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_print.setIcon(icon3)
+        icon4 = QIcon()
+        icon4.addFile(u"Icons/print.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_print.setIcon(icon4)
         self.toolButton_print.setIconSize(QSize(30, 49))
         self.toolButton_print.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
@@ -219,9 +222,9 @@ class Ui_MainWindow(object):
 
         self.toolButton_preview = QToolButton(self.centralwidget)
         self.toolButton_preview.setObjectName(u"toolButton_preview")
-        icon4 = QIcon()
-        icon4.addFile(u":/icons/Icons/preview.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_preview.setIcon(icon4)
+        icon5 = QIcon()
+        icon5.addFile(u":/icons/Icons/preview.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_preview.setIcon(icon5)
         self.toolButton_preview.setIconSize(QSize(30, 49))
         self.toolButton_preview.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
