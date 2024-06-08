@@ -1,1 +1,1 @@
-text
+self.total

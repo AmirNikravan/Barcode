@@ -17,20 +17,67 @@ class MainWindow(QMainWindow):
         super().__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        #signals 
         self.ui.pushButton_scan.clicked.connect(self.barcode_scan)
         self.ui.toolButton_print.clicked.connect(self.handlePrint)
+        self.ui.lineEdit.returnPressed.connect(self.barcode_scan)
+        self.ui.pushButton_clear.clicked.connect(self.clear_table)
         self.ui.actionAbout.triggered.connect(self.showAboutMessageBox)
         self.ui.toolButton_preview.clicked.connect(self.handlePreview)
+        self.ui.toolButton_deleterow.clicked.connect(self.delete_selected_rows)
+        #table config
         self.ui.tableWidget.setColumnWidth(0,180)
         self.ui.tableWidget.setColumnWidth(1,450)
         self.ui.tableWidget.setColumnWidth(2,180)
         self.ui.tableWidget.setColumnWidth(3,450)
+        #lineeidt config
         self.ui.lineEdit.setFocus()
         self.ui.lineEdit.setMaxLength(15)
-        self.ui.lineEdit.returnPressed.connect(self.barcode_scan)
-        self.total = 1
-        self.ui.pushButton_clear.clicked.connect(self.clear_table)
+        #total barcodes
+        self.total = 0
+        #directory config
         self.dir = Directory()
+    def delete_selected_rows(self):
+        selected_ranges = self.ui.tableWidget.selectedRanges()
+        if not selected_ranges:
+            QMessageBox.warning(self, "انتخاب کنید", "لطفا سطر مورد نظر را انتخاب کنید.")
+            return
+        
+        msg_box = QtWidgets.QMessageBox(self)
+        msg_box.setIcon(QtWidgets.QMessageBox.Warning)
+        msg_box.setWindowTitle("هشدار")
+        msg_box.setText('سطر پاک خواهد شد')
+        custom_button_1 = msg_box.addButton("قبول", QtWidgets.QMessageBox.AcceptRole)
+        custom_button_2 = msg_box.addButton("لغو", QtWidgets.QMessageBox.RejectRole)
+        msg_box.exec()
+        
+        if msg_box.clickedButton() == custom_button_1:
+            rows_to_delete = set()
+            row_items_count = {}  # Dictionary to store item count for each row
+            
+            for selected_range in selected_ranges:
+                for row in range(selected_range.topRow(), selected_range.bottomRow() + 1):
+                    rows_to_delete.add(row)
+                    # Get item count for the current row
+                    item_count = self.get_item_count_in_row(row)
+                    row_items_count[row] = item_count  # Save item count in the dictionary
+        
+            for row in sorted(rows_to_delete, reverse=True):
+                self.ui.tableWidget.removeRow(row)
+            self.total -= item_count
+        elif msg_box.clickedButton() == custom_button_2:
+            return
+        # print(self.total)
+    def get_item_count_in_row(self, row_index):
+        item_count = 0
+        for col_index in range(self.ui.tableWidget.columnCount()):
+            item = self.ui.tableWidget.item(row_index, col_index)
+            widget = self.ui.tableWidget.cellWidget(row_index, col_index)
+            if (item is not None and item.text()) or (widget is not None and isinstance(widget, QLabel) and widget.pixmap()):
+                item_count += 1
+        return int(item_count /2 )
+
+
     def clear_table(self):
         msg_box = QtWidgets.QMessageBox(self)
         msg_box.setIcon(QtWidgets.QMessageBox.Warning)
@@ -44,7 +91,7 @@ class MainWindow(QMainWindow):
             self.ui.tableWidget.setRowCount(0)
             self.ui.tableWidget.setColumnCount(4)
             self.ui.tableWidget.setHorizontalHeaderLabels(['سریال', 'تصویر', 'سریال', 'تصویر'])
-            self.total = 1
+            self.total = 0
         elif msg_box.clickedButton() == custom_button_2:
             return
     def closeEvent(self, event):
@@ -71,7 +118,7 @@ class MainWindow(QMainWindow):
     'quiet_zone': 9,
     'text_distance': 5
 }                               
-                if self.total % 2 ==1 :
+                if self.total % 2 ==0 :
                     barcode.base.Barcode.default_writer_options['text'] = f"IMEI1={self.barcode_serial}"
                     code = QTableWidgetItem(f"IMEI1={self.barcode_serial}")
 
@@ -93,7 +140,7 @@ class MainWindow(QMainWindow):
                 label.width = 10
                 label.height = 100
                 label.setPixmap(pic)
-                if self.total % 2 ==1 :
+                if self.total % 2 ==0 :
                     self.ui.tableWidget.setRowCount(self.ui.tableWidget.rowCount() + 1)
 
                     self.ui.tableWidget.setItem(self.ui.tableWidget.rowCount() - 1, 0, code)
