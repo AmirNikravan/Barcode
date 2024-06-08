@@ -37,6 +37,9 @@ class MainWindow(QMainWindow):
         self.total = 0
         #directory config
         self.dir = Directory()
+        self.scan_timer = QTimer(self)
+        self.scan_timer.setSingleShot(True)
+        self.scan_timer.timeout.connect(self.enable_scanning)
     def delete_selected_rows(self):
         selected_ranges = self.ui.tableWidget.selectedRanges()
         if not selected_ranges:
@@ -61,13 +64,17 @@ class MainWindow(QMainWindow):
                     # Get item count for the current row
                     item_count = self.get_item_count_in_row(row)
                     row_items_count[row] = item_count  # Save item count in the dictionary
-        
+            
             for row in sorted(rows_to_delete, reverse=True):
                 self.ui.tableWidget.removeRow(row)
+            
+            # Print or otherwise use the item counts
+            for row, count in row_items_count.items():
+                print(f"Row {row} had {count} items.")
             self.total -= item_count
         elif msg_box.clickedButton() == custom_button_2:
             return
-        # print(self.total)
+        print(self.total)
     def get_item_count_in_row(self, row_index):
         item_count = 0
         for col_index in range(self.ui.tableWidget.columnCount()):
@@ -159,6 +166,7 @@ class MainWindow(QMainWindow):
 
                 self.total += 1
                 self.disable_editing(self.ui.tableWidget.rowCount() - 1)
+                self.disable_scanning()
 
         except Exception as e:
             print(f"Error inserting data into table: {e}")
@@ -254,7 +262,16 @@ class MainWindow(QMainWindow):
         document.setHtml(html)
         printer.setOutputFormat(QtPrintSupport.QPrinter.OutputFormat.NativeFormat)
         document.print_(printer)
+    def disable_scanning(self):
+        delay = self.ui.doubleSpinBox.value() * 1000  # Convert seconds to milliseconds
+        self.ui.pushButton_scan.setEnabled(False)
+        self.ui.lineEdit.setEnabled(False)
+        self.scan_timer.start(delay)
 
+    def enable_scanning(self):
+        self.ui.pushButton_scan.setEnabled(True)
+        self.ui.lineEdit.setEnabled(True)
+        self.ui.lineEdit.setFocus()
 
 
 
