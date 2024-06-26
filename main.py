@@ -22,7 +22,7 @@ import re
 import qrcode
 from directory import Directory
 import qrcode
-
+import qrcode.image.svg
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -289,7 +289,8 @@ class MainWindow(QMainWindow):
         l22 = ss.VBoxLayout()
         l23 = ss.VBoxLayout()
         table = self.ui.tableWidget
-        imei1 = []
+        imei1 = ''
+        imei2 = ''
         for row in range(table.rowCount()):
             # Assuming you want to access items from the first and second columns
             item_column1 = table.item(row, 0)  # First column item
@@ -301,6 +302,7 @@ class MainWindow(QMainWindow):
                 match = pattern.search(text_column1)
                 imei_number = match.group(1) if match else ""
                 # Build the path
+                imei1 += str(imei_number)
                 path1 = f"./images/{imei_number}.svg"
                 # Print the path
                 if row == 0:
@@ -321,7 +323,7 @@ class MainWindow(QMainWindow):
                 # Extract number using regular expression
                 match = pattern.search(text_column2)
                 imei_number = match.group(1) if match else "t"
-
+                imei2 += str(imei_number)
                 # Build the path
                 path2 = f"./images/{imei_number}.svg"
                 if row == 0:
@@ -331,7 +333,20 @@ class MainWindow(QMainWindow):
                 else:
                     # l2.addSVG("blank1.svg", alignment=ss.AlignTop | ss.AlignLeft)
                     l23.addSVG(path2, alignment=ss.AlignTop | ss.AlignLeft)
-
+        def create_qr_code(data, filename):
+            factory = qrcode.image.svg.SvgImage  # Specify SVG image factory
+            qr = qrcode.QRCode(
+                version=1,  # Controls the size of the QR Code: 1 is the smallest
+                error_correction=qrcode.constants.ERROR_CORRECT_L,  # Error correction level
+                box_size=10,  # Size of each box in pixels
+                border=4,  # Thickness of the border (default is 4)
+                )
+            qr.add_data(data)
+            qr.make(fit=True)
+            img = qr.make_image(image_factory=factory)
+            img.save(filename)
+        create_qr_code(imei1, "./images/qrcode1.svg")
+        create_qr_code(imei2, "./images/qrcode2.svg")
         table1_layout.addLayout(l11)
         table1_layout.addLayout(l13)
         table1_layout.addLayout(l12)
