@@ -24,11 +24,14 @@ from directory import Directory
 import qrcode
 import qrcode.image.svg
 import svg_stack as ss
+from lxml import etree
+import svgwrite
 
+from svglib.svglib import svg2rlg
+from reportlab.graphics import renderPDF
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         self.barcodes = []
-
         super().__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -56,7 +59,7 @@ class MainWindow(QMainWindow):
         self.scan_timer = QTimer(self)
         self.scan_timer.setSingleShot(True)
         self.scan_timer.timeout.connect(self.enable_scanning)
-
+        self.handlecombo()
     # def changeRowColor(self):
     #     selected_items = self.ui.tableWidget.selectedItems()
     #     if selected_items:
@@ -70,6 +73,24 @@ class MainWindow(QMainWindow):
     #                 for column in range(self.ui.tableWidget.columnCount()):
     #                     self.ui.tableWidget.item(row, column).setBackground(QColor(255, 255, 255))  # Change color as needed
     #                     self.ui.tableWidget.item(row, column).setForeground(QColor(0, 0, 0))  # Change text color if needed
+    
+    def generate_svg_with_text(text, filename, width='100mm', height='50mm'):
+        # Ensure width and height are strings with units
+        if isinstance(width, (int, float)):
+            width = f'{width}mm'
+        if isinstance(height, (int, float)):
+            height = f'{height}mm'
+        
+        # Create a new SVG drawing with specified width and height
+        dwg = svgwrite.Drawing(filename, size=(width, height))
+        
+        # Add text to the SVG
+        dwg.add(dwg.text(text, insert=(10, 20), fill='black', font_family='Arial', font_size='12px'))
+        
+        # Save the SVG file
+        dwg.save()
+
+
 
     def delete_selected_rows(self):
         try:
@@ -256,12 +277,45 @@ class MainWindow(QMainWindow):
                     item.setFlags(item.flags() & ~Qt.ItemIsEditable)
         except Exception as e:
             self.error_handler(f"Error disable editing: {e}")
-
+    def handlecombo(self):
+        self.data = {
+            'select':{},
+            'NOKIA 105 TA-1557 DS':{
+                '1GF019CPG6F02' : ['Cyan' ],
+                '1GF019CPA2F01' : ['Charcoal'],
+                '1GF019CPA2F02':['Charcoal']
+            },
+            'NOKIA 106TA-1564 DS':{
+                '1GF019BPA2F02': ['Charcoal'],
+                '1GF019BPJ1F02': ['Emerald Green'],
+                '1GF019BPB1F02': ['Terracotta Red']
+            },
+            'NOKIA 110TA-1567 DS':{
+                '1GF019FPA2F02' : ['Charcoal'],
+                '1GF019FPG3F02' : ['Cloudy Blue']
+            }
+        }
+        
+        self.ui.comboBox_model.addItems(self.data.keys())
+        self.ui.comboBox_model.currentIndexChanged.connect(self.update_skus)
+        self.ui.comboBox_sku.currentIndexChanged.connect(self.update_colors)
+    def update_skus(self):
+        selected_model = self.ui.comboBox_model.currentText()
+        skus = self.data.get(selected_model, {}).keys()
+        self.ui.comboBox_sku.clear()
+        self.ui.comboBox_sku.addItems(skus)
+        self.update_colors()
+    def update_colors(self):
+        selected_model = self.ui.comboBox_model.currentText()
+        selected_sku = self.ui.comboBox_sku.currentText()
+        colors = self.data.get(selected_model, {}).get(selected_sku, [])
+        self.ui.comboBox_color.clear()
+        self.ui.comboBox_color.addItems(colors)
     def handlePrint(self):
         try:
             dialog = QtPrintSupport.QPrintDialog()
             if dialog.exec() == QtWidgets.QDialog.Accepted:
-                self.handlePaintRequest2(dialog.printer())
+                self.handlePaintRequest(dialog.printer())
 
         except Exception as e:
             self.error_handler(f"Error Handel Print: {e}")
@@ -270,18 +324,55 @@ class MainWindow(QMainWindow):
     def handlePreview(self):
         try:
             dialog = QtPrintSupport.QPrintPreviewDialog()
-            dialog.paintRequested.connect(self.handlePaintRequest2)
+            dialog.paintRequested.connect(self.handlePaintRequest)
             dialog.exec()
         except Exception as e:
             self.error_handler(f"Error Handel Preview: {e}")
         self.ui.lineEdit.setFocus()
 
-    def handlePaintRequest2(self, printer):
+    def handlePaintRequest(self, printer):
 
-        doc = ss.Document()
+        doc = ss.Document() 
+        final_layout = ss.VBoxLayout()
+        try:
+            model = self.ui.comboBox_model.currentText()
+            sku = self.ui.comboBox_sku.currentText()
+            color = self.ui.comboBox_color.currentText()
+        except Exception as e:
+            self.error_handler(f"Error Handel Preview: {e}")
+        if model == 'select':    
+            msg_box = QtWidgets.QMessageBox(self)
+            msg_box.setIcon(QtWidgets.QMessageBox.Warning)
+            msg_box.setWindowTitle("هشدار")
+            msg_box.setText("لطفا مدل را وارد کنید")
+            msg_box.exec()
+            return
+        bala_layout = ss.VBoxLayout()
+        self.generate_svg_with_text(model,f'./images/model.svg')
+        self.generate_svg_with_text(color,f'./images/color.svg')
+        self.generate_svg_with_text('FA',f'./images/FA.svg')
+        self.generate_svg_with_text('Manufactured in China',f'./images/china.svg')
+        self.generate_svg_with_text('Assembled in Iran (IRI)',f'./images/iran.svg')
+        self.generate_svg_with_text('تولید شده در شرکت پارس سام تل قشم' , f'./images/pars.svg')
+        self.generate_svg_with_text('منطقه ویژه اقتصادی پیام',f'./images/payam.svg')
+        
+        bala_layout.addSVG(f'./images/model.svg', alignment=ss.AlignTop | ss.AlignLeft)
+        bala_layout.addSVG(f'./images/color.svg',alignment=ss.AlignTop | ss.AlignLeft)
+        bala_layout.addSVG(f'./images/FA.svg', alignment=ss.AlignTop | ss.AlignLeft)
+        bala_layout.addSVG(f'./images/china.svg', alignment=ss.AlignTop | ss.AlignLeft)
+        bala_layout.addSVG(f'./images/iran.svg', alignment=ss.AlignTop | ss.AlignLeft)
+        bala_layout.addSVG(f'./images/pars.svg', alignment=ss.AlignTop | ss.AlignLeft)
+        bala_layout.addSVG(f'./images/payam.svg', alignment=ss.AlignTop | ss.AlignLeft)
+        # bala_layout.addSVG("imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
+        # bala_layout.addSVG("imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
+        # bala_layout.addSVG("imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
+        # bala_layout.addSVG("imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
+        # bala_layout.addSVG("imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
+        
+        
+        
         full_table_layout = ss.HBoxLayout()
         table1_layout = ss.HBoxLayout()
-        final_layout = ss.VBoxLayout()
         table2_layout = ss.HBoxLayout()
         l11 = ss.VBoxLayout()
         l12 = ss.VBoxLayout()
@@ -365,6 +456,7 @@ class MainWindow(QMainWindow):
         full_table_layout.addLayout(vasat)
 
         full_table_layout.addLayout(table2_layout)
+        final_layout.addLayout(bala_layout)
         final_layout.addLayout(full_table_layout)
         final_layout.addLayout(full_qr_layout)
         doc.setLayout(final_layout)
@@ -372,8 +464,6 @@ class MainWindow(QMainWindow):
         doc.save("qt_api_test.svg")
         # os.startfile('qt_api_test.svg')
 
-        from svglib.svglib import svg2rlg
-        from reportlab.graphics import renderPDF
 
         # Function to convert SVG to PDF
         def svg_to_pdf(input_svg_path, output_pdf_path):

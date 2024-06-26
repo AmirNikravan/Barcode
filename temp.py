@@ -1,38 +1,31 @@
-import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
-from PySide6.QtSvgWidgets import QSvgWidget
-class SvgViewer(QMainWindow):
-    def __init__(self, svg_file):
-        super().__init__()
+import svgwrite
 
-        # Set the window title
-        self.setWindowTitle('SVG Viewer')
+def generate_svg_with_text(text, filename, width=1000, height=2000, font_size="12px", font_family="Arial"):
+  """
+  Creates an SVG file with the given text.
 
-        # Create a central widget
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
+  Args:
+      text: The text to be displayed in the SVG.
+      filename: The filename to save the SVG file.
+      width: The desired width of the SVG (default: 200 pixels).
+      height: The desired height of the SVG (default: 100 pixels).
+      font_size: The font size of the text (default: "12px").
+      font_family: The font family of the text (default: "Arial").
+  """
 
-        # Create a layout for the central widget
-        layout = QVBoxLayout(central_widget)
+  # Create a new SVG drawing with a viewBox
+  dwg = svgwrite.Drawing(filename, profile='tiny', viewBox=f"0 0 {width} {height}")
 
-        # Create the QSvgWidget
-        svg_widget = QSvgWidget(svg_file)
+  # Define a text element
+  text_element = dwg.text(text, insert=(10, 20), font_size=font_size, font_family=font_family)
 
-        # Add the SVG widget to the layout
-        layout.addWidget(svg_widget)
+  # Add text element to the drawing
+  dwg.add(text_element)
 
-        # Resize the window to fit the content
-        self.resize(800, 600)
+  # Save the SVG file
+  dwg.save()
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-
-    # Path to the SVG file
-    svg_file = 'qt_api_test.svg'
-
-    # Create and show the main window
-    viewer = SvgViewer(svg_file)
-    viewer.show()
-
-    # Run the application event loop
-    sys.exit(app.exec_())
+# Example usage
+text = "This is some sample text"
+filename = "my_svg.svg"
+generate_svg_with_text(text, filename)
