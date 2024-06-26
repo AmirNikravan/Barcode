@@ -24,12 +24,13 @@
     <normaloff>:/icons/Icons/mainicon.png</normaloff>:/icons/Icons/mainicon.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(255, 234, 237);</string>
+   <string notr="true">background-color: rgb(188, 188, 188);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
     <string notr="true">QToolButton{border-radius:11px;
-background-color: rgb(146, 193, 255);
+background-color: rgb(255, 174, 200);
+
 }
 QToolButton:hover{
 background-color: rgb(255, 166, 139);
@@ -194,30 +195,6 @@ background-color: rgb(255, 166, 139);
        </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QRadioButton" name="radioButton_tak">
-          <property name="text">
-           <string>تک بعدی</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="radioButton_do">
-          <property name="text">
-           <string>دوبعدی</string>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
        <widget class="QLineEdit" name="lineEdit">
         <property name="minimumSize">
          <size>
@@ -304,8 +281,7 @@ color: rgb(67, 86, 92);
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(255, 209, 171);
-
+         <string notr="true">background-color: rgb(215, 226, 255);
 
 border-radius:10px
 
