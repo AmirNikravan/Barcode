@@ -1,1 +1,1 @@
-self.total
+]

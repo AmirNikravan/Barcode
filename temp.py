@@ -1,58 +1,38 @@
-from PyQt5 import QtWidgets, QtPrintSupport, QtGui
 import sys
-
-class MainWindow(QtWidgets.QMainWindow):
-    def __init__(self):
+from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
+from PySide6.QtSvgWidgets import QSvgWidget
+class SvgViewer(QMainWindow):
+    def __init__(self, svg_file):
         super().__init__()
-        self.initUI()
 
-    def initUI(self):
-        # تنظیمات UI
-        self.setWindowTitle('Print Example')
-        self.setGeometry(100, 100, 800, 600)
+        # Set the window title
+        self.setWindowTitle('SVG Viewer')
 
-        self.printButton = QtWidgets.QPushButton('Print', self)
-        self.printButton.setGeometry(250, 250, 100, 50)
-        self.printButton.clicked.connect(self.handlePrint)
+        # Create a central widget
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
 
-        self.previewButton = QtWidgets.QPushButton('Preview', self)
-        self.previewButton.setGeometry(450, 250, 100, 50)
-        self.previewButton.clicked.connect(self.handlePreview)
+        # Create a layout for the central widget
+        layout = QVBoxLayout(central_widget)
 
-        self.lineEdit = QtWidgets.QLineEdit(self)
-        self.lineEdit.setGeometry(300, 350, 200, 30)
+        # Create the QSvgWidget
+        svg_widget = QSvgWidget(svg_file)
 
-    def error_handler(self, message):
-        QtWidgets.QMessageBox.critical(self, "Error", message)
+        # Add the SVG widget to the layout
+        layout.addWidget(svg_widget)
 
-    def handlePaintRequest(self, printer):
-        try:
-            document = QtGui.QTextDocument()
-            document.setHtml("<h1>Test Print</h1>")
-            document.print_(printer)
-        except Exception as e:
-            self.error_handler(f"Error Handle Paint Request: {e}")
+        # Resize the window to fit the content
+        self.resize(800, 600)
 
-    def handlePrint(self):
-        try:
-            dialog = QtPrintSupport.QPrintDialog()
-            if dialog.exec() == QtWidgets.QDialog.Accepted:  # استفاده از Accepted به جای accepted
-                self.handlePaintRequest(dialog.printer())
-        except Exception as e:
-            self.error_handler(f"Error Handle Print: {e}")
-        self.lineEdit.setFocus()
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
 
-    def handlePreview(self):
-        try:
-            dialog = QtPrintSupport.QPrintPreviewDialog()
-            dialog.paintRequested.connect(self.handlePaintRequest)
-            dialog.exec()
-        except Exception as e:
-            self.error_handler(f"Error Handle Preview: {e}")
-        self.lineEdit.setFocus()
+    # Path to the SVG file
+    svg_file = 'qt_api_test.svg'
 
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
+    # Create and show the main window
+    viewer = SvgViewer(svg_file)
+    viewer.show()
+
+    # Run the application event loop
     sys.exit(app.exec_())
