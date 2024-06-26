@@ -23,6 +23,7 @@ import qrcode
 from directory import Directory
 import qrcode
 import qrcode.image.svg
+import svg_stack as ss
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -276,11 +277,11 @@ class MainWindow(QMainWindow):
         self.ui.lineEdit.setFocus()
 
     def handlePaintRequest2(self, printer):
-        import svg_stack as ss
 
         doc = ss.Document()
-        full_layout = ss.HBoxLayout()
+        full_table_layout = ss.HBoxLayout()
         table1_layout = ss.HBoxLayout()
+        final_layout = ss.VBoxLayout()
         table2_layout = ss.HBoxLayout()
         l11 = ss.VBoxLayout()
         l12 = ss.VBoxLayout()
@@ -347,18 +348,26 @@ class MainWindow(QMainWindow):
             img.save(filename)
         create_qr_code(imei1, "./images/qrcode1.svg")
         create_qr_code(imei2, "./images/qrcode2.svg")
+        full_qr_layout = ss.HBoxLayout()
+        full_qr_layout.addSVG("blankbefore.svg", alignment=ss.AlignTop | ss.AlignLeft)
+
+        full_qr_layout.addSVG("./images/qrcode1.svg", alignment=ss.AlignTop | ss.AlignLeft)
+        full_qr_layout.addSVG("blank1.svg", alignment=ss.AlignTop | ss.AlignLeft)
+        full_qr_layout.addSVG("./images/qrcode2.svg", alignment=ss.AlignTop | ss.AlignLeft)
+        
         table1_layout.addLayout(l11)
         table1_layout.addLayout(l13)
         table1_layout.addLayout(l12)
         table2_layout.addLayout(l21)
         table2_layout.addLayout(l22)
         table2_layout.addLayout(l23)
-        full_layout.addLayout(table1_layout)
-        full_layout.addLayout(vasat)
+        full_table_layout.addLayout(table1_layout)
+        full_table_layout.addLayout(vasat)
 
-        full_layout.addLayout(table2_layout)
-
-        doc.setLayout(full_layout)
+        full_table_layout.addLayout(table2_layout)
+        final_layout.addLayout(full_table_layout)
+        final_layout.addLayout(full_qr_layout)
+        doc.setLayout(final_layout)
 
         doc.save("qt_api_test.svg")
         # os.startfile('qt_api_test.svg')
@@ -376,130 +385,6 @@ class MainWindow(QMainWindow):
         output_pdf = "output.pdf"
         svg_to_pdf(input_svg, output_pdf)
 
-    def handlePaintRequest(self, printer):
-        try:
-            document = QtGui.QTextDocument()
-            total_barcodes = self.ui.tableWidget.rowCount()
-            barcodes_per_page = 10  # 10 rows per page
-
-            # Calculate total pages considering page breaks after every 10 rows
-            total_pages = (total_barcodes + barcodes_per_page - 1) // barcodes_per_page
-
-            html = ""
-            for page_num in range(total_pages):
-                qr_code = ""
-                html += """
-                <html>
-                    <head>
-                        <style>
-                            .centered-image {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 300px;
-        height: auto;
-        padding-left: 0; /* کاهش پدینگ چپی */
-        padding-right: 20px; /* حفظ پدینگ راستی */
-        text-align: center; /* قرار دادن تصویر در وسط */
-        }
-                            table {
-                                border-collapse: collapse;
-                                width: 100%;
-                            }
-                            th, td {
-                                padding: 8px;
-                                text-align: left;
-                                border-bottom: 1px solid #ddd;
-                            }
-                            img {
-                                max-width: 0px;
-                                max-height: 80px;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <table>
-                """
-
-                # Loop through 10 rows per page
-                for row_num in range(
-                    page_num * barcodes_per_page,
-                    min(
-                        page_num * barcodes_per_page + barcodes_per_page, total_barcodes
-                    ),
-                ):
-                    # Check if data exists in the row (avoid empty rows)
-                    if row_num < total_barcodes:
-                        html += "<tr>"
-                        # Access data from columns 1 and 3
-                        data1 = (
-                            self.ui.tableWidget.item(row_num, 0).text()
-                            if self.ui.tableWidget.item(row_num, 0)
-                            else ""
-                        )
-                        data3 = (
-                            self.ui.tableWidget.item(row_num, 2).text()
-                            if self.ui.tableWidget.item(row_num, 2)
-                            else ""
-                        )
-
-                        # Extracting the codes
-                        match1 = re.search(r"=(\S+)", data1)
-                        code1 = match1.group(1) if match1 else ""
-                        match3 = re.search(r"=(\S+)", data3)
-                        code3 = match3.group(1) if match3 else ""
-                        qr_code += f"{code1},{code3}"
-                        img_path1 = os.path.join("./images", f"{code1}.jpeg")
-                        img_path3 = os.path.join("./images", f"{code3}.jpeg")
-
-                        if os.path.exists(img_path1):
-                            with Image.open(img_path1) as img:
-                                resized_img = img.resize((300, 50), Image.LANCZOS)
-                                resized_img.save(img_path1)
-                            html += f"<td><img src='{img_path1}' style='width: 50px;height: 50px;'></td>"
-                        else:
-                            html += "<td> </td>"
-
-                        if os.path.exists(img_path3):
-                            with Image.open(img_path3) as img:
-                                resized_img = img.resize((300, 50), Image.LANCZOS)
-                                resized_img.save(img_path3)
-                            html += f"<td><img src='{img_path3}' style='width: 50px; height: 10px;object-fit: fill;'></td>"
-                        else:
-                            html += "<td> </td>"
-
-                        html += "</tr>"
-
-                html += """
-                        </table>
-                    </body>
-                </html>
-                """
-                qr = qrcode.QRCode(
-                    version=1,
-                    error_correction=qrcode.constants.ERROR_CORRECT_L,
-                    box_size=10,
-                    border=4,
-                )
-                qr.add_data(qr_code.rstrip(","))  # حذف کاما و فاصله اضافی در انتهای متن
-                qr.make(fit=True)
-                qr_img = qr.make_image(fill_color="black", back_color="white")
-                qr_img.save(
-                    f"./images/page_{page_num}_qr_code.png"
-                )  # ذخیره کد QR به عنوان یک تصویر
-                with Image.open(f"./images/page_{page_num}_qr_code.png") as img:
-                    resized_img = img.resize((100, 100), Image.LANCZOS)
-                    resized_img.save(f"./images/page_{page_num}_qr_code.png")
-                # اضافه کردن تصویر کد QR به سند HTML
-                html += f"<img src='./images/page_{page_num}_qr_code.png'  class='centered-image'>"
-                if page_num < total_pages - 1:
-                    html += "<br style='page-break-after: always;'/>"
-
-            document.setHtml(html)
-            printer.setOutputFormat(QtPrintSupport.QPrinter.OutputFormat.NativeFormat)
-            document.print_(printer)
-        except Exception as e:
-            self.error_handler(f"Error Handel Paint Request: {e}")
 
     def disable_scanning(self):
         try:
