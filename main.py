@@ -41,7 +41,6 @@ class MainWindow(QMainWindow):
         self.ui.lineEdit.returnPressed.connect(self.barcode_scan)
         self.ui.pushButton_clear.clicked.connect(self.clear_table)
         self.ui.actionAbout.triggered.connect(self.showAboutMessageBox)
-        self.ui.toolButton_preview.clicked.connect(self.handlePreview)
         self.ui.toolButton_deleterow.clicked.connect(self.delete_selected_rows)
         # self.ui.tableWidget.itemSelectionChanged.connect(self.changeRowColor)
         # table config
@@ -338,15 +337,6 @@ class MainWindow(QMainWindow):
             self.error_handler(f"Error Handel Print: {e}")
         self.ui.lineEdit.setFocus()
 
-    def handlePreview(self):
-        try:
-            dialog = QtPrintSupport.QPrintPreviewDialog()
-            dialog.paintRequested.connect(self.handlePaintRequest)
-            dialog.exec()
-        except Exception as e:
-            self.error_handler(f"Error Handel Preview: {e}")
-        self.ui.lineEdit.setFocus()
-
     def handlePaintRequest(self, printer):
 
         doc = ss.Document() 
@@ -356,7 +346,7 @@ class MainWindow(QMainWindow):
             sku = self.ui.comboBox_sku.currentText()
             color = self.ui.comboBox_color.currentText()
         except Exception as e:
-            self.error_handler(f"Error Handel Preview: {e}")
+            self.error_handler(f"Error Handel print: {e}")
         if model == 'select':    
             msg_box = QtWidgets.QMessageBox(self)
             msg_box.setIcon(QtWidgets.QMessageBox.Warning)

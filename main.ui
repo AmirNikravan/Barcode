@@ -43,7 +43,13 @@ border-radius:5px;
 }
 QComboBox QAbstractItemView {
     selection-background-color: #0078d7; /* Selected item background color */
-}</string>
+}
+            QTableWidget::viewport {
+                background-color: lightgray; /* Background color of the scroll area */
+            }
+            QScrollBar:vertical {
+                background-color: #F5F5F5; /* Background color of the vertical scrollbar */
+            }</string>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
@@ -549,37 +555,6 @@ border-radius:10px
         <property name="icon">
          <iconset>
           <normaloff>Icons/print.png</normaloff>Icons/print.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>35</width>
-          <height>54</height>
-         </size>
-        </property>
-        <property name="toolButtonStyle">
-         <enum>Qt::ToolButtonTextUnderIcon</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="toolButton_preview">
-        <property name="minimumSize">
-         <size>
-          <width>80</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>پیش نمایش</string>
-        </property>
-        <property name="icon">
-         <iconset resource="rcs.qrc">
-          <normaloff>:/icons/Icons/preview.png</normaloff>:/icons/Icons/preview.png</iconset>
         </property>
         <property name="iconSize">
          <size>

@@ -52,7 +52,13 @@ class Ui_MainWindow(object):
 "}\n"
 "QComboBox QAbstractItemView {\n"
 "    selection-background-color: #0078d7; /* Selected item background color */\n"
-"}")
+"}\n"
+"            QTableWidget::viewport {\n"
+"                background-color: lightgray; /* Background color of the scroll area */\n"
+"            }\n"
+"            QScrollBar:vertical {\n"
+"                background-color: #F5F5F5; /* Background color of the vertical scrollbar */\n"
+"            }")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.label = QLabel(self.centralwidget)
@@ -290,18 +296,6 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.toolButton_print)
 
-        self.toolButton_preview = QToolButton(self.centralwidget)
-        self.toolButton_preview.setObjectName(u"toolButton_preview")
-        self.toolButton_preview.setMinimumSize(QSize(80, 0))
-        self.toolButton_preview.setFont(font5)
-        icon5 = QIcon()
-        icon5.addFile(u":/icons/Icons/preview.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_preview.setIcon(icon5)
-        self.toolButton_preview.setIconSize(QSize(35, 54))
-        self.toolButton_preview.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
-        self.horizontalLayout.addWidget(self.toolButton_preview)
-
 
         self.verticalLayout.addLayout(self.horizontalLayout)
 
@@ -343,7 +337,6 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
         ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u062a\u0635\u0648\u06cc\u0631", None));
         self.toolButton_print.setText(QCoreApplication.translate("MainWindow", u"\u067e\u0631\u06cc\u0646\u062a", None))
-        self.toolButton_preview.setText(QCoreApplication.translate("MainWindow", u"\u067e\u06cc\u0634 \u0646\u0645\u0627\u06cc\u0634", None))
         self.menuHelp.setTitle(QCoreApplication.translate("MainWindow", u"Help", None))
     # retranslateUi
 
