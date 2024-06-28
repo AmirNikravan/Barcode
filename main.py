@@ -348,21 +348,12 @@ class MainWindow(QMainWindow):
             msg_box.exec()
             return
         bala_layout = ss.VBoxLayout()
-        self.generate_svg_with_text(model,f'./images/model.svg')
-        self.generate_svg_with_text(color,f'./images/color.svg')
-        self.generate_svg_with_text('FA',f'./images/FA.svg')
-        self.generate_svg_with_text('Manufactured in China',f'./images/china.svg')
-        self.generate_svg_with_text('Assembled in Iran (IRI)',f'./images/iran.svg')
-        self.generate_svg_with_text('تولید شده در شرکت پارس سام تل قشم' , f'./images/pars.svg')
-        self.generate_svg_with_text('منطقه ویژه اقتصادی پیام',f'./images/payam.svg')
-        
-        bala_layout.addSVG(f'./images/model.svg', alignment=ss.AlignTop | ss.AlignLeft)
-        bala_layout.addSVG(f'./images/color.svg',alignment=ss.AlignTop | ss.AlignLeft)
-        bala_layout.addSVG(f'./images/FA.svg', alignment=ss.AlignTop | ss.AlignLeft)
-        bala_layout.addSVG(f'./images/china.svg', alignment=ss.AlignTop | ss.AlignLeft)
-        bala_layout.addSVG(f'./images/iran.svg', alignment=ss.AlignTop | ss.AlignLeft)
-        bala_layout.addSVG(f'./images/pars.svg', alignment=ss.AlignTop | ss.AlignLeft)
-        bala_layout.addSVG(f'./images/payam.svg', alignment=ss.AlignTop | ss.AlignLeft)
+
+        bala_layout.addSVG(f'./svgs/{model}.svg', alignment=ss.AlignTop | ss.AlignLeft)
+        bala_layout.addSVG(f'./svgs/Cyan.svg',alignment=ss.AlignTop | ss.AlignLeft)
+        bala_layout.addSVG(f'./svgs/payam (8) (1) (1) (1).svg', alignment=ss.AlignTop | ss.AlignLeft)
+        bala_layout.addSVG(f'./svgs/6438409092069.svg', alignment=ss.AlignTop | ss.AlignLeft)
+        bala_layout.addSVG(f'./svgs/blank3.svg', alignment=ss.AlignTop | ss.AlignLeft)
         # bala_layout.addSVG("imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
         # bala_layout.addSVG("imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
         # bala_layout.addSVG("imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
@@ -398,7 +389,8 @@ class MainWindow(QMainWindow):
                 path1 = f"./images/{imei_number}.svg"
                 # Print the path
                 if row == 0:
-                    l11.addSVG("imei1.svg", alignment=ss.AlignTop | ss.AlignLeft)
+                    l11.addSVG("./svgs/imei1.svg", alignment=ss.AlignTop | ss.AlignLeft)
+                    l11.addSVG("./svgs/blank4.svg", alignment=ss.AlignTop | ss.AlignLeft)
                 if row < 5:
                     l12.addSVG(path1, alignment=ss.AlignTop | ss.AlignLeft)
                 else:
@@ -406,7 +398,7 @@ class MainWindow(QMainWindow):
                     l13.addSVG(path1, alignment=ss.AlignTop | ss.AlignLeft)
 
             vasat = ss.HBoxLayout()
-            vasat.addSVG("blank2.svg", alignment=ss.AlignTop | ss.AlignLeft)
+            vasat.addSVG("./svgs/blank2.svg", alignment=ss.AlignTop | ss.AlignLeft)
             # Construct SVG elements for the second column
             if item_column2:
                 text_column2 = item_column2.text()
@@ -419,7 +411,9 @@ class MainWindow(QMainWindow):
                 # Build the path
                 path2 = f"./images/{imei_number}.svg"
                 if row == 0:
-                    l21.addSVG("imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
+                    l21.addSVG("./svgs/imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
+                    l21.addSVG("./svgs/blank4.svg", alignment=ss.AlignTop | ss.AlignLeft)
+
                 if row < 5:
                     l22.addSVG(path2, alignment=ss.AlignTop | ss.AlignLeft)
                 else:
@@ -440,10 +434,10 @@ class MainWindow(QMainWindow):
         create_qr_code(imei1, "./images/qrcode1.svg")
         create_qr_code(imei2, "./images/qrcode2.svg")
         full_qr_layout = ss.HBoxLayout()
-        full_qr_layout.addSVG("blankbefore.svg", alignment=ss.AlignTop | ss.AlignLeft)
+        full_qr_layout.addSVG("./svgs/blankbefore.svg", alignment=ss.AlignTop | ss.AlignLeft)
 
         full_qr_layout.addSVG("./images/qrcode1.svg", alignment=ss.AlignTop | ss.AlignLeft)
-        full_qr_layout.addSVG("blank1.svg", alignment=ss.AlignTop | ss.AlignLeft)
+        full_qr_layout.addSVG("./svgs/blank1.svg", alignment=ss.AlignTop | ss.AlignLeft)
         full_qr_layout.addSVG("./images/qrcode2.svg", alignment=ss.AlignTop | ss.AlignLeft)
         
         table1_layout.addLayout(l11)
