@@ -12,7 +12,7 @@ import barcode.base
 import barcode.itf
 from ui_main import Ui_MainWindow
 from barcode import Code128
-from barcode.writer import SVGWriter
+from barcode.writer import SVGWriter,ImageWriter
 from PySide6 import QtGui, QtPrintSupport, QtWidgets
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -210,12 +210,29 @@ class MainWindow(QMainWindow):
                     "text_distance": 5,
                     "font_size": 12,
                 }
-
+                options2 = {
+                    "dpi": 2000,
+                    "module_width": 0.02,
+                    "module_height": 0.59,
+                    "quiet_zone": 1.5,
+                    "text_distance": 0.3,
+                    "font_size": 0.7,
+                }
                 barcode.base.Barcode.default_writer_options["text"] = (
                     f"IMEI: {self.barcode_serial}"
                 )
                 code = QTableWidgetItem(f"IMEI: {self.barcode_serial}")
+                font = QFont()
+                font.setFamily("Arial")   # Set the font family
+                font.setPointSize(12)  
+                code.setFont(font)
+
                 try:
+                    with open(f"./images/{self.barcode_serial}.png", "wb") as f:
+                        writer = ImageWriter()
+                        barcode_class = barcode.get_barcode_class("code128")
+                        barcode_instance = barcode_class(f"{self.barcode_serial}", writer)
+                        barcode_instance.write(f,options=options2)
                     with open(f"./images/{self.barcode_serial}.svg", "wb") as f:
                         writer = SVGWriter()
                         barcode_class = barcode.get_barcode_class("code128")
@@ -228,7 +245,7 @@ class MainWindow(QMainWindow):
                 except Exception as e:
                     self.error_handler(f"Error Creating Barcodes: {e}")
                 try:
-                    pic = QtGui.QPixmap(f"./images/{self.barcode_serial}.svg")
+                    pic = QtGui.QPixmap(f"./images/{self.barcode_serial}.png")
                     label = QtWidgets.QLabel()
                     label.width = 10
                     label.height = 100

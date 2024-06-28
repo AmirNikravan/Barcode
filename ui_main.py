@@ -234,9 +234,11 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.line_2)
 
         self.horizontalLayout_3 = QHBoxLayout()
-        self.horizontalLayout_3.setSpacing(6)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.horizontalLayout_3.setContentsMargins(-1, 0, 9, -1)
+        self.horizontalSpacer_3 = QSpacerItem(87, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
+
         self.tableWidget = QTableWidget(self.centralwidget)
         if (self.tableWidget.columnCount() < 4):
             self.tableWidget.setColumnCount(4)
@@ -256,13 +258,17 @@ class Ui_MainWindow(object):
 "border-radius:10px\n"
 "\n"
 "")
-        self.tableWidget.horizontalHeader().setMinimumSectionSize(31)
-        self.tableWidget.horizontalHeader().setDefaultSectionSize(165)
+        self.tableWidget.horizontalHeader().setMinimumSectionSize(275)
+        self.tableWidget.horizontalHeader().setDefaultSectionSize(275)
         self.tableWidget.horizontalHeader().setProperty("showSortIndicator", True)
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
         self.tableWidget.verticalHeader().setCascadingSectionResizes(False)
 
         self.horizontalLayout_3.addWidget(self.tableWidget)
+
+        self.horizontalSpacer_7 = QSpacerItem(135, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer_7)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout_3)
