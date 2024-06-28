@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QErrorMessage,
     QFileDialog,
 )
+import traceback
 import sys, os
 from PIL import Image
 import barcode.base
@@ -218,6 +219,7 @@ class MainWindow(QMainWindow):
                     "quiet_zone": 5,
                     "text_distance": 5,
                     "font_size": 12,
+                    "font_path":'ARIAL.TTF'
                 }
                 options2 = {
                     "dpi": 2000,
@@ -226,6 +228,7 @@ class MainWindow(QMainWindow):
                     "quiet_zone": 1.5,
                     "text_distance": 0.3,
                     "font_size": 0.7,
+                    "font_path":'ARIAL.TTF'
                 }
                 barcode.base.Barcode.default_writer_options["text"] = (
                     f"IMEI: {self.barcode_serial}"
@@ -239,18 +242,26 @@ class MainWindow(QMainWindow):
                 try:
                     with open(f"./images/{self.barcode_serial}.png", "wb") as f:
                         writer = ImageWriter()
+                        
                         barcode_class = barcode.get_barcode_class("code128")
                         barcode_instance = barcode_class(
                             f"{self.barcode_serial}", writer
                         )
-                        barcode_instance.write(f, options=options2)
+                        try:
+                            barcode_instance.write(f, options=options2)
+                        except Exception as e:
+                            print(f"Error creating ImageWriter: {e}")
+                            traceback.print_exc()
                     with open(f"./images/{self.barcode_serial}.svg", "wb") as f:
                         writer = SVGWriter()
                         barcode_class = barcode.get_barcode_class("code128")
                         barcode_instance = barcode_class(
                             f"{self.barcode_serial}", writer
                         )
+                        
                         barcode_instance.write(f, options=options)
+                        
+                         # Print detailed traceback for debuggin
                         self.barcodes.append(self.barcode_serial)
 
                 except Exception as e:
