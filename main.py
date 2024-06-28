@@ -5,6 +5,7 @@ from PySide6.QtWidgets import (
     QLabel,
     QTableWidgetItem,
     QErrorMessage,
+    QFileDialog,
 )
 import sys, os
 from PIL import Image
@@ -12,7 +13,7 @@ import barcode.base
 import barcode.itf
 from ui_main import Ui_MainWindow
 from barcode import Code128
-from barcode.writer import SVGWriter,ImageWriter
+from barcode.writer import SVGWriter, ImageWriter
 from PySide6 import QtGui, QtPrintSupport, QtWidgets
 from PySide6.QtCore import *
 from PySide6.QtGui import *
@@ -29,6 +30,8 @@ import svgwrite
 
 from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPDF
+
+
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         self.barcodes = []
@@ -59,6 +62,7 @@ class MainWindow(QMainWindow):
         self.scan_timer.setSingleShot(True)
         self.scan_timer.timeout.connect(self.enable_scanning)
         self.handlecombo()
+
     # def changeRowColor(self):
     #     selected_items = self.ui.tableWidget.selectedItems()
     #     if selected_items:
@@ -72,24 +76,30 @@ class MainWindow(QMainWindow):
     #                 for column in range(self.ui.tableWidget.columnCount()):
     #                     self.ui.tableWidget.item(row, column).setBackground(QColor(255, 255, 255))  # Change color as needed
     #                     self.ui.tableWidget.item(row, column).setForeground(QColor(0, 0, 0))  # Change text color if needed
-    
-    def generate_svg_with_text(text, filename, width='100mm', height='50mm'):
+
+    def generate_svg_with_text(text, filename, width="100mm", height="50mm"):
         # Ensure width and height are strings with units
         if isinstance(width, (int, float)):
-            width = f'{width}mm'
+            width = f"{width}mm"
         if isinstance(height, (int, float)):
-            height = f'{height}mm'
-        
+            height = f"{height}mm"
+
         # Create a new SVG drawing with specified width and height
         dwg = svgwrite.Drawing(filename, size=(width, height))
-        
+
         # Add text to the SVG
-        dwg.add(dwg.text(text, insert=(10, 20), fill='black', font_family='Arial', font_size='12px'))
-        
+        dwg.add(
+            dwg.text(
+                text,
+                insert=(10, 20),
+                fill="black",
+                font_family="Arial",
+                font_size="12px",
+            )
+        )
+
         # Save the SVG file
         dwg.save()
-
-
 
     def delete_selected_rows(self):
         try:
@@ -185,8 +195,8 @@ class MainWindow(QMainWindow):
 
     def showAboutMessageBox(self):
         msg = QMessageBox()
-        msg.setWindowTitle("About")
-        msg.setText("Developer : Amir Hossein Nikravan")
+        msg.setWindowTitle("درباره")
+        msg.setText("طراح و توسعه دهنده: امیرحسین نیک روان")
         msg.exec()
         self.ui.lineEdit.setFocus()
         self.ui.lineEdit.setFocus()
@@ -222,16 +232,18 @@ class MainWindow(QMainWindow):
                 )
                 code = QTableWidgetItem(f"IMEI: {self.barcode_serial}")
                 font = QFont()
-                font.setFamily("Arial")   # Set the font family
-                font.setPointSize(12)  
+                font.setFamily("Arial")  # Set the font family
+                font.setPointSize(12)
                 code.setFont(font)
 
                 try:
                     with open(f"./images/{self.barcode_serial}.png", "wb") as f:
                         writer = ImageWriter()
                         barcode_class = barcode.get_barcode_class("code128")
-                        barcode_instance = barcode_class(f"{self.barcode_serial}", writer)
-                        barcode_instance.write(f,options=options2)
+                        barcode_instance = barcode_class(
+                            f"{self.barcode_serial}", writer
+                        )
+                        barcode_instance.write(f, options=options2)
                     with open(f"./images/{self.barcode_serial}.svg", "wb") as f:
                         writer = SVGWriter()
                         barcode_class = barcode.get_barcode_class("code128")
@@ -293,40 +305,44 @@ class MainWindow(QMainWindow):
                     item.setFlags(item.flags() & ~Qt.ItemIsEditable)
         except Exception as e:
             self.error_handler(f"Error disable editing: {e}")
+
     def handlecombo(self):
         self.data = {
-            'select':{},
-            'NOKIA 105 TA-1557 DS':{
-                '1GF019CPG6F02' : ['Cyan' ],
-                '1GF019CPA2F01' : ['Charcoal'],
-                '1GF019CPA2F02':['Charcoal']
+            "select": {},
+            "NOKIA 105 TA-1557 DS": {
+                "1GF019CPG6F02": ["Cyan"],
+                "1GF019CPA2F01": ["Charcoal"],
+                "1GF019CPA2F02": ["Charcoal"],
             },
-            'NOKIA 106TA-1564 DS':{
-                '1GF019BPA2F02': ['Charcoal'],
-                '1GF019BPJ1F02': ['Emerald Green'],
-                '1GF019BPB1F02': ['Terracotta Red']
+            "NOKIA 106TA-1564 DS": {
+                "1GF019BPA2F02": ["Charcoal"],
+                "1GF019BPJ1F02": ["Emerald Green"],
+                "1GF019BPB1F02": ["Terracotta Red"],
             },
-            'NOKIA 110TA-1567 DS':{
-                '1GF019FPA2F02' : ['Charcoal'],
-                '1GF019FPG3F02' : ['Cloudy Blue']
-            }
+            "NOKIA 110TA-1567 DS": {
+                "1GF019FPA2F02": ["Charcoal"],
+                "1GF019FPG3F02": ["Cloudy Blue"],
+            },
         }
-        
+
         self.ui.comboBox_model.addItems(self.data.keys())
         self.ui.comboBox_model.currentIndexChanged.connect(self.update_skus)
         self.ui.comboBox_sku.currentIndexChanged.connect(self.update_colors)
+
     def update_skus(self):
         selected_model = self.ui.comboBox_model.currentText()
         skus = self.data.get(selected_model, {}).keys()
         self.ui.comboBox_sku.clear()
         self.ui.comboBox_sku.addItems(skus)
         self.update_colors()
+
     def update_colors(self):
         selected_model = self.ui.comboBox_model.currentText()
         selected_sku = self.ui.comboBox_sku.currentText()
         colors = self.data.get(selected_model, {}).get(selected_sku, [])
         self.ui.comboBox_color.clear()
         self.ui.comboBox_color.addItems(colors)
+
     def handlePrint(self):
         try:
             dialog = QtPrintSupport.QPrintDialog()
@@ -339,7 +355,7 @@ class MainWindow(QMainWindow):
 
     def handlePaintRequest(self, printer):
 
-        doc = ss.Document() 
+        doc = ss.Document()
         final_layout = ss.VBoxLayout()
         try:
             model = self.ui.comboBox_model.currentText()
@@ -347,128 +363,170 @@ class MainWindow(QMainWindow):
             color = self.ui.comboBox_color.currentText()
         except Exception as e:
             self.error_handler(f"Error Handel print: {e}")
-        if model == 'select':    
+        if model == "select":
             msg_box = QtWidgets.QMessageBox(self)
             msg_box.setIcon(QtWidgets.QMessageBox.Warning)
             msg_box.setWindowTitle("هشدار")
             msg_box.setText("لطفا مدل را وارد کنید")
             msg_box.exec()
             return
-        bala_layout = ss.VBoxLayout()
+        try:
+            bala_layout = ss.VBoxLayout()
 
-        bala_layout.addSVG(f'./svgs/b{sku}.svg', alignment=ss.AlignTop | ss.AlignLeft)
-        bala_layout.addSVG(f'./svgs/{sku}.svg', alignment=ss.AlignTop | ss.AlignLeft)
-        bala_layout.addSVG(f'./svgs/blank3.svg', alignment=ss.AlignTop | ss.AlignLeft)
+            bala_layout.addSVG(f"./svgs/b{sku}.svg", alignment=ss.AlignTop | ss.AlignLeft)
+            bala_layout.addSVG(f"./svgs/{sku}.svg", alignment=ss.AlignTop | ss.AlignLeft)
+            bala_layout.addSVG(f"./svgs/blank3.svg", alignment=ss.AlignTop | ss.AlignLeft)
 
-        
-        
-        full_table_layout = ss.HBoxLayout()
-        table1_layout = ss.HBoxLayout()
-        table2_layout = ss.HBoxLayout()
-        l11 = ss.VBoxLayout()
-        l12 = ss.VBoxLayout()
-        l13 = ss.VBoxLayout()
-        l21 = ss.VBoxLayout()
-        l22 = ss.VBoxLayout()
-        l23 = ss.VBoxLayout()
-        table = self.ui.tableWidget
-        imei1 = ''
-        imei2 = ''
-        for row in range(table.rowCount()):
-            # Assuming you want to access items from the first and second columns
-            item_column1 = table.item(row, 0)  # First column item
-            item_column2 = table.item(row, 2)  # Second column item
+            full_table_layout = ss.HBoxLayout()
+            table1_layout = ss.HBoxLayout()
+            table2_layout = ss.HBoxLayout()
+            l11 = ss.VBoxLayout()
+            l12 = ss.VBoxLayout()
+            l13 = ss.VBoxLayout()
+            l21 = ss.VBoxLayout()
+            l22 = ss.VBoxLayout()
+            l23 = ss.VBoxLayout()
+        except Exception as e:
+            self.error_handler(f"Error bala_layout: {e}")
+        try:
+            table = self.ui.tableWidget
+            imei1 = ""
+            imei2 = ""
+            for row in range(table.rowCount()):
+                # Assuming you want to access items from the first and second columns
+                item_column1 = table.item(row, 0)  # First column item
+                item_column2 = table.item(row, 2)  # Second column item
 
-            if item_column1:
-                text_column1 = item_column1.text()
-                pattern = re.compile(r"IMEI\s*:\s*(\d+)", re.IGNORECASE)
-                match = pattern.search(text_column1)
-                imei_number = match.group(1) if match else ""
-                # Build the path
-                imei1 += str(imei_number)
-                path1 = f"./images/{imei_number}.svg"
-                # Print the path
-                if row == 0:
-                    l11.addSVG("./svgs/imei1.svg", alignment=ss.AlignTop | ss.AlignLeft)
-                    l11.addSVG("./svgs/blank4.svg", alignment=ss.AlignTop | ss.AlignLeft)
-                if row < 5:
-                    l12.addSVG(path1, alignment=ss.AlignTop | ss.AlignLeft)
-                else:
-                    # l3.addSVG("blank1.svg", alignment=ss.AlignTop | ss.AlignLeft)
-                    l13.addSVG(path1, alignment=ss.AlignTop | ss.AlignLeft)
+                if item_column1:
+                    text_column1 = item_column1.text()
+                    pattern = re.compile(r"IMEI\s*:\s*(\d+)", re.IGNORECASE)
+                    match = pattern.search(text_column1)
+                    imei_number = match.group(1) if match else ""
+                    # Build the path
+                    imei1 += str(imei_number)
+                    path1 = f"./images/{imei_number}.svg"
+                    # Print the path
+                    if row == 0:
+                        l11.addSVG("./svgs/imei1.svg", alignment=ss.AlignTop | ss.AlignLeft)
+                        l11.addSVG(
+                            "./svgs/blank4.svg", alignment=ss.AlignTop | ss.AlignLeft
+                        )
+                    if row < 5:
+                        l12.addSVG(path1, alignment=ss.AlignTop | ss.AlignLeft)
+                    else:
+                        # l3.addSVG("blank1.svg", alignment=ss.AlignTop | ss.AlignLeft)
+                        l13.addSVG(path1, alignment=ss.AlignTop | ss.AlignLeft)
 
-            vasat = ss.HBoxLayout()
-            vasat.addSVG("./svgs/blank2.svg", alignment=ss.AlignTop | ss.AlignLeft)
-            # Construct SVG elements for the second column
-            if item_column2:
-                text_column2 = item_column2.text()
-                pattern = re.compile(r"imei\s*:\s*(\d+)", re.IGNORECASE)
+                vasat = ss.HBoxLayout()
+                vasat.addSVG("./svgs/blank2.svg", alignment=ss.AlignTop | ss.AlignLeft)
+                # Construct SVG elements for the second column
+                if item_column2:
+                    text_column2 = item_column2.text()
+                    pattern = re.compile(r"imei\s*:\s*(\d+)", re.IGNORECASE)
 
-                # Extract number using regular expression
-                match = pattern.search(text_column2)
-                imei_number = match.group(1) if match else "t"
-                imei2 += str(imei_number)
-                # Build the path
-                path2 = f"./images/{imei_number}.svg"
-                if row == 0:
-                    l21.addSVG("./svgs/imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
-                    l21.addSVG("./svgs/blank4.svg", alignment=ss.AlignTop | ss.AlignLeft)
+                    # Extract number using regular expression
+                    match = pattern.search(text_column2)
+                    imei_number = match.group(1) if match else "t"
+                    imei2 += str(imei_number)
+                    # Build the path
+                    path2 = f"./images/{imei_number}.svg"
+                    if row == 0:
+                        l21.addSVG("./svgs/imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
+                        l21.addSVG(
+                            "./svgs/blank4.svg", alignment=ss.AlignTop | ss.AlignLeft
+                        )
 
-                if row < 5:
-                    l22.addSVG(path2, alignment=ss.AlignTop | ss.AlignLeft)
-                else:
-                    # l2.addSVG("blank1.svg", alignment=ss.AlignTop | ss.AlignLeft)
-                    l23.addSVG(path2, alignment=ss.AlignTop | ss.AlignLeft)
-        def create_qr_code(data, filename):
-            factory = qrcode.image.svg.SvgImage  # Specify SVG image factory
-            qr = qrcode.QRCode(
-                version=1,  # Controls the size of the QR Code: 1 is the smallest
-                error_correction=qrcode.constants.ERROR_CORRECT_L,  # Error correction level
-                box_size=10,  # Size of each box in pixels
-                border=4,  # Thickness of the border (default is 4)
+                    if row < 5:
+                        l22.addSVG(path2, alignment=ss.AlignTop | ss.AlignLeft)
+                    else:
+                        # l2.addSVG("blank1.svg", alignment=ss.AlignTop | ss.AlignLeft)
+                        l23.addSVG(path2, alignment=ss.AlignTop | ss.AlignLeft)
+        except Exception as e:
+            self.error_handler(f"Error output tables: {e}")
+        try:
+            def create_qr_code(data, filename):
+                factory = qrcode.image.svg.SvgImage  # Specify SVG image factory
+                qr = qrcode.QRCode(
+                    version=1,  # Controls the size of the QR Code: 1 is the smallest
+                    error_correction=qrcode.constants.ERROR_CORRECT_L,  # Error correction level
+                    box_size=10,  # Size of each box in pixels
+                    border=4,  # Thickness of the border (default is 4)
                 )
-            qr.add_data(data)
-            qr.make(fit=True)
-            img = qr.make_image(image_factory=factory)
-            img.save(filename)
-        create_qr_code(imei1, "./images/qrcode1.svg")
-        create_qr_code(imei2, "./images/qrcode2.svg")
-        full_qr_layout = ss.HBoxLayout()
-        full_qr_layout.addSVG("./svgs/blankbefore.svg", alignment=ss.AlignTop | ss.AlignLeft)
+                qr.add_data(data)
+                qr.make(fit=True)
+                img = qr.make_image(image_factory=factory)
+                img.save(filename)
 
-        full_qr_layout.addSVG("./images/qrcode1.svg", alignment=ss.AlignTop | ss.AlignLeft)
-        full_qr_layout.addSVG("./svgs/blank1.svg", alignment=ss.AlignTop | ss.AlignLeft)
-        full_qr_layout.addSVG("./images/qrcode2.svg", alignment=ss.AlignTop | ss.AlignLeft)
-        
-        table1_layout.addLayout(l11)
-        table1_layout.addLayout(l13)
-        table1_layout.addLayout(l12)
-        table2_layout.addLayout(l21)
-        table2_layout.addLayout(l22)
-        table2_layout.addLayout(l23)
-        full_table_layout.addLayout(table1_layout)
-        full_table_layout.addLayout(vasat)
+            create_qr_code(imei1, "./images/qrcode1.svg")
+            create_qr_code(imei2, "./images/qrcode2.svg")
+            full_qr_layout = ss.HBoxLayout()
+            full_qr_layout.addSVG(
+                "./svgs/blankbefore.svg", alignment=ss.AlignTop | ss.AlignLeft
+            )
 
-        full_table_layout.addLayout(table2_layout)
-        final_layout.addLayout(bala_layout)
-        final_layout.addLayout(full_table_layout)
-        final_layout.addLayout(full_qr_layout)
-        doc.setLayout(final_layout)
+            full_qr_layout.addSVG(
+                "./images/qrcode1.svg", alignment=ss.AlignTop | ss.AlignLeft
+            )
+            full_qr_layout.addSVG("./svgs/blank1.svg", alignment=ss.AlignTop | ss.AlignLeft)
+            full_qr_layout.addSVG(
+                "./images/qrcode2.svg", alignment=ss.AlignTop | ss.AlignLeft
+            )
+        except Exception as e:
+            self.error_handler(f"Error creating Qr code: {e}")
+        try:
+            table1_layout.addLayout(l11)
+            table1_layout.addLayout(l13)
+            table1_layout.addLayout(l12)
+            table2_layout.addLayout(l21)
+            table2_layout.addLayout(l22)
+            table2_layout.addLayout(l23)
+            full_table_layout.addLayout(table1_layout)
+            full_table_layout.addLayout(vasat)
 
-        doc.save("qt_api_test.svg")
+            full_table_layout.addLayout(table2_layout)
+            final_layout.addLayout(bala_layout)
+            final_layout.addLayout(full_table_layout)
+            final_layout.addLayout(full_qr_layout)
+            doc.setLayout(final_layout)
+
+            doc.save("qt_api_test.svg")
+        except Exception as e:
+            self.error_handler(f"Error creating layout: {e}")
         # os.startfile('qt_api_test.svg')
 
-
         # Function to convert SVG to PDF
-        def svg_to_pdf(input_svg_path, output_pdf_path):
-            drawing = svg2rlg(input_svg_path)
-            renderPDF.drawToFile(drawing, output_pdf_path)
 
         # Example usage
-        input_svg = "qt_api_test.svg"
-        output_pdf = "output.pdf"
-        svg_to_pdf(input_svg, output_pdf)
-
+        # input_svg = "qt_api_test.svg"
+        # output_pdf = "output.pdf"
+        try:
+            self.convert_svg_to_pdf()
+        except Exception as e:
+            self.error_handler(f"Error convert_svg_to_pdf: {e}")
+    def svg_to_pdf(self, input_svg_path, output_pdf_path):
+        try:
+            drawing = svg2rlg(input_svg_path)
+            renderPDF.drawToFile(drawing, output_pdf_path)
+        except Exception as e:
+            self.error_handler(f"Error svg_to_pdf: {e}")
+    def save_file_dialog(self):
+        try:
+            options = QFileDialog.Options()
+            options |= QFileDialog.DontUseNativeDialog
+            file_path, _ = QFileDialog.getSaveFileName(
+                self, "Save PDF", "", "PDF Files (*.pdf);;All Files (*)", options=options
+            )
+            return file_path
+        except Exception as e:
+            self.error_handler(f"Error save file dialog: {e}")
+    def convert_svg_to_pdf(self):
+        try:
+            input_svg = "qt_api_test.svg"  # Your SVG file
+            output_pdf = f'{self.save_file_dialog()}.pdf'  # Get save file path from dialog
+            if output_pdf:
+                self.svg_to_pdf(input_svg, output_pdf)
+        except Exception as e:
+            self.error_handler(f"Error convert svg to pdf: {e}")   
 
     def disable_scanning(self):
         try:

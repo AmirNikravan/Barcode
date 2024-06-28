@@ -24,7 +24,7 @@
     <normaloff>:/icons/Icons/mainicon.png</normaloff>:/icons/Icons/mainicon.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(188, 188, 188);</string>
+   <string notr="true">background-color: rgb(255, 230, 221);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
@@ -42,14 +42,9 @@ background-color: rgb(210, 187, 117);
 border-radius:5px;
 }
 QComboBox QAbstractItemView {
-    selection-background-color: #0078d7; /* Selected item background color */
+    selection-background-color:red; /* Selected item background color */
 }
-            QTableWidget::viewport {
-                background-color: lightgray; /* Background color of the scroll area */
-            }
-            QScrollBar:vertical {
-                background-color: #F5F5F5; /* Background color of the vertical scrollbar */
-            }</string>
+</string>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
@@ -183,6 +178,7 @@ QComboBox QAbstractItemView {
         <property name="font">
          <font>
           <family>Nirmala UI Semilight</family>
+          <pointsize>11</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -233,7 +229,7 @@ QComboBox QAbstractItemView {
        <widget class="QComboBox" name="comboBox_color">
         <property name="minimumSize">
          <size>
-          <width>100</width>
+          <width>104</width>
           <height>27</height>
          </size>
         </property>
@@ -241,6 +237,11 @@ QComboBox QAbstractItemView {
       </item>
       <item>
        <widget class="QLabel" name="label_5">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>رنگ:</string>
         </property>
@@ -274,6 +275,11 @@ QComboBox QAbstractItemView {
       </item>
       <item>
        <widget class="QLabel" name="label_6">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>:SKU</string>
         </property>
@@ -299,7 +305,7 @@ QComboBox QAbstractItemView {
        <widget class="QComboBox" name="comboBox_model">
         <property name="minimumSize">
          <size>
-          <width>69</width>
+          <width>76</width>
           <height>27</height>
          </size>
         </property>
@@ -310,6 +316,11 @@ QComboBox QAbstractItemView {
       </item>
       <item>
        <widget class="QLabel" name="label_4">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>مدل:</string>
         </property>
@@ -590,7 +601,7 @@ border-radius:10px
   </widget>
   <action name="actionAbout">
    <property name="text">
-    <string>About</string>
+    <string>درباره</string>
    </property>
   </action>
  </widget>

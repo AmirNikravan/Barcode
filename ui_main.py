@@ -32,7 +32,7 @@ class Ui_MainWindow(object):
         icon = QIcon()
         icon.addFile(u":/icons/Icons/mainicon.png", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
-        MainWindow.setStyleSheet(u"background-color: rgb(188, 188, 188);")
+        MainWindow.setStyleSheet(u"background-color: rgb(255, 230, 221);")
         self.actionAbout = QAction(MainWindow)
         self.actionAbout.setObjectName(u"actionAbout")
         self.centralwidget = QWidget(MainWindow)
@@ -51,14 +51,9 @@ class Ui_MainWindow(object):
 "border-radius:5px;\n"
 "}\n"
 "QComboBox QAbstractItemView {\n"
-"    selection-background-color: #0078d7; /* Selected item background color */\n"
+"    selection-background-color:red; /* Selected item background color */\n"
 "}\n"
-"            QTableWidget::viewport {\n"
-"                background-color: lightgray; /* Background color of the scroll area */\n"
-"            }\n"
-"            QScrollBar:vertical {\n"
-"                background-color: #F5F5F5; /* Background color of the vertical scrollbar */\n"
-"            }")
+"")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.label = QLabel(self.centralwidget)
@@ -120,6 +115,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox.setMinimumSize(QSize(132, 21))
         font2 = QFont()
         font2.setFamilies([u"Nirmala UI Semilight"])
+        font2.setPointSize(11)
         font2.setBold(False)
         self.doubleSpinBox.setFont(font2)
         self.doubleSpinBox.setMaximum(10.000000000000000)
@@ -142,12 +138,13 @@ class Ui_MainWindow(object):
 
         self.comboBox_color = QComboBox(self.centralwidget)
         self.comboBox_color.setObjectName(u"comboBox_color")
-        self.comboBox_color.setMinimumSize(QSize(100, 27))
+        self.comboBox_color.setMinimumSize(QSize(104, 27))
 
         self.horizontalLayout_2.addWidget(self.comboBox_color)
 
         self.label_5 = QLabel(self.centralwidget)
         self.label_5.setObjectName(u"label_5")
+        self.label_5.setFont(font3)
 
         self.horizontalLayout_2.addWidget(self.label_5)
 
@@ -163,6 +160,9 @@ class Ui_MainWindow(object):
 
         self.label_6 = QLabel(self.centralwidget)
         self.label_6.setObjectName(u"label_6")
+        font4 = QFont()
+        font4.setPointSize(12)
+        self.label_6.setFont(font4)
 
         self.horizontalLayout_2.addWidget(self.label_6)
 
@@ -172,13 +172,14 @@ class Ui_MainWindow(object):
 
         self.comboBox_model = QComboBox(self.centralwidget)
         self.comboBox_model.setObjectName(u"comboBox_model")
-        self.comboBox_model.setMinimumSize(QSize(69, 27))
+        self.comboBox_model.setMinimumSize(QSize(76, 27))
         self.comboBox_model.setStyleSheet(u"")
 
         self.horizontalLayout_2.addWidget(self.comboBox_model)
 
         self.label_4 = QLabel(self.centralwidget)
         self.label_4.setObjectName(u"label_4")
+        self.label_4.setFont(font4)
 
         self.horizontalLayout_2.addWidget(self.label_4)
 
@@ -218,11 +219,11 @@ class Ui_MainWindow(object):
         self.label_2 = QLabel(self.centralwidget)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setMinimumSize(QSize(0, 50))
-        font4 = QFont()
-        font4.setFamilies([u"Arial"])
-        font4.setPointSize(18)
-        font4.setBold(True)
-        self.label_2.setFont(font4)
+        font5 = QFont()
+        font5.setFamilies([u"Arial"])
+        font5.setPointSize(18)
+        font5.setBold(True)
+        self.label_2.setFont(font5)
         self.label_2.setStyleSheet(u"border-radius:5px;\n"
 "color: rgb(67, 86, 92);\n"
 "")
@@ -285,9 +286,7 @@ class Ui_MainWindow(object):
         self.toolButton_print.setObjectName(u"toolButton_print")
         self.toolButton_print.setMinimumSize(QSize(80, 0))
         self.toolButton_print.setMaximumSize(QSize(78, 16777215))
-        font5 = QFont()
-        font5.setPointSize(12)
-        self.toolButton_print.setFont(font5)
+        self.toolButton_print.setFont(font4)
         icon4 = QIcon()
         icon4.addFile(u"Icons/print.png", QSize(), QIcon.Normal, QIcon.Off)
         self.toolButton_print.setIcon(icon4)
@@ -317,7 +316,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.actionAbout.setText(QCoreApplication.translate("MainWindow", u"About", None))
+        self.actionAbout.setText(QCoreApplication.translate("MainWindow", u"\u062f\u0631\u0628\u0627\u0631\u0647", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"IMEI SCANNER", None))
         self.pushButton_clear.setText(QCoreApplication.translate("MainWindow", u"\u062d\u0630\u0641 \u062c\u062f\u0648\u0644", None))
         self.toolButton_deleterow.setText(QCoreApplication.translate("MainWindow", u"\u062d\u0630\u0641 \u0633\u0637\u0631", None))
