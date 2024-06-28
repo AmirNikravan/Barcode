@@ -349,17 +349,10 @@ class MainWindow(QMainWindow):
             return
         bala_layout = ss.VBoxLayout()
 
-        bala_layout.addSVG(f'./svgs/{model}.svg', alignment=ss.AlignTop | ss.AlignLeft)
-        bala_layout.addSVG(f'./svgs/Cyan.svg',alignment=ss.AlignTop | ss.AlignLeft)
-        bala_layout.addSVG(f'./svgs/payam (8) (1) (1) (1).svg', alignment=ss.AlignTop | ss.AlignLeft)
-        bala_layout.addSVG(f'./svgs/6438409092069.svg', alignment=ss.AlignTop | ss.AlignLeft)
+        bala_layout.addSVG(f'./svgs/b{sku}.svg', alignment=ss.AlignTop | ss.AlignLeft)
+        bala_layout.addSVG(f'./svgs/{sku}.svg', alignment=ss.AlignTop | ss.AlignLeft)
         bala_layout.addSVG(f'./svgs/blank3.svg', alignment=ss.AlignTop | ss.AlignLeft)
-        # bala_layout.addSVG("imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
-        # bala_layout.addSVG("imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
-        # bala_layout.addSVG("imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
-        # bala_layout.addSVG("imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
-        # bala_layout.addSVG("imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
-        
+
         
         
         full_table_layout = ss.HBoxLayout()
