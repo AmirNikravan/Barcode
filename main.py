@@ -196,7 +196,7 @@ class MainWindow(QMainWindow):
     def showAboutMessageBox(self):
         msg = QMessageBox()
         msg.setWindowTitle("درباره")
-        msg.setText("طراح و توسعه دهنده: امیرحسین نیک روان")
+        msg.setText ("طراح و توسعه دهنده : <a href='https://www.linkedin.com/in/amir-hossein-nikravan-92877b232/'>امیر حسین نیک روان</a>")
         msg.exec()
         self.ui.lineEdit.setFocus()
         self.ui.lineEdit.setFocus()
@@ -345,6 +345,7 @@ class MainWindow(QMainWindow):
 
     def handlePrint(self):
         try:
+
             dialog = QtPrintSupport.QPrintDialog()
             if dialog.exec() == QtWidgets.QDialog.Accepted:
                 self.handlePaintRequest(dialog.printer())

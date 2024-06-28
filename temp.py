@@ -1,41 +1,41 @@
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QSizePolicy
-from PySide6.QtSvgWidgets import QSvgWidget
-from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QMessageBox, QVBoxLayout, QWidget, QLabel
+from PySide6.QtGui import *
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("SVG Preview")
+        self.setWindowTitle("Clickable Link in QMessageBox")
+        self.setGeometry(100, 100, 400, 200)
 
-        # Create a central widget and set the layout
-        central_widget = QWidget()
-        layout = QVBoxLayout(central_widget)
-        self.setCentralWidget(central_widget)
+        # Main widget and layout
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
+        self.layout = QVBoxLayout(self.central_widget)
 
-        # Create an SVG widget
-        self.svg_widget = QSvgWidget()
-        layout.addWidget(self.svg_widget)
+        # Button to show QMessageBox
+        self.show_message_button = QPushButton("Show Message Box")
+        self.show_message_button.clicked.connect(self.show_message_box)
+        self.layout.addWidget(self.show_message_button)
 
-        # Load an SVG file
-        svg_file_path = "path/to/your/file.svg"  # Replace with your SVG file path
-        self.svg_widget.load(svg_file_path)
+    def show_message_box(self):
+        # Create a QMessageBox
+        msg_box = QMessageBox()
+        msg_box.setWindowTitle("Message Box with Link")
+        msg_box.setIcon(QMessageBox.Information)
 
-        self.resize(800, 600)
+        # Set the message text with HTML to create a link
+        msg_box.setTextFormat(Qt.TextFormat.RichText)
+        msg_box.setText("This is a <a href='https://www.example.com'>link</a> in a QMessageBox.")
 
-        # Ensure proper scaling for high DPI displays
-        self.svg_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.svg_widget.setScaledContents(True)
-        self.svg_widget.setAspectRatioMode(Qt.KeepAspectRatio)
+        # Set other buttons and execute
+        msg_box.setStandardButtons(QMessageBox.Ok)
+        msg_box.exec()
 
-# Run the application
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     app = QApplication(sys.argv)
-
-    # Enable high DPI scaling
-    app.setAttribute(Qt.AA_EnableHighDpiScaling)
-
     window = MainWindow()
     window.show()
     sys.exit(app.exec())
