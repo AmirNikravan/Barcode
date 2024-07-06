@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="icons">
+    <file>Icons/icons8-user-40.png</file>
+    <file>Icons/icons8-barcode-64 (1).png</file>
     <file>Icons/print.png</file>
     <file>Icons/preview.png</file>
     <file>Icons/mainicon.png</file>
