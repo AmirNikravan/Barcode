@@ -33,7 +33,7 @@ from AddUser import *
 from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPDF
 from db import DataBase
-
+from EditUser import EditUser
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         self.barcodes = []
@@ -52,6 +52,7 @@ class MainWindow(QMainWindow):
         self.ui.toolButton_deleterow.clicked.connect(self.delete_selected_rows)
         self.ui.toolButton_newuser.clicked.connect(self.adduser)
         self.ui.toolButton_deleteuser.clicked.connect(self.delete_selected_rows2)
+        self.ui.toolButton_edituser.clicked.connect(self.edituser)
         # self.ui.tableWidget.itemSelectionChanged.connect(self.changeRowColor)
         # table config
         self.ui.tableWidget.setColumnWidth(0, 180)
@@ -118,7 +119,24 @@ class MainWindow(QMainWindow):
         dialog = QDialog(self)
         ui = AddUser(dialog,self.ui.tableWidget_list_users,self.database)
         dialog.exec()
-
+    def edituser(self):
+        selected_items = self.ui.tableWidget_list_users.selectedItems()
+        if not selected_items:
+            QMessageBox.warning(self, "سطر انتخاب نشده", "لطفا یک کاربر را برای ویرایش انتخاب کنید")
+            return
+        dialog = QDialog(self)
+        ui = EditUser(dialog,self.ui.tableWidget_list_users,self.database,selected_items)
+        dialog.exec()
+        # if ui.exec():
+        #     self.refresh_table()
+    def refresh_table(self):
+        rows = self.database.fetch_all()
+        self.ui.tableWidget_list_users.setRowCount(len(rows))
+        self.ui.tableWidget_list_users.setColumnCount(len(rows[0]))
+        for row_idx, row_data in enumerate(rows):
+            for col_idx, col_data in enumerate(row_data):
+                item = QTableWidgetItem(str(col_data))
+                self.ui.tableWidget_list_users.setItem(row_idx, col_idx, item)
     def navigation(self, text):
         if text == "scan":
             self.ui.stackedWidget.setCurrentIndex(0)

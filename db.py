@@ -72,3 +72,42 @@ class DataBase(QWidget):
         # Ensure connection is closed when object is deleted
         if hasattr(self, 'connection'):
             self.connect.close()
+    def fetch_user(self, username):
+        try:
+            self.cursor.execute("SELECT first_name, last_name, username, password, pmodel, puser, pgozaresh, ptoolid, pdb FROM user WHERE username = ?", (username,))
+            row = self.cursor.fetchone()
+            if row:
+                return {
+                    'first_name': row[0],
+                    'last_name': row[1],
+                    'username': row[2],
+                    'password': row[3],
+                    'pmodel': row[4],
+                    'puser': row[5],
+                    'pgozaresh': row[6],
+                    'ptoolid': row[7],
+                    'pdb': row[8]
+                }
+            return None
+        except Exception as e:
+            print(f"Error fetching user: {e}")
+            return None
+    def update_user(self, user_info):
+        try:
+            self.cursor.execute("""
+                UPDATE user SET
+                    first_name = ?,
+                    last_name = ?,
+                    password = ?,
+                    pmodel = ?,
+                    puser = ?,
+                    pgozaresh = ?,
+                    ptoolid = ?,
+                    pdb = ?
+                WHERE username = ?
+            """, (user_info['first_name'], user_info['last_name'], user_info['password'],
+                  user_info['pmodel'], user_info['puser'], user_info['pgozaresh'],
+                  user_info['ptoolid'], user_info['pdb'], user_info['username']))
+            self.connect.commit()
+        except Exception as e:
+            print(f"Error updating user: {e}")
