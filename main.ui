@@ -642,7 +642,7 @@ border-radius:10px
            <string>مدیریت کاربران</string>
           </property>
          </widget>
-         <widget class="QTableWidget" name="tableWidget_2">
+         <widget class="QTableWidget" name="tableWidget_list_users">
           <property name="geometry">
            <rect>
             <x>40</x>

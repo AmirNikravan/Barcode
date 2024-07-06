@@ -6,7 +6,7 @@ from PySide6.QtWidgets import (
     QTableWidgetItem,
     QErrorMessage,
     QFileDialog,
-    QDialog
+    QDialog,
 )
 import traceback
 import sys, os
@@ -32,17 +32,18 @@ import svgwrite
 from AddUser import *
 from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPDF
-
+from db import DataBase
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         self.barcodes = []
         super().__init__(parent)
         self.ui = Ui_MainWindow()
+        self.database = DataBase()
         self.ui.setupUi(self)
         # signals
-        self.ui.toolButton_navigscan.clicked.connect(lambda:self.navigation('scan'))
-        self.ui.toolButton_naviguser.clicked.connect(lambda:self.navigation('user'))
+        self.ui.toolButton_navigscan.clicked.connect(lambda: self.navigation("scan"))
+        self.ui.toolButton_naviguser.clicked.connect(lambda: self.navigation("user"))
         self.ui.pushButton_scan.clicked.connect(self.barcode_scan)
         self.ui.toolButton_print.clicked.connect(self.handlePrint)
         self.ui.lineEdit.returnPressed.connect(self.barcode_scan)
@@ -50,6 +51,7 @@ class MainWindow(QMainWindow):
         self.ui.actionAbout.triggered.connect(self.showAboutMessageBox)
         self.ui.toolButton_deleterow.clicked.connect(self.delete_selected_rows)
         self.ui.toolButton_newuser.clicked.connect(self.adduser)
+        self.ui.toolButton_deleteuser.clicked.connect(self.delete_selected_rows2)
         # self.ui.tableWidget.itemSelectionChanged.connect(self.changeRowColor)
         # table config
         self.ui.tableWidget.setColumnWidth(0, 180)
@@ -67,29 +69,63 @@ class MainWindow(QMainWindow):
         self.scan_timer.setSingleShot(True)
         self.scan_timer.timeout.connect(self.enable_scanning)
         self.handlecombo()
+        self.show_table()
+    def show_table(self):
+            rows = self.database.fetch_all()
+            if not rows :
+                return
+            self.ui.tableWidget_list_users.setRowCount(len(rows))
+            self.ui.tableWidget_list_users.setColumnCount(len(rows[0]))
+            for row_idx, row_data in enumerate(rows):
+                    for col_idx, col_data in enumerate(row_data):
+                        item = QTableWidgetItem(str(col_data))
+                        self.ui.tableWidget_list_users.setItem(row_idx, col_idx, item)
+            
+    def delete_selected_rows2(self):
+        selected_ranges = self.ui.tableWidget_list_users.selectedRanges()
+        if not selected_ranges:
+            QMessageBox.warning(self, "سطر انتخاب نشده", "لطفا کاربر مورد نظر را انتخاب کنید")
+            return
+
+        msg_box = QMessageBox(self)
+        msg_box.setIcon(QMessageBox.Warning)
+        msg_box.setWindowTitle("هشدار")
+        msg_box.setText("آیا میخواهید کاربر مورد نظر را حذف کنید؟")
+        accept_button = msg_box.addButton("حذف", QMessageBox.AcceptRole)
+        msg_box.addButton("لغو", QMessageBox.RejectRole)
+        msg_box.exec()
+
+        if msg_box.clickedButton() == accept_button:
+            rows_to_delete = set()
+
+            for selected_range in selected_ranges:
+                for row in range(selected_range.topRow(), selected_range.bottomRow() + 1):
+                    rows_to_delete.add(row)
+
+            try:
+                for row in sorted(rows_to_delete, reverse=True):
+                    username_item = self.ui.tableWidget_list_users.item(row, 2)  # Assuming username is in column index 2
+                    if username_item is not None:
+                        username = username_item.text()
+                        if username:
+                            self.database.delete_user(username)
+                            self.ui.tableWidget_list_users.removeRow(row)
+            except Exception as e:
+                QMessageBox.critical(self, "خطا در حذف", f"خطا در حذف کاربر از پایگاه داده: {str(e)}")
+
+            QMessageBox.information(self, "حذف", "کاربر مورد نظر با موفقیت حذف شد")
     def adduser(self):
         dialog = QDialog(self)
-        ui = AddUser(dialog)
+        ui = AddUser(dialog,self.ui.tableWidget_list_users,self.database)
         dialog.exec()
-    def navigation(self,text):
-        if text == 'scan':
-            self.ui.stackedWidget.setCurrentIndex(0)
-        if text == 'user':
-            self.ui.stackedWidget.setCurrentIndex(1)
-        
-    # def changeRowColor(self):
-    #     selected_items = self.ui.tableWidget.selectedItems()
-    #     if selected_items:
-    #         selected_row = selected_items[0].row()
-    #         for column in range(self.ui.tableWidget.columnCount()):
-    #             self.ui.tableWidget.item(selected_row, column).setBackground(QColor(255, 0, 0))  # Change color as needed
-    #             self.ui.tableWidget.item(selected_row, column).setForeground(QColor(255, 255, 255))  # Change text color if needed
 
-    #         for row in range(self.ui.tableWidget.rowCount()):
-    #             if row != selected_row:
-    #                 for column in range(self.ui.tableWidget.columnCount()):
-    #                     self.ui.tableWidget.item(row, column).setBackground(QColor(255, 255, 255))  # Change color as needed
-    #                     self.ui.tableWidget.item(row, column).setForeground(QColor(0, 0, 0))  # Change text color if needed
+    def navigation(self, text):
+        if text == "scan":
+            self.ui.stackedWidget.setCurrentIndex(0)
+        if text == "user":
+            self.ui.stackedWidget.setCurrentIndex(1)
+
+
 
     def generate_svg_with_text(text, filename, width="100mm", height="50mm"):
         # Ensure width and height are strings with units
@@ -210,20 +246,22 @@ class MainWindow(QMainWindow):
     def showAboutMessageBox(self):
         msg = QMessageBox()
         msg.setWindowTitle("درباره")
-        msg.setText ("طراح و توسعه دهنده : <a href='https://www.linkedin.com/in/amir-hossein-nikravan-92877b232/'>امیر حسین نیک روان</a>")
+        msg.setText(
+            "طراح و توسعه دهنده : <a href='https://www.linkedin.com/in/amir-hossein-nikravan-92877b232/'>امیر حسین نیک روان</a>"
+        )
         msg.exec()
         self.ui.lineEdit.setFocus()
         self.ui.lineEdit.setFocus()
 
     def barcode_scan(self):
         try:
-            
+
             try:
                 self.barcode_serial = self.ui.lineEdit.text()
             except Exception as e:
                 self.error_handler(f"Error Line Edit: {e}")
             self.ui.lineEdit.clear()
-            if (self.ui.tableWidget.rowCount()>10):
+            if self.ui.tableWidget.rowCount() > 10:
                 return
             barcode.base.Barcode.default_writer_options["write_text"] = False
             if self.barcode_serial:
@@ -235,7 +273,7 @@ class MainWindow(QMainWindow):
                     "quiet_zone": 5,
                     "text_distance": 5,
                     "font_size": 12,
-                    "font_path":'ARIAL.TTF'
+                    "font_path": "ARIAL.TTF",
                 }
                 options2 = {
                     "dpi": 2000,
@@ -244,7 +282,7 @@ class MainWindow(QMainWindow):
                     "quiet_zone": 1.5,
                     "text_distance": 0.3,
                     "font_size": 0.7,
-                    "font_path":'ARIAL.TTF'
+                    "font_path": "ARIAL.TTF",
                 }
                 barcode.base.Barcode.default_writer_options["text"] = (
                     f"IMEI: {self.barcode_serial}"
@@ -258,7 +296,7 @@ class MainWindow(QMainWindow):
                 try:
                     with open(f"./images/{self.barcode_serial}.png", "wb") as f:
                         writer = ImageWriter()
-                        
+
                         barcode_class = barcode.get_barcode_class("code128")
                         barcode_instance = barcode_class(
                             f"{self.barcode_serial}", writer
@@ -274,10 +312,10 @@ class MainWindow(QMainWindow):
                         barcode_instance = barcode_class(
                             f"{self.barcode_serial}", writer
                         )
-                        
+
                         barcode_instance.write(f, options=options)
-                        
-                         # Print detailed traceback for debuggin
+
+                        # Print detailed traceback for debuggin
                         self.barcodes.append(self.barcode_serial)
 
                 except Exception as e:
@@ -401,9 +439,15 @@ class MainWindow(QMainWindow):
         try:
             bala_layout = ss.VBoxLayout()
 
-            bala_layout.addSVG(f"./svgs/b{sku}.svg", alignment=ss.AlignTop | ss.AlignLeft)
-            bala_layout.addSVG(f"./svgs/{sku}.svg", alignment=ss.AlignTop | ss.AlignLeft)
-            bala_layout.addSVG(f"./svgs/blank3.svg", alignment=ss.AlignTop | ss.AlignLeft)
+            bala_layout.addSVG(
+                f"./svgs/b{sku}.svg", alignment=ss.AlignTop | ss.AlignLeft
+            )
+            bala_layout.addSVG(
+                f"./svgs/{sku}.svg", alignment=ss.AlignTop | ss.AlignLeft
+            )
+            bala_layout.addSVG(
+                f"./svgs/blank3.svg", alignment=ss.AlignTop | ss.AlignLeft
+            )
 
             full_table_layout = ss.HBoxLayout()
             table1_layout = ss.HBoxLayout()
@@ -435,7 +479,9 @@ class MainWindow(QMainWindow):
                     path1 = f"./images/{imei_number}.svg"
                     # Print the path
                     if row == 0:
-                        l11.addSVG("./svgs/imei1.svg", alignment=ss.AlignTop | ss.AlignLeft)
+                        l11.addSVG(
+                            "./svgs/imei1.svg", alignment=ss.AlignTop | ss.AlignLeft
+                        )
                         l11.addSVG(
                             "./svgs/blank4.svg", alignment=ss.AlignTop | ss.AlignLeft
                         )
@@ -459,7 +505,9 @@ class MainWindow(QMainWindow):
                     # Build the path
                     path2 = f"./images/{imei_number}.svg"
                     if row == 0:
-                        l21.addSVG("./svgs/imei2.svg", alignment=ss.AlignTop | ss.AlignLeft)
+                        l21.addSVG(
+                            "./svgs/imei2.svg", alignment=ss.AlignTop | ss.AlignLeft
+                        )
                         l21.addSVG(
                             "./svgs/blank4.svg", alignment=ss.AlignTop | ss.AlignLeft
                         )
@@ -472,6 +520,7 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self.error_handler(f"Error output tables: {e}")
         try:
+
             def create_qr_code(data, filename):
                 factory = qrcode.image.svg.SvgImage  # Specify SVG image factory
                 qr = qrcode.QRCode(
@@ -495,7 +544,9 @@ class MainWindow(QMainWindow):
             full_qr_layout.addSVG(
                 "./images/qrcode1.svg", alignment=ss.AlignTop | ss.AlignLeft
             )
-            full_qr_layout.addSVG("./svgs/blank1.svg", alignment=ss.AlignTop | ss.AlignLeft)
+            full_qr_layout.addSVG(
+                "./svgs/blank1.svg", alignment=ss.AlignTop | ss.AlignLeft
+            )
             full_qr_layout.addSVG(
                 "./images/qrcode2.svg", alignment=ss.AlignTop | ss.AlignLeft
             )
@@ -531,30 +582,39 @@ class MainWindow(QMainWindow):
             self.convert_svg_to_pdf()
         except Exception as e:
             self.error_handler(f"Error convert_svg_to_pdf: {e}")
+
     def svg_to_pdf(self, input_svg_path, output_pdf_path):
         try:
             drawing = svg2rlg(input_svg_path)
             renderPDF.drawToFile(drawing, output_pdf_path)
         except Exception as e:
             self.error_handler(f"Error svg_to_pdf: {e}")
+
     def save_file_dialog(self):
         try:
             options = QFileDialog.Options()
             options |= QFileDialog.DontUseNativeDialog
             file_path, _ = QFileDialog.getSaveFileName(
-                self, "Save PDF", "", "PDF Files (*.pdf);;All Files (*)", options=options
+                self,
+                "Save PDF",
+                "",
+                "PDF Files (*.pdf);;All Files (*)",
+                options=options,
             )
             return file_path
         except Exception as e:
             self.error_handler(f"Error save file dialog: {e}")
+
     def convert_svg_to_pdf(self):
         try:
             input_svg = "qt_api_test.svg"  # Your SVG file
-            output_pdf = f'{self.save_file_dialog()}.pdf'  # Get save file path from dialog
+            output_pdf = (
+                f"{self.save_file_dialog()}.pdf"  # Get save file path from dialog
+            )
             if output_pdf:
                 self.svg_to_pdf(input_svg, output_pdf)
         except Exception as e:
-            self.error_handler(f"Error convert svg to pdf: {e}")   
+            self.error_handler(f"Error convert svg to pdf: {e}")
 
     def disable_scanning(self):
         try:

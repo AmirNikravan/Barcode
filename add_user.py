@@ -109,30 +109,30 @@ class Ui_Dialog(object):
 
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.checkBox_5 = QCheckBox(Dialog)
-        self.checkBox_5.setObjectName(u"checkBox_5")
+        self.checkBox_db = QCheckBox(Dialog)
+        self.checkBox_db.setObjectName(u"checkBox_db")
 
-        self.horizontalLayout_5.addWidget(self.checkBox_5)
+        self.horizontalLayout_5.addWidget(self.checkBox_db)
 
-        self.checkBox_4 = QCheckBox(Dialog)
-        self.checkBox_4.setObjectName(u"checkBox_4")
+        self.checkBox_tolid = QCheckBox(Dialog)
+        self.checkBox_tolid.setObjectName(u"checkBox_tolid")
 
-        self.horizontalLayout_5.addWidget(self.checkBox_4)
+        self.horizontalLayout_5.addWidget(self.checkBox_tolid)
 
-        self.checkBox_3 = QCheckBox(Dialog)
-        self.checkBox_3.setObjectName(u"checkBox_3")
+        self.checkBox_gozaresh = QCheckBox(Dialog)
+        self.checkBox_gozaresh.setObjectName(u"checkBox_gozaresh")
 
-        self.horizontalLayout_5.addWidget(self.checkBox_3)
+        self.horizontalLayout_5.addWidget(self.checkBox_gozaresh)
 
-        self.checkBox_2 = QCheckBox(Dialog)
-        self.checkBox_2.setObjectName(u"checkBox_2")
+        self.checkBox_user = QCheckBox(Dialog)
+        self.checkBox_user.setObjectName(u"checkBox_user")
 
-        self.horizontalLayout_5.addWidget(self.checkBox_2)
+        self.horizontalLayout_5.addWidget(self.checkBox_user)
 
-        self.checkBox = QCheckBox(Dialog)
-        self.checkBox.setObjectName(u"checkBox")
+        self.checkBox_model = QCheckBox(Dialog)
+        self.checkBox_model.setObjectName(u"checkBox_model")
 
-        self.horizontalLayout_5.addWidget(self.checkBox)
+        self.horizontalLayout_5.addWidget(self.checkBox_model)
 
         self.label_6 = QLabel(Dialog)
         self.label_6.setObjectName(u"label_6")
@@ -179,11 +179,11 @@ class Ui_Dialog(object):
         self.label_3.setText(QCoreApplication.translate("Dialog", u"\u0646\u0627\u0645 \u062e\u0627\u0646\u0648\u0627\u062f\u06af\u06cc :", None))
         self.label_4.setText(QCoreApplication.translate("Dialog", u":Username", None))
         self.label_5.setText(QCoreApplication.translate("Dialog", u":Password", None))
-        self.checkBox_5.setText(QCoreApplication.translate("Dialog", u"\u0645\u062f\u06cc\u0631\u06cc\u062a \u062f\u06cc\u062a\u0627\u0628\u06cc\u0633", None))
-        self.checkBox_4.setText(QCoreApplication.translate("Dialog", u"\u062a\u0648\u0644\u06cc\u062f \u062c\u0639\u0628\u0647", None))
-        self.checkBox_3.setText(QCoreApplication.translate("Dialog", u"\u06af\u0632\u0627\u0631\u0634 \u06af\u06cc\u0631\u06cc", None))
-        self.checkBox_2.setText(QCoreApplication.translate("Dialog", u"\u0645\u062f\u06cc\u0631\u06cc\u062a \u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
-        self.checkBox.setText(QCoreApplication.translate("Dialog", u"\u062a\u063a\u06cc\u06cc\u0631 \u0645\u062f\u0644", None))
+        self.checkBox_db.setText(QCoreApplication.translate("Dialog", u"\u0645\u062f\u06cc\u0631\u06cc\u062a \u062f\u06cc\u062a\u0627\u0628\u06cc\u0633", None))
+        self.checkBox_tolid.setText(QCoreApplication.translate("Dialog", u"\u062a\u0648\u0644\u06cc\u062f \u062c\u0639\u0628\u0647", None))
+        self.checkBox_gozaresh.setText(QCoreApplication.translate("Dialog", u"\u06af\u0632\u0627\u0631\u0634 \u06af\u06cc\u0631\u06cc", None))
+        self.checkBox_user.setText(QCoreApplication.translate("Dialog", u"\u0645\u062f\u06cc\u0631\u06cc\u062a \u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
+        self.checkBox_model.setText(QCoreApplication.translate("Dialog", u"\u062a\u063a\u06cc\u06cc\u0631 \u0645\u062f\u0644", None))
         self.label_6.setText(QCoreApplication.translate("Dialog", u"\u0645\u062c\u0648\u0632 \u0647\u0627 :", None))
         self.toolButton_cancel.setText(QCoreApplication.translate("Dialog", u"\u0644\u063a\u0648", None))
         self.toolButton_confirm.setText(QCoreApplication.translate("Dialog", u"\u062a\u0627\u06cc\u06cc\u062f", None))

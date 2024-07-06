@@ -112,35 +112,35 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
-      <widget class="QCheckBox" name="checkBox_5">
+      <widget class="QCheckBox" name="checkBox_db">
        <property name="text">
         <string>مدیریت دیتابیس</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox_4">
+      <widget class="QCheckBox" name="checkBox_tolid">
        <property name="text">
         <string>تولید جعبه</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox_3">
+      <widget class="QCheckBox" name="checkBox_gozaresh">
        <property name="text">
         <string>گزارش گیری</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox_2">
+      <widget class="QCheckBox" name="checkBox_user">
        <property name="text">
         <string>مدیریت کاربران</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox">
+      <widget class="QCheckBox" name="checkBox_model">
        <property name="text">
         <string>تغییر مدل</string>
        </property>
