@@ -19,15 +19,15 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
 from PySide6.QtWidgets import (QApplication, QComboBox, QDoubleSpinBox, QFrame,
     QHBoxLayout, QHeaderView, QLabel, QLineEdit,
     QMainWindow, QMenu, QMenuBar, QSizePolicy,
-    QSpacerItem, QTableWidget, QTableWidgetItem, QToolButton,
-    QVBoxLayout, QWidget)
+    QSpacerItem, QStackedWidget, QTableWidget, QTableWidgetItem,
+    QToolButton, QVBoxLayout, QWidget)
 import rcs_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(752, 630)
+        MainWindow.resize(756, 630)
         MainWindow.setMinimumSize(QSize(450, 450))
         icon = QIcon()
         icon.addFile(u":/icons/Icons/mainicon.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -37,7 +37,26 @@ class Ui_MainWindow(object):
         self.actionAbout.setObjectName(u"actionAbout")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.centralwidget.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+        self.centralwidget.setStyleSheet(u"")
+        self.verticalLayout_3 = QVBoxLayout(self.centralwidget)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.user_info = QWidget(self.centralwidget)
+        self.user_info.setObjectName(u"user_info")
+        self.user_info.setMinimumSize(QSize(0, 41))
+        self.label_7 = QLabel(self.user_info)
+        self.label_7.setObjectName(u"label_7")
+        self.label_7.setGeometry(QRect(690, 10, 35, 10))
+
+        self.verticalLayout_3.addWidget(self.user_info)
+
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.stackedWidget = QStackedWidget(self.centralwidget)
+        self.stackedWidget.setObjectName(u"stackedWidget")
+        self.stackedWidget.setStyleSheet(u"background-color: rgb(231, 235, 255);")
+        self.barcode = QWidget()
+        self.barcode.setObjectName(u"barcode")
+        self.barcode.setStyleSheet(u"QToolButton{border-radius:11px;\n"
 "\n"
 "\n"
 "	background-color: rgb(132, 171, 108);\n"
@@ -54,9 +73,14 @@ class Ui_MainWindow(object):
 "    selection-background-color:red; /* Selected item background color */\n"
 "}\n"
 "")
-        self.verticalLayout = QVBoxLayout(self.centralwidget)
+        self.verticalLayout = QVBoxLayout(self.barcode)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.label = QLabel(self.centralwidget)
+        self.widget_2 = QWidget(self.barcode)
+        self.widget_2.setObjectName(u"widget_2")
+
+        self.verticalLayout.addWidget(self.widget_2)
+
+        self.label = QLabel(self.barcode)
         self.label.setObjectName(u"label")
         font = QFont()
         font.setFamilies([u"Arial"])
@@ -67,7 +91,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.label)
 
-        self.line = QFrame(self.centralwidget)
+        self.line = QFrame(self.barcode)
         self.line.setObjectName(u"line")
         self.line.setFrameShape(QFrame.Shape.HLine)
         self.line.setFrameShadow(QFrame.Shadow.Sunken)
@@ -76,7 +100,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.pushButton_clear = QToolButton(self.centralwidget)
+        self.pushButton_clear = QToolButton(self.barcode)
         self.pushButton_clear.setObjectName(u"pushButton_clear")
         self.pushButton_clear.setMinimumSize(QSize(60, 43))
         self.pushButton_clear.setMaximumSize(QSize(16777215, 16777215))
@@ -93,7 +117,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.pushButton_clear)
 
-        self.toolButton_deleterow = QToolButton(self.centralwidget)
+        self.toolButton_deleterow = QToolButton(self.barcode)
         self.toolButton_deleterow.setObjectName(u"toolButton_deleterow")
         self.toolButton_deleterow.setMinimumSize(QSize(61, 36))
         self.toolButton_deleterow.setFont(font1)
@@ -110,7 +134,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
 
-        self.doubleSpinBox = QDoubleSpinBox(self.centralwidget)
+        self.doubleSpinBox = QDoubleSpinBox(self.barcode)
         self.doubleSpinBox.setObjectName(u"doubleSpinBox")
         self.doubleSpinBox.setMinimumSize(QSize(132, 21))
         font2 = QFont()
@@ -123,7 +147,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.doubleSpinBox)
 
-        self.label_3 = QLabel(self.centralwidget)
+        self.label_3 = QLabel(self.barcode)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setMaximumSize(QSize(42, 16777215))
         font3 = QFont()
@@ -136,13 +160,13 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_5)
 
-        self.comboBox_color = QComboBox(self.centralwidget)
+        self.comboBox_color = QComboBox(self.barcode)
         self.comboBox_color.setObjectName(u"comboBox_color")
         self.comboBox_color.setMinimumSize(QSize(104, 27))
 
         self.horizontalLayout_2.addWidget(self.comboBox_color)
 
-        self.label_5 = QLabel(self.centralwidget)
+        self.label_5 = QLabel(self.barcode)
         self.label_5.setObjectName(u"label_5")
         self.label_5.setFont(font3)
 
@@ -152,13 +176,13 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_4)
 
-        self.comboBox_sku = QComboBox(self.centralwidget)
+        self.comboBox_sku = QComboBox(self.barcode)
         self.comboBox_sku.setObjectName(u"comboBox_sku")
         self.comboBox_sku.setMinimumSize(QSize(120, 27))
 
         self.horizontalLayout_2.addWidget(self.comboBox_sku)
 
-        self.label_6 = QLabel(self.centralwidget)
+        self.label_6 = QLabel(self.barcode)
         self.label_6.setObjectName(u"label_6")
         font4 = QFont()
         font4.setPointSize(12)
@@ -170,14 +194,14 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_6)
 
-        self.comboBox_model = QComboBox(self.centralwidget)
+        self.comboBox_model = QComboBox(self.barcode)
         self.comboBox_model.setObjectName(u"comboBox_model")
         self.comboBox_model.setMinimumSize(QSize(76, 27))
         self.comboBox_model.setStyleSheet(u"")
 
         self.horizontalLayout_2.addWidget(self.comboBox_model)
 
-        self.label_4 = QLabel(self.centralwidget)
+        self.label_4 = QLabel(self.barcode)
         self.label_4.setObjectName(u"label_4")
         self.label_4.setFont(font4)
 
@@ -187,7 +211,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
 
-        self.pushButton_scan = QToolButton(self.centralwidget)
+        self.pushButton_scan = QToolButton(self.barcode)
         self.pushButton_scan.setObjectName(u"pushButton_scan")
         self.pushButton_scan.setMinimumSize(QSize(49, 46))
         self.pushButton_scan.setMaximumSize(QSize(111, 16777215))
@@ -201,7 +225,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.pushButton_scan)
 
-        self.lineEdit = QLineEdit(self.centralwidget)
+        self.lineEdit = QLineEdit(self.barcode)
         self.lineEdit.setObjectName(u"lineEdit")
         self.lineEdit.setMinimumSize(QSize(0, 30))
         self.lineEdit.setMaximumSize(QSize(300, 16777215))
@@ -216,7 +240,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.lineEdit)
 
-        self.label_2 = QLabel(self.centralwidget)
+        self.label_2 = QLabel(self.barcode)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setMinimumSize(QSize(0, 50))
         font5 = QFont()
@@ -233,7 +257,7 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
-        self.line_2 = QFrame(self.centralwidget)
+        self.line_2 = QFrame(self.barcode)
         self.line_2.setObjectName(u"line_2")
         self.line_2.setFrameShape(QFrame.Shape.HLine)
         self.line_2.setFrameShadow(QFrame.Shadow.Sunken)
@@ -246,7 +270,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
 
-        self.tableWidget = QTableWidget(self.centralwidget)
+        self.tableWidget = QTableWidget(self.barcode)
         if (self.tableWidget.columnCount() < 4):
             self.tableWidget.setColumnCount(4)
         __qtablewidgetitem = QTableWidgetItem()
@@ -266,7 +290,7 @@ class Ui_MainWindow(object):
 "\n"
 "")
         self.tableWidget.horizontalHeader().setMinimumSectionSize(275)
-        self.tableWidget.horizontalHeader().setDefaultSectionSize(275)
+        self.tableWidget.horizontalHeader().setDefaultSectionSize(220)
         self.tableWidget.horizontalHeader().setProperty("showSortIndicator", True)
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
         self.tableWidget.verticalHeader().setCascadingSectionResizes(False)
@@ -282,7 +306,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.toolButton_print = QToolButton(self.centralwidget)
+        self.toolButton_print = QToolButton(self.barcode)
         self.toolButton_print.setObjectName(u"toolButton_print")
         self.toolButton_print.setMinimumSize(QSize(80, 0))
         self.toolButton_print.setMaximumSize(QSize(78, 16777215))
@@ -298,10 +322,113 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout)
 
+        self.stackedWidget.addWidget(self.barcode)
+        self.page_2 = QWidget()
+        self.page_2.setObjectName(u"page_2")
+        self.label_8 = QLabel(self.page_2)
+        self.label_8.setObjectName(u"label_8")
+        self.label_8.setGeometry(QRect(560, 10, 111, 51))
+        font6 = QFont()
+        font6.setPointSize(16)
+        self.label_8.setFont(font6)
+        self.tableWidget_2 = QTableWidget(self.page_2)
+        if (self.tableWidget_2.columnCount() < 5):
+            self.tableWidget_2.setColumnCount(5)
+        __qtablewidgetitem4 = QTableWidgetItem()
+        self.tableWidget_2.setHorizontalHeaderItem(0, __qtablewidgetitem4)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.tableWidget_2.setHorizontalHeaderItem(1, __qtablewidgetitem5)
+        __qtablewidgetitem6 = QTableWidgetItem()
+        self.tableWidget_2.setHorizontalHeaderItem(2, __qtablewidgetitem6)
+        __qtablewidgetitem7 = QTableWidgetItem()
+        self.tableWidget_2.setHorizontalHeaderItem(3, __qtablewidgetitem7)
+        __qtablewidgetitem8 = QTableWidgetItem()
+        self.tableWidget_2.setHorizontalHeaderItem(4, __qtablewidgetitem8)
+        self.tableWidget_2.setObjectName(u"tableWidget_2")
+        self.tableWidget_2.setGeometry(QRect(40, 110, 631, 151))
+        self.tableWidget_2.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.tableWidget_2.horizontalHeader().setDefaultSectionSize(123)
+        self.label_9 = QLabel(self.page_2)
+        self.label_9.setObjectName(u"label_9")
+        self.label_9.setGeometry(QRect(590, 80, 71, 21))
+        self.toolButton_edituser = QToolButton(self.page_2)
+        self.toolButton_edituser.setObjectName(u"toolButton_edituser")
+        self.toolButton_edituser.setGeometry(QRect(570, 270, 61, 31))
+        self.toolButton_newuser = QToolButton(self.page_2)
+        self.toolButton_newuser.setObjectName(u"toolButton_newuser")
+        self.toolButton_newuser.setGeometry(QRect(500, 270, 51, 31))
+        self.toolButton_deleteuser = QToolButton(self.page_2)
+        self.toolButton_deleteuser.setObjectName(u"toolButton_deleteuser")
+        self.toolButton_deleteuser.setGeometry(QRect(400, 270, 51, 31))
+        self.line_3 = QFrame(self.page_2)
+        self.line_3.setObjectName(u"line_3")
+        self.line_3.setGeometry(QRect(0, 60, 681, 20))
+        self.line_3.setFrameShape(QFrame.Shape.HLine)
+        self.line_3.setFrameShadow(QFrame.Shadow.Sunken)
+        self.label_10 = QLabel(self.page_2)
+        self.label_10.setObjectName(u"label_10")
+        self.label_10.setGeometry(QRect(620, 320, 51, 20))
+        self.tableWidget_3 = QTableWidget(self.page_2)
+        self.tableWidget_3.setObjectName(u"tableWidget_3")
+        self.tableWidget_3.setGeometry(QRect(30, 340, 641, 111))
+        self.tableWidget_3.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.toolButton_clearstatus = QToolButton(self.page_2)
+        self.toolButton_clearstatus.setObjectName(u"toolButton_clearstatus")
+        self.toolButton_clearstatus.setGeometry(QRect(390, 470, 61, 20))
+        self.stackedWidget.addWidget(self.page_2)
+
+        self.horizontalLayout_4.addWidget(self.stackedWidget)
+
+        self.navigation = QWidget(self.centralwidget)
+        self.navigation.setObjectName(u"navigation")
+        self.navigation.setMinimumSize(QSize(59, 0))
+        self.navigation.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+"\n"
+"\n"
+"	background-color: rgb(132, 171, 108);\n"
+"}\n"
+"QToolButton:hover{\n"
+"background-color: rgb(255, 166, 139);\n"
+"}\n"
+"\n"
+"        QWidget {\n"
+"            background-color: #f0f0f0;\n"
+"\n"
+"        }")
+        self.verticalLayout_2 = QVBoxLayout(self.navigation)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.toolButton_navigscan = QToolButton(self.navigation)
+        self.toolButton_navigscan.setObjectName(u"toolButton_navigscan")
+        self.toolButton_navigscan.setMinimumSize(QSize(42, 48))
+        self.toolButton_navigscan.setFont(font4)
+        icon5 = QIcon()
+        icon5.addFile(u":/icons/Icons/icons8-barcode-64 (1).png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_navigscan.setIcon(icon5)
+        self.toolButton_navigscan.setIconSize(QSize(34, 33))
+        self.toolButton_navigscan.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.verticalLayout_2.addWidget(self.toolButton_navigscan)
+
+        self.toolButton_naviguser = QToolButton(self.navigation)
+        self.toolButton_naviguser.setObjectName(u"toolButton_naviguser")
+        icon6 = QIcon()
+        icon6.addFile(u":/icons/Icons/icons8-user-40.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_naviguser.setIcon(icon6)
+        self.toolButton_naviguser.setIconSize(QSize(41, 41))
+        self.toolButton_naviguser.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.verticalLayout_2.addWidget(self.toolButton_naviguser)
+
+
+        self.horizontalLayout_4.addWidget(self.navigation)
+
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout_4)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 752, 18))
+        self.menubar.setGeometry(QRect(0, 0, 756, 18))
         self.menuHelp = QMenu(self.menubar)
         self.menuHelp.setObjectName(u"menuHelp")
         MainWindow.setMenuBar(self.menubar)
@@ -311,12 +438,16 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
+        self.stackedWidget.setCurrentIndex(1)
+
+
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.actionAbout.setText(QCoreApplication.translate("MainWindow", u"\u062f\u0631\u0628\u0627\u0631\u0647", None))
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"\u06a9\u0627\u0631\u0628\u0631 :", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"IMEI SCANNER", None))
         self.pushButton_clear.setText(QCoreApplication.translate("MainWindow", u"\u062d\u0630\u0641 \u062c\u062f\u0648\u0644", None))
         self.toolButton_deleterow.setText(QCoreApplication.translate("MainWindow", u"\u062d\u0630\u0641 \u0633\u0637\u0631", None))
@@ -336,6 +467,25 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
         ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u062a\u0635\u0648\u06cc\u0631", None));
         self.toolButton_print.setText(QCoreApplication.translate("MainWindow", u"\u067e\u0631\u06cc\u0646\u062a", None))
+        self.label_8.setText(QCoreApplication.translate("MainWindow", u"\u0645\u062f\u06cc\u0631\u06cc\u062a \u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
+        ___qtablewidgetitem4 = self.tableWidget_2.horizontalHeaderItem(0)
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"\u0646\u0627\u0645", None));
+        ___qtablewidgetitem5 = self.tableWidget_2.horizontalHeaderItem(1)
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"\u0646\u0627\u0645 \u062e\u0627\u0646\u0648\u0627\u062f\u06af\u06cc", None));
+        ___qtablewidgetitem6 = self.tableWidget_2.horizontalHeaderItem(2)
+        ___qtablewidgetitem6.setText(QCoreApplication.translate("MainWindow", u"Username", None));
+        ___qtablewidgetitem7 = self.tableWidget_2.horizontalHeaderItem(3)
+        ___qtablewidgetitem7.setText(QCoreApplication.translate("MainWindow", u"Password", None));
+        ___qtablewidgetitem8 = self.tableWidget_2.horizontalHeaderItem(4)
+        ___qtablewidgetitem8.setText(QCoreApplication.translate("MainWindow", u"\u0645\u062c\u0648\u0632 \u0647\u0627", None));
+        self.label_9.setText(QCoreApplication.translate("MainWindow", u"\u0644\u06cc\u0633\u062a \u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
+        self.toolButton_edituser.setText(QCoreApplication.translate("MainWindow", u"\u0648\u06cc\u0631\u0627\u06cc\u0634 \u06a9\u0627\u0631\u0628\u0631", None))
+        self.toolButton_newuser.setText(QCoreApplication.translate("MainWindow", u"\u06a9\u0627\u0631\u0628\u0631 \u062c\u062f\u06cc\u062f", None))
+        self.toolButton_deleteuser.setText(QCoreApplication.translate("MainWindow", u"\u062d\u0630\u0641 \u06a9\u0627\u0631\u0628\u0631", None))
+        self.label_10.setText(QCoreApplication.translate("MainWindow", u"\u06af\u0632\u0627\u0631\u0634 \u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
+        self.toolButton_clearstatus.setText(QCoreApplication.translate("MainWindow", u"\u067e\u0627\u06a9 \u06a9\u0631\u062f\u0646 \u062c\u062f\u0648\u0644", None))
+        self.toolButton_navigscan.setText(QCoreApplication.translate("MainWindow", u"\u0627\u0633\u06a9\u0646", None))
+        self.toolButton_naviguser.setText(QCoreApplication.translate("MainWindow", u"\u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
         self.menuHelp.setTitle(QCoreApplication.translate("MainWindow", u"Help", None))
     # retranslateUi
 
