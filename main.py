@@ -125,10 +125,10 @@ class MainWindow(QMainWindow):
             QMessageBox.warning(self, "سطر انتخاب نشده", "لطفا یک کاربر را برای ویرایش انتخاب کنید")
             return
         dialog = QDialog(self)
-        ui = EditUser(dialog,self.ui.tableWidget_list_users,self.database,selected_items)
+        ui = EditUser(dialog,self.ui.tableWidget_list_users,self.database,selected_items,self.show_table)
         dialog.exec()
         # if ui.exec():
-        #     self.refresh_table()
+        #     self.show_table()
     def refresh_table(self):
         rows = self.database.fetch_all()
         self.ui.tableWidget_list_users.setRowCount(len(rows))

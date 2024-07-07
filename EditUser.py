@@ -18,7 +18,7 @@ from db import DataBase
 
 
 class EditUser(object):
-    def __init__(self, dialog,table,db,select):
+    def __init__(self, dialog,table,db,select,fun):
         self.database = db
         super().__init__()
         self.selected_items = select
@@ -26,6 +26,7 @@ class EditUser(object):
         self.ui.setupUi(dialog)
         self.table = table
         self.ui.toolButton_confirm.clicked.connect(self.update_user)
+        self.fun = fun
         self.edit()
     def edit(self):
         row = self.table.row(self.selected_items[0])
@@ -62,5 +63,5 @@ class EditUser(object):
             'pdb': self.ui.checkBox_db.isChecked()
         }
         self.database.update_user(user_info)
-        QMessageBox.information(self, "Updated", "User information has been updated successfully.")
-        self.accept()
+        # QMessageBox.information(self, "Updated", "User information has been updated successfully.")
+        self.fun()
