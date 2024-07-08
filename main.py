@@ -375,6 +375,10 @@ class MainWindow(QMainWindow):
 
             try:
                 self.barcode_serial = self.ui.lineEdit.text()
+                if len(self.barcode_serial) !=15:
+                    self.ui.lineEdit.clear()
+                    self.ui.lineEdit.setFocus()
+                    return
             except Exception as e:
                 self.error_handler(f"Error Line Edit: {e}")
             self.ui.lineEdit.clear()
