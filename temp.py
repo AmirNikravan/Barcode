@@ -1,75 +1,108 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QStackedWidget, QVBoxLayout, QHBoxLayout, QLabel
+from PySide6.QtWidgets import (
+    QApplication, QMainWindow, QVBoxLayout, QWidget, QPushButton, QDialog, QLineEdit, QMessageBox, QLabel,
+    QDialogButtonBox
+)
+from PySide6.QtCore import Qt
 
-class MainWindow(QWidget):
+# Constants for roles and permissions
+class Permissions:
+    Admin = 0
+    User = 1
+    Guest = 2
+
+# Mock database class
+class Database:
     def __init__(self):
+        self.users = {
+            'admin': {'password': 'adminpass', 'role': Permissions.Admin},
+            'user': {'password': 'userpass', 'role': Permissions.User},
+            'guest': {'password': 'guestpass', 'role': Permissions.Guest},
+        }
+
+    def authenticate(self, username, password):
+        if username in self.users and self.users[username]['password'] == password:
+            return self.users[username]['role']
+        return None
+
+# Login dialog class
+class LoginDialog(QDialog):
+    def __init__(self, database):
         super().__init__()
+        self.database = database
+        self.setWindowTitle("Login")
+        self.setFixedSize(300, 150)
+        layout = QVBoxLayout()
 
-        self.setWindowTitle("QStackedWidget Example")
-        self.resize(400, 300)
+        self.username_edit = QLineEdit()
+        self.password_edit = QLineEdit()
+        self.password_edit.setEchoMode(QLineEdit.Password)
 
-        # Create the QStackedWidget
-        self.stacked_widget = QStackedWidget()
+        layout.addWidget(QLabel("Username:"))
+        layout.addWidget(self.username_edit)
+        layout.addWidget(QLabel("Password:"))
+        layout.addWidget(self.password_edit)
 
-        # Add pages to the QStackedWidget
-        self.page1 = QLabel("This is Page 1")
-        self.page2 = QLabel("This is Page 2")
-        self.page3 = QLabel("This is Page 3")
-        self.stacked_widget.addWidget(self.page1)
-        self.stacked_widget.addWidget(self.page2)
-        self.stacked_widget.addWidget(self.page3)
+        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        button_box.accepted.connect(self.accept)
+        button_box.rejected.connect(self.reject)
+        layout.addWidget(button_box)
 
-        # Create buttons to change pages
-        self.button1 = QPushButton("Page 1")
-        self.button2 = QPushButton("Page 2")
-        self.button3 = QPushButton("Page 3")
+        self.setLayout(layout)
 
-        # Set object names for styling
-        self.button1.setObjectName("button1")
-        self.button2.setObjectName("button2")
-        self.button3.setObjectName("button3")
+    def username(self):
+        return self.username_edit.text()
 
-        # Connect buttons to functions
-        self.button1.clicked.connect(lambda: self.change_page(0))
-        self.button2.clicked.connect(lambda: self.change_page(1))
-        self.button3.clicked.connect(lambda: self.change_page(2))
+    def password(self):
+        return self.password_edit.text()
 
-        # Create a layout for the buttons
-        button_layout = QHBoxLayout()
-        button_layout.addWidget(self.button1)
-        button_layout.addWidget(self.button2)
-        button_layout.addWidget(self.button3)
+# Main window class
+class MainWindow(QMainWindow):
+    def __init__(self, user_role, database):
+        super().__init__()
+        self.user_role = user_role
+        self.database = database
+        self.setWindowTitle("Main Application")
+        self.setFixedSize(400, 300)
+        self.central_widget = QVBoxLayout()
 
-        # Create the main layout and add widgets
-        main_layout = QVBoxLayout()
-        main_layout.addLayout(button_layout)
-        main_layout.addWidget(self.stacked_widget)
-        self.setLayout(main_layout)
+        self.btn_view_reports = QPushButton("View Reports")
+        self.btn_view_reports.clicked.connect(self.view_reports)
 
-        # Apply initial styles
-        self.update_button_styles()
+        self.btn_edit_settings = QPushButton("Edit Settings")
+        self.btn_edit_settings.clicked.connect(self.edit_settings)
 
-    def change_page(self, index):
-        self.stacked_widget.setCurrentIndex(index)
-        self.update_button_styles()
+        self.central_widget.addWidget(self.btn_view_reports)
+        self.central_widget.addWidget(self.btn_edit_settings)
 
-    def update_button_styles(self):
-        # Reset styles for all buttons
-        self.button1.setStyleSheet("")
-        self.button2.setStyleSheet("")
-        self.button3.setStyleSheet("")
+        main_widget = QWidget()
+        main_widget.setLayout(self.central_widget)
+        self.setCentralWidget(main_widget)
 
-        # Apply style to the active button
-        current_index = self.stacked_widget.currentIndex()
-        if current_index == 0:
-            self.button1.setStyleSheet("background-color: rgb(132, 171, 108); color: white;")
-        elif current_index == 1:
-            self.button2.setStyleSheet("background-color: rgb(132, 171, 108); color: white;")
-        elif current_index == 2:
-            self.button3.setStyleSheet("background-color: rgb(132, 171, 108); color: white;")
+    def view_reports(self):
+        if self.user_role in [Permissions.Admin, Permissions.User]:
+            QMessageBox.information(self, "View Reports", "You can view reports.")
+        else:
+            QMessageBox.warning(self, "Access Denied", "You do not have permission to view reports.")
+
+    def edit_settings(self):
+        if self.user_role == Permissions.Admin:
+            QMessageBox.information(self, "Edit Settings", "You can edit settings.")
+        else:
+            QMessageBox.warning(self, "Access Denied", "You do not have permission to edit settings.")
+
+# Main application
+def main():
+    app = QApplication([])
+    database = Database()
+    login_dialog = LoginDialog(database)
+
+    if login_dialog.exec() == QDialog.Accepted:
+        username = login_dialog.username()
+        user_role = database.authenticate(username, login_dialog.password())
+        if user_role is not None:
+            main_window = MainWindow(user_role, database)
+            main_window.show()
+            app.exec()
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec_())
+    main()

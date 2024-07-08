@@ -34,7 +34,7 @@ class DataBase(QWidget):
                     self, "Error", f"Username '{inform[2]}' already exists."
                 )
                 return 3
-            print(inform)
+            # print(inform)
             self.cursor.execute(
                 """
             insert into user (first_name,last_name,username,password,pmodel,puser,pgozaresh,ptoolid,pdb)

@@ -323,15 +323,39 @@ class Ui_MainWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.stackedWidget.addWidget(self.barcode)
-        self.page_2 = QWidget()
-        self.page_2.setObjectName(u"page_2")
-        self.label_8 = QLabel(self.page_2)
+        self.users = QWidget()
+        self.users.setObjectName(u"users")
+        self.users.setStyleSheet(u"")
+        self.verticalLayout_5 = QVBoxLayout(self.users)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_4 = QVBoxLayout()
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.label_8 = QLabel(self.users)
         self.label_8.setObjectName(u"label_8")
-        self.label_8.setGeometry(QRect(560, 10, 111, 51))
         font6 = QFont()
         font6.setPointSize(16)
         self.label_8.setFont(font6)
-        self.tableWidget_list_users = QTableWidget(self.page_2)
+
+        self.verticalLayout_4.addWidget(self.label_8)
+
+        self.line_3 = QFrame(self.users)
+        self.line_3.setObjectName(u"line_3")
+        self.line_3.setMinimumSize(QSize(0, 15))
+        self.line_3.setFrameShape(QFrame.Shape.HLine)
+        self.line_3.setFrameShadow(QFrame.Shadow.Sunken)
+
+        self.verticalLayout_4.addWidget(self.line_3)
+
+
+        self.verticalLayout_5.addLayout(self.verticalLayout_4)
+
+        self.label_9 = QLabel(self.users)
+        self.label_9.setObjectName(u"label_9")
+        self.label_9.setFont(font4)
+
+        self.verticalLayout_5.addWidget(self.label_9)
+
+        self.tableWidget_list_users = QTableWidget(self.users)
         if (self.tableWidget_list_users.columnCount() < 5):
             self.tableWidget_list_users.setColumnCount(5)
         __qtablewidgetitem4 = QTableWidgetItem()
@@ -345,37 +369,81 @@ class Ui_MainWindow(object):
         __qtablewidgetitem8 = QTableWidgetItem()
         self.tableWidget_list_users.setHorizontalHeaderItem(4, __qtablewidgetitem8)
         self.tableWidget_list_users.setObjectName(u"tableWidget_list_users")
-        self.tableWidget_list_users.setGeometry(QRect(40, 110, 631, 151))
         self.tableWidget_list_users.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.tableWidget_list_users.horizontalHeader().setDefaultSectionSize(123)
-        self.label_9 = QLabel(self.page_2)
-        self.label_9.setObjectName(u"label_9")
-        self.label_9.setGeometry(QRect(590, 80, 71, 21))
-        self.toolButton_edituser = QToolButton(self.page_2)
-        self.toolButton_edituser.setObjectName(u"toolButton_edituser")
-        self.toolButton_edituser.setGeometry(QRect(570, 270, 61, 31))
-        self.toolButton_newuser = QToolButton(self.page_2)
-        self.toolButton_newuser.setObjectName(u"toolButton_newuser")
-        self.toolButton_newuser.setGeometry(QRect(500, 270, 51, 31))
-        self.toolButton_deleteuser = QToolButton(self.page_2)
+        self.tableWidget_list_users.horizontalHeader().setDefaultSectionSize(133)
+
+        self.verticalLayout_5.addWidget(self.tableWidget_list_users)
+
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.toolButton_deleteuser = QToolButton(self.users)
         self.toolButton_deleteuser.setObjectName(u"toolButton_deleteuser")
-        self.toolButton_deleteuser.setGeometry(QRect(400, 270, 51, 31))
-        self.line_3 = QFrame(self.page_2)
-        self.line_3.setObjectName(u"line_3")
-        self.line_3.setGeometry(QRect(0, 60, 681, 20))
-        self.line_3.setFrameShape(QFrame.Shape.HLine)
-        self.line_3.setFrameShadow(QFrame.Shadow.Sunken)
-        self.label_10 = QLabel(self.page_2)
+        self.toolButton_deleteuser.setMinimumSize(QSize(0, 34))
+        self.toolButton_deleteuser.setFont(font4)
+        self.toolButton_deleteuser.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+"background-color: rgb(195, 152, 255);\n"
+"\n"
+"}\n"
+"QToolButton:hover{\n"
+"background-color: rgb(255, 166, 139);\n"
+"}\n"
+"\n"
+"")
+
+        self.horizontalLayout_5.addWidget(self.toolButton_deleteuser)
+
+        self.toolButton_newuser = QToolButton(self.users)
+        self.toolButton_newuser.setObjectName(u"toolButton_newuser")
+        self.toolButton_newuser.setMinimumSize(QSize(0, 34))
+        self.toolButton_newuser.setFont(font4)
+        self.toolButton_newuser.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+"background-color: rgb(195, 152, 255);\n"
+"\n"
+"}\n"
+"QToolButton:hover{\n"
+"background-color: rgb(255, 166, 139);\n"
+"}\n"
+"\n"
+"")
+
+        self.horizontalLayout_5.addWidget(self.toolButton_newuser)
+
+        self.toolButton_edituser = QToolButton(self.users)
+        self.toolButton_edituser.setObjectName(u"toolButton_edituser")
+        self.toolButton_edituser.setMinimumSize(QSize(0, 36))
+        self.toolButton_edituser.setFont(font4)
+        self.toolButton_edituser.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+"background-color: rgb(195, 152, 255);\n"
+"\n"
+"}\n"
+"QToolButton:hover{\n"
+"background-color: rgb(255, 166, 139);\n"
+"}\n"
+"\n"
+"")
+
+        self.horizontalLayout_5.addWidget(self.toolButton_edituser)
+
+
+        self.verticalLayout_5.addLayout(self.horizontalLayout_5)
+
+        self.label_10 = QLabel(self.users)
         self.label_10.setObjectName(u"label_10")
-        self.label_10.setGeometry(QRect(620, 320, 51, 20))
-        self.tableWidget_3 = QTableWidget(self.page_2)
+
+        self.verticalLayout_5.addWidget(self.label_10)
+
+        self.tableWidget_3 = QTableWidget(self.users)
         self.tableWidget_3.setObjectName(u"tableWidget_3")
-        self.tableWidget_3.setGeometry(QRect(30, 340, 641, 111))
         self.tableWidget_3.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.toolButton_clearstatus = QToolButton(self.page_2)
+
+        self.verticalLayout_5.addWidget(self.tableWidget_3)
+
+        self.toolButton_clearstatus = QToolButton(self.users)
         self.toolButton_clearstatus.setObjectName(u"toolButton_clearstatus")
-        self.toolButton_clearstatus.setGeometry(QRect(390, 470, 61, 20))
-        self.stackedWidget.addWidget(self.page_2)
+
+        self.verticalLayout_5.addWidget(self.toolButton_clearstatus)
+
+        self.stackedWidget.addWidget(self.users)
 
         self.horizontalLayout_4.addWidget(self.stackedWidget)
 
@@ -468,6 +536,7 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u062a\u0635\u0648\u06cc\u0631", None));
         self.toolButton_print.setText(QCoreApplication.translate("MainWindow", u"\u067e\u0631\u06cc\u0646\u062a", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"\u0645\u062f\u06cc\u0631\u06cc\u062a \u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
+        self.label_9.setText(QCoreApplication.translate("MainWindow", u"\u0644\u06cc\u0633\u062a \u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
         ___qtablewidgetitem4 = self.tableWidget_list_users.horizontalHeaderItem(0)
         ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"\u0646\u0627\u0645", None));
         ___qtablewidgetitem5 = self.tableWidget_list_users.horizontalHeaderItem(1)
@@ -478,10 +547,9 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem7.setText(QCoreApplication.translate("MainWindow", u"Password", None));
         ___qtablewidgetitem8 = self.tableWidget_list_users.horizontalHeaderItem(4)
         ___qtablewidgetitem8.setText(QCoreApplication.translate("MainWindow", u"\u0645\u062c\u0648\u0632 \u0647\u0627", None));
-        self.label_9.setText(QCoreApplication.translate("MainWindow", u"\u0644\u06cc\u0633\u062a \u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
-        self.toolButton_edituser.setText(QCoreApplication.translate("MainWindow", u"\u0648\u06cc\u0631\u0627\u06cc\u0634 \u06a9\u0627\u0631\u0628\u0631", None))
-        self.toolButton_newuser.setText(QCoreApplication.translate("MainWindow", u"\u06a9\u0627\u0631\u0628\u0631 \u062c\u062f\u06cc\u062f", None))
         self.toolButton_deleteuser.setText(QCoreApplication.translate("MainWindow", u"\u062d\u0630\u0641 \u06a9\u0627\u0631\u0628\u0631", None))
+        self.toolButton_newuser.setText(QCoreApplication.translate("MainWindow", u"\u06a9\u0627\u0631\u0628\u0631 \u062c\u062f\u06cc\u062f", None))
+        self.toolButton_edituser.setText(QCoreApplication.translate("MainWindow", u"\u0648\u06cc\u0631\u0627\u06cc\u0634 \u06a9\u0627\u0631\u0628\u0631", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"\u06af\u0632\u0627\u0631\u0634 \u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
         self.toolButton_clearstatus.setText(QCoreApplication.translate("MainWindow", u"\u067e\u0627\u06a9 \u06a9\u0631\u062f\u0646 \u062c\u062f\u0648\u0644", None))
         self.toolButton_navigscan.setText(QCoreApplication.translate("MainWindow", u"\u0627\u0633\u06a9\u0646", None))

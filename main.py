@@ -126,9 +126,14 @@ class MainWindow(QMainWindow):
             return
         dialog = QDialog(self)
         ui = EditUser(dialog,self.ui.tableWidget_list_users,self.database,selected_items,self.show_table)
-        dialog.exec()
-        # if ui.exec():
-        #     self.show_table()
+        
+        result = dialog.exec()
+
+        if result == QDialog.Accepted:
+            print("User clicked OK")
+        elif result == QDialog.Rejected:
+            print("User clicked Cancel or closed the dialog")
+
     def refresh_table(self):
         rows = self.database.fetch_all()
         self.ui.tableWidget_list_users.setRowCount(len(rows))
