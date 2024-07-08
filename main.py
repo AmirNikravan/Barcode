@@ -41,8 +41,8 @@ class MainWindow(QMainWindow):
         self.barcodes = []
         super().__init__(parent)
         self.ui = Ui_MainWindow()
-        self.database = DataBase()
         self.ui.setupUi(self)
+        self.database = DataBase(self.ui.tableWidget_excel)
         # signals
         self.ui.toolButton_navigscan.clicked.connect(lambda: self.navigation("scan"))
         self.ui.toolButton_naviguser.clicked.connect(lambda: self.navigation("user"))
@@ -59,7 +59,7 @@ class MainWindow(QMainWindow):
         self.ui.toolButton_exportdb.clicked.connect(lambda : self.dbhandel('exportdb'))
         self.ui.toolButton_inputdb.clicked.connect(lambda : self.dbhandel('importdb'))
         self.ui.tableWidget_list_users.itemSelectionChanged.connect(self.on_table_item_selection_changed)
-
+        self.ui.toolButton_inputexcel.clicked.connect(self.importexcel)
         # self.ui.tableWidget.itemSelectionChanged.connect(self.changeRowColor)
         # table config
         self.ui.tableWidget.setColumnWidth(0, 180)
@@ -76,6 +76,8 @@ class MainWindow(QMainWindow):
                 background-color: #b3d9ff; /* Light blue */
             }
         """)
+        self.ui.tableWidget_excel.setColumnWidth(0,245)
+        self.ui.tableWidget_excel.setColumnWidth(1,250)
         # lineeidt config
         
         self.ui.lineEdit.setFocus()
@@ -89,6 +91,8 @@ class MainWindow(QMainWindow):
         self.scan_timer.timeout.connect(self.enable_scanning)
         self.handlecombo()
         self.show_table()
+    def importexcel(self):
+        self.database.importexcel()
     def dbhandel(self,result):
         if result == 'exportdb':
             self.database.exportdb()
@@ -386,7 +390,8 @@ class MainWindow(QMainWindow):
                 return
             barcode.base.Barcode.default_writer_options["write_text"] = False
             if self.barcode_serial:
-
+                # print(self.barcode_serial)
+                self.database.search_imei(self.barcode_serial)
                 options = {
                     "dpi": 2000,
                     "module_width": 0.3,

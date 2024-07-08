@@ -1,2 +1,1 @@
-
-        self.clear_previous_selection()
+IMEI2

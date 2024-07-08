@@ -10,12 +10,16 @@ from PySide6.QtWidgets import (
     QPushButton,
     QMessageBox,
     QFileDialog,
+    QTableWidgetItem,
 )
-
+import pandas as pd
 
 class DataBase(QWidget):
-    def __init__(self) -> None:
+    def __init__(self,excel_table) -> None:
         super().__init__()
+        self.file = None
+        self.df = pd.DataFrame()
+        self.table = excel_table
         self.connect = sqlite3.connect("./DataBase/DataBase.db")
         self.cursor = self.connect.cursor()
         self.database_folder = './DataBase/'
@@ -175,7 +179,52 @@ class DataBase(QWidget):
                 QMessageBox.information(self, "Success", f"Database replaced successfully. New file path: {file_path}")
             except Exception as e:
                 QMessageBox.critical(self, "Error", f"Failed to replace database: {str(e)}")
+    def importexcel(self):
+        self.file, _ = QFileDialog.getOpenFileName(self, "Open Excel File", "", "Excel Files (*.xlsx *.xls)")
+        print(self.file)
+        if self.file:
+            self.load_excel_data(self.file)
+    def load_excel_data(self, file_name):
+        
+        try:
+            if not self.file:
+                QMessageBox.critical(
+                    self, "خطا", f"دیتابیس اکسل یافت نشد"
+                )
+            # Read the Excel file
+            self.df = pd.read_excel(file_name)
 
+            # Check if the required columns are in the dataframe
+            if 'IMEI1' in self.df.columns and 'IMEI2' in self.df.columns:
+                # Set the table widget's row and column count
+                self.table.setRowCount(self.df.shape[0])
+                self.table.setColumnCount(self.df.shape[1])
 
+                # Set the table headers
+                self.table.setHorizontalHeaderLabels(self.df.columns)
 
+                # Populate the table with data
+                for row_index, row_data in self.df.iterrows():
+                    for col_index, value in enumerate(row_data):
+                        self.table.setItem(row_index, col_index, QTableWidgetItem(str(value)))
+            else:
+                QMessageBox.warning(self, "Error", "The selected file does not contain the required columns 'imei1' and 'imei2'.")
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e))
+
+    def search_imei(self,text):
+        imei1_code  = self.search_input.text().strip()
+        # Check if the dataframe is not empty and contains the required columns
+        if not self.df.empty and 'IMEI1' in self.df.columns and 'IMEI2' in self.df.columns:
+            # Convert IMEI1 column to string type for comparison
+            self.df['IMEI1'] = self.df['IMEI1'].astype(str)
+            result = self.df[self.df['IMEI1'] == imei1_code]
+
+            if not result.empty:
+                imei2_value = result.iloc[0]['IMEI2']
+                self.result_label.setText(f"Result: {imei2_value}")
+            else:
+                self.result_label.setText("Result: IMEI1 code not found")
+        else:
+            self.result_label.setText("Result: No data loaded or incorrect file format")
         

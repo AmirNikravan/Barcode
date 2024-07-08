@@ -467,6 +467,34 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_6.addWidget(self.label_12)
 
+        self.horizontalLayout_8 = QHBoxLayout()
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.horizontalSpacer_10 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_8.addItem(self.horizontalSpacer_10)
+
+        self.tableWidget_excel = QTableWidget(self.database)
+        if (self.tableWidget_excel.columnCount() < 2):
+            self.tableWidget_excel.setColumnCount(2)
+        __qtablewidgetitem9 = QTableWidgetItem()
+        self.tableWidget_excel.setHorizontalHeaderItem(0, __qtablewidgetitem9)
+        __qtablewidgetitem10 = QTableWidgetItem()
+        self.tableWidget_excel.setHorizontalHeaderItem(1, __qtablewidgetitem10)
+        self.tableWidget_excel.setObjectName(u"tableWidget_excel")
+        self.tableWidget_excel.setMinimumSize(QSize(0, 0))
+        self.tableWidget_excel.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.tableWidget_excel.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.tableWidget_excel.horizontalHeader().setDefaultSectionSize(150)
+
+        self.horizontalLayout_8.addWidget(self.tableWidget_excel)
+
+        self.horizontalSpacer_11 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_8.addItem(self.horizontalSpacer_11)
+
+
+        self.verticalLayout_6.addLayout(self.horizontalLayout_8)
+
         self.horizontalLayout_7 = QHBoxLayout()
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
         self.horizontalLayout_7.setSizeConstraint(QLayout.SetFixedSize)
@@ -700,6 +728,10 @@ class Ui_MainWindow(object):
         self.toolButton_clearstatus.setText(QCoreApplication.translate("MainWindow", u"\u067e\u0627\u06a9 \u06a9\u0631\u062f\u0646 \u062c\u062f\u0648\u0644", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"\u062f\u06cc\u062a\u0627\u0628\u06cc\u0633", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"\u062f\u06cc\u062a\u0627\u0628\u06cc\u0633 IMEI", None))
+        ___qtablewidgetitem9 = self.tableWidget_excel.horizontalHeaderItem(0)
+        ___qtablewidgetitem9.setText(QCoreApplication.translate("MainWindow", u"IMEI1", None));
+        ___qtablewidgetitem10 = self.tableWidget_excel.horizontalHeaderItem(1)
+        ___qtablewidgetitem10.setText(QCoreApplication.translate("MainWindow", u"IMEI2", None));
         self.toolButton_inputexcel.setText(QCoreApplication.translate("MainWindow", u"import", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"\u062f\u06cc\u062a\u0627\u0628\u06cc\u0633 \u0628\u0631\u0646\u0627\u0645\u0647", None))
         self.toolButton_exportdb.setText(QCoreApplication.translate("MainWindow", u"export", None))
