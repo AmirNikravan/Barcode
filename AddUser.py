@@ -1,5 +1,5 @@
 from add_user import Ui_Dialog
-from PySide6.QtWidgets import  QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QPushButton, QMessageBox
+from PySide6.QtWidgets import  QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QPushButton, QMessageBox,QDialog
 from PySide6.QtCore import (
     QCoreApplication,
     QDate,
@@ -13,12 +13,13 @@ from PySide6.QtCore import (
     QTime,
     QUrl,
     Qt,
+    
 )
 from db import DataBase
 
 
-class AddUser(object):
-    def __init__(self, dialog,table,db):
+class AddUser(QDialog):
+    def __init__(self,table,db):
         self.database = db
         super().__init__()
         self.table = table
@@ -26,9 +27,9 @@ class AddUser(object):
         self.inform = []
         self.checkbox_texts = []
         self.status_add = int
-        self.ui.setupUi(dialog)
+        self.ui.setupUi(self)
         self.ui.toolButton_confirm.clicked.connect(self.adduser)
-    
+        self.ui.toolButton_cancel.clicked.connect(self.close)
 
     def adduser(self):
 
@@ -58,3 +59,7 @@ class AddUser(object):
 
             for col, item in enumerate(items):
                 self.table.setItem(row_position, col, QTableWidgetItem(item))
+            QMessageBox.information(
+            self, "اضافه", "کاربر جدید با موقیت ساخته شد"
+        )
+        self.accept()

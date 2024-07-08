@@ -13,28 +13,26 @@ from db import DataBase
 
 
 class EditUser(QDialog):
-    def __init__(self, dialog, table, db, select, fun):
-        self.database = db
+    def __init__(self, table, db, select, fun):
         super().__init__()
+        self.database = db
         self.selected_items = select
         self.ui = Ui_Dialog()
-        self.dialog = dialog
-        self.ui.setupUi(dialog)
+        self.ui.setupUi(self)  # Setup the UI for 'self'
         self.table = table
-        self.ui.toolButton_confirm.clicked.connect(self.update_user)
         self.fun = fun
+        self.ui.toolButton_confirm.clicked.connect(self.update_user)  # Connect confirm button to accept method
+        self.ui.toolButton_cancel.clicked.connect(self.close)
         self.edit()
 
     def edit(self):
         row = self.table.row(self.selected_items[0])
-        print(row)
         username_item = self.table.item(
             row, 2
         )  # Assuming username is in column index 2
         if username_item is not None:
             username = username_item.text()
             user_info = self.database.fetch_user(username)
-            print(user_info)
             if user_info:
                 self.populate_form(user_info)
             else:
@@ -72,4 +70,4 @@ class EditUser(QDialog):
             self, "ویرایش", "ویرایش کاربر با موفقیت انجام شد"
         )
         self.fun()
-        self.finished()
+        self.accept()

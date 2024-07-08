@@ -111,26 +111,33 @@ class Ui_Dialog(object):
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.checkBox_db = QCheckBox(Dialog)
         self.checkBox_db.setObjectName(u"checkBox_db")
+        font2 = QFont()
+        font2.setPointSize(9)
+        self.checkBox_db.setFont(font2)
 
         self.horizontalLayout_5.addWidget(self.checkBox_db)
 
         self.checkBox_tolid = QCheckBox(Dialog)
         self.checkBox_tolid.setObjectName(u"checkBox_tolid")
+        self.checkBox_tolid.setFont(font2)
 
         self.horizontalLayout_5.addWidget(self.checkBox_tolid)
 
         self.checkBox_gozaresh = QCheckBox(Dialog)
         self.checkBox_gozaresh.setObjectName(u"checkBox_gozaresh")
+        self.checkBox_gozaresh.setFont(font2)
 
         self.horizontalLayout_5.addWidget(self.checkBox_gozaresh)
 
         self.checkBox_user = QCheckBox(Dialog)
         self.checkBox_user.setObjectName(u"checkBox_user")
+        self.checkBox_user.setFont(font2)
 
         self.horizontalLayout_5.addWidget(self.checkBox_user)
 
         self.checkBox_model = QCheckBox(Dialog)
         self.checkBox_model.setObjectName(u"checkBox_model")
+        self.checkBox_model.setFont(font2)
 
         self.horizontalLayout_5.addWidget(self.checkBox_model)
 
@@ -151,11 +158,37 @@ class Ui_Dialog(object):
 
         self.toolButton_cancel = QToolButton(Dialog)
         self.toolButton_cancel.setObjectName(u"toolButton_cancel")
+        self.toolButton_cancel.setMinimumSize(QSize(28, 31))
+        font3 = QFont()
+        font3.setPointSize(10)
+        self.toolButton_cancel.setFont(font3)
+        self.toolButton_cancel.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+"\n"
+"\n"
+"	background-color: rgb(132, 171, 108);\n"
+"}\n"
+"QToolButton:hover{\n"
+"background-color: rgb(255, 166, 139);\n"
+"}\n"
+"\n"
+"")
 
         self.horizontalLayout_6.addWidget(self.toolButton_cancel)
 
         self.toolButton_confirm = QToolButton(Dialog)
         self.toolButton_confirm.setObjectName(u"toolButton_confirm")
+        self.toolButton_confirm.setMinimumSize(QSize(28, 31))
+        self.toolButton_confirm.setFont(font3)
+        self.toolButton_confirm.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+"\n"
+"\n"
+"	background-color: rgb(132, 171, 108);\n"
+"}\n"
+"QToolButton:hover{\n"
+"background-color: rgb(255, 166, 139);\n"
+"}\n"
+"\n"
+"")
 
         self.horizontalLayout_6.addWidget(self.toolButton_confirm)
 

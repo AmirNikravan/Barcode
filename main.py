@@ -205,8 +205,8 @@ class MainWindow(QMainWindow):
             QMessageBox.information(self, "حذف", "کاربر مورد نظر با موفقیت حذف شد")
 
     def adduser(self):
-        dialog = QDialog(self)
-        ui = AddUser(dialog, self.ui.tableWidget_list_users, self.database)
+        
+        dialog = AddUser(self.ui.tableWidget_list_users, self.database)
         dialog.exec()
 
     def edituser(self):
@@ -216,15 +216,8 @@ class MainWindow(QMainWindow):
                 self, "سطر انتخاب نشده", "لطفا یک کاربر را برای ویرایش انتخاب کنید"
             )
             return
-        dialog = QDialog(self)
-        ui = EditUser(
-            dialog,
-            self.ui.tableWidget_list_users,
-            self.database,
-            selected_items,
-            self.show_table,
-        )
-
+        dialog = EditUser(self.ui.tableWidget_list_users, self.database, selected_items, self.show_table)
+        
         result = dialog.exec()
 
         if result == QDialog.Accepted:
@@ -390,7 +383,7 @@ class MainWindow(QMainWindow):
                 return
             barcode.base.Barcode.default_writer_options["write_text"] = False
             if self.barcode_serial:
-                # print(self.barcode_serial)
+                print(self.barcode_serial)
                 self.database.search_imei(self.barcode_serial)
                 options = {
                     "dpi": 2000,
