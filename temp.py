@@ -1,45 +1,44 @@
-from PyQt5.QtWidgets import QMainWindow, QTableWidget, QTableWidgetItem, QApplication
-from PyQt5.QtGui import QColor
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog
 import sys
+import sqlite3
+import shutil
+import os
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.initUI()
+        self.setWindowTitle('Save SQLite Database')
+        self.setGeometry(100, 100, 400, 200)
 
-    def initUI(self):
-        self.tableWidget = QTableWidget(self)
-        self.setCentralWidget(self.tableWidget)
-        self.tableWidget.setColumnCount(3)
-        self.tableWidget.setRowCount(5)
-        self.tableWidget.setHorizontalHeaderLabels(['Column 1', 'Column 2', 'Column 3'])
+        self.button_save_db = QPushButton('Save Database', self)
+        self.button_save_db.setGeometry(50, 50, 300, 50)
+        self.button_save_db.clicked.connect(self.save_database)
 
-        # Populate example data
-        for row in range(5):
-            for col in range(3):
-                item = QTableWidgetItem(f"Row {row}, Col {col}")
-                self.tableWidget.setItem(row, col, item)
+        # Specify the folder where your SQLite database is located
+        self.database_folder = './DataBase/'
 
-        # Apply stylesheet to QTableWidget
-        self.tableWidget.setStyleSheet("""
-            QTableWidget {
-                background-color: #f0f0f0;
-                alternate-background-color: #ffffff;
-                selection-background-color: #b3d9ff;
-                border: 1px solid #d0d0d0;
-            }
-            QTableWidget::item {
-                padding: 5px;
-                border-bottom: 1px solid #d0d0d0;
-            }
-            QTableWidget::item:selected {
-                background-color: #b3d9ff;
-                color: black;
-            }
-        """)
+    def save_database(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        file_path, _ = QFileDialog.getSaveFileName(self, "Save Database File", self.database_folder, "SQLite Database Files (*.db *.sqlite)", options=options)
+        if file_path:
+            try:
+                # Replace 'your_database.db' with your actual SQLite database file name
+                database_file = os.path.join(self.database_folder, 'DataBase.db')
+                
+                # Connect to SQLite database
+                conn = sqlite3.connect(database_file)
+                if conn:
+                    conn.close()
+                    shutil.copy(database_file, f'{file_path}.db')
+                    self.statusBar().showMessage(f"Database saved to {file_path}", 5000)
+                else:
+                    self.statusBar().showMessage("Failed to connect to database", 5000)
+            except Exception as e:
+                self.statusBar().showMessage(f"Error: {str(e)}", 5000)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    mainWindow = MainWindow()
-    mainWindow.show()
+    window = MainWindow()
+    window.show()
     sys.exit(app.exec_())

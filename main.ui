@@ -62,7 +62,7 @@
          <string notr="true">background-color: rgb(231, 235, 255);</string>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="barcode">
          <property name="styleSheet">
@@ -102,7 +102,7 @@ QComboBox QAbstractItemView {
              <string notr="true">color: rgb(59, 41, 48);</string>
             </property>
             <property name="text">
-             <string>IMEI SCANNER</string>
+             <string>اسکن بارکد</string>
             </property>
            </widget>
           </item>
@@ -634,7 +634,10 @@ border-radius:10px
              <widget class="QLabel" name="label_8">
               <property name="font">
                <font>
-                <pointsize>16</pointsize>
+                <family>Arial</family>
+                <pointsize>20</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
                </font>
               </property>
               <property name="text">
@@ -821,18 +824,75 @@ background-color: rgb(255, 166, 139);
           </item>
          </layout>
         </widget>
-       </widget>
-      </item>
-      <item>
-       <widget class="QWidget" name="navigation" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>59</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QToolButton{border-radius:11px;
+        <widget class="QWidget" name="database">
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <widget class="QLabel" name="label_11">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>20</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>دیتابیس</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_12">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>دیتابیس IMEI</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetFixedSize</enum>
+            </property>
+            <item>
+             <spacer name="horizontalSpacer_8">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_inputexcel">
+              <property name="minimumSize">
+               <size>
+                <width>49</width>
+                <height>36</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QToolButton{border-radius:11px;
 
 
 	background-color: rgb(132, 171, 108);
@@ -841,24 +901,183 @@ QToolButton:hover{
 background-color: rgb(255, 166, 139);
 }
 
-        QWidget {
-            background-color: #f0f0f0;
+</string>
+              </property>
+              <property name="text">
+               <string>input</string>
+              </property>
+              <property name="icon">
+               <iconset resource="rcs.qrc">
+                <normaloff>:/icons/Icons/icons8-input-64.png</normaloff>:/icons/Icons/icons8-input-64.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>27</width>
+                <height>31</height>
+               </size>
+              </property>
+              <property name="toolButtonStyle">
+               <enum>Qt::ToolButtonTextUnderIcon</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_9">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_13">
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>دیتابیس برنامه</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QToolButton" name="toolButton_exportdb">
+              <property name="minimumSize">
+               <size>
+                <width>49</width>
+                <height>36</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QToolButton{border-radius:11px;
 
-        }</string>
+
+	background-color: rgb(132, 171, 108);
+}
+QToolButton:hover{
+background-color: rgb(255, 166, 139);
+}
+
+</string>
+              </property>
+              <property name="text">
+               <string>export</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>Icons/icons8-export-64.png</normaloff>Icons/icons8-export-64.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>27</width>
+                <height>31</height>
+               </size>
+              </property>
+              <property name="toolButtonStyle">
+               <enum>Qt::ToolButtonTextUnderIcon</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_inputdb">
+              <property name="minimumSize">
+               <size>
+                <width>49</width>
+                <height>36</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QToolButton{border-radius:11px;
+
+
+	background-color: rgb(132, 171, 108);
+}
+QToolButton:hover{
+background-color: rgb(255, 166, 139);
+}
+
+</string>
+              </property>
+              <property name="text">
+               <string>input</string>
+              </property>
+              <property name="icon">
+               <iconset resource="rcs.qrc">
+                <normaloff>:/icons/Icons/icons8-input-64.png</normaloff>:/icons/Icons/icons8-input-64.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>27</width>
+                <height>31</height>
+               </size>
+              </property>
+              <property name="toolButtonStyle">
+               <enum>Qt::ToolButtonTextUnderIcon</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="navigation" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>64</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(252, 224, 255);</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
           <widget class="QToolButton" name="toolButton_navigscan">
            <property name="minimumSize">
             <size>
-             <width>42</width>
-             <height>48</height>
+             <width>54</width>
+             <height>47</height>
             </size>
            </property>
            <property name="font">
             <font>
              <pointsize>12</pointsize>
             </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QToolButton{border-radius:11px;
+
+
+	background-color: rgb(132, 171, 108);
+}
+QToolButton:hover{
+background-color: rgb(255, 166, 139);
+}
+
+</string>
            </property>
            <property name="text">
             <string>اسکن</string>
@@ -879,7 +1098,73 @@ background-color: rgb(255, 166, 139);
           </widget>
          </item>
          <item>
+          <widget class="QToolButton" name="toolButton_navigdatabase">
+           <property name="minimumSize">
+            <size>
+             <width>54</width>
+             <height>59</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QToolButton{border-radius:11px;
+
+
+	background-color: rgb(132, 171, 108);
+}
+QToolButton:hover{
+background-color: rgb(255, 166, 139);
+}
+
+</string>
+           </property>
+           <property name="text">
+            <string>دیتابیس</string>
+           </property>
+           <property name="icon">
+            <iconset resource="rcs.qrc">
+             <normaloff>:/icons/Icons/icons8-database-64.png</normaloff>:/icons/Icons/icons8-database-64.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>34</width>
+             <height>37</height>
+            </size>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonTextUnderIcon</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QToolButton" name="toolButton_naviguser">
+           <property name="minimumSize">
+            <size>
+             <width>54</width>
+             <height>59</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QToolButton{border-radius:11px;
+
+
+	background-color: rgb(132, 171, 108);
+}
+QToolButton:hover{
+background-color: rgb(255, 166, 139);
+}
+
+</string>
+           </property>
            <property name="text">
             <string>کاربران</string>
            </property>
@@ -889,8 +1174,8 @@ background-color: rgb(255, 166, 139);
            </property>
            <property name="iconSize">
             <size>
-             <width>41</width>
-             <height>41</height>
+             <width>31</width>
+             <height>34</height>
             </size>
            </property>
            <property name="toolButtonStyle">

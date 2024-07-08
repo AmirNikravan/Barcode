@@ -1,4 +1,7 @@
+import sys
 import sqlite3
+import shutil
+import os
 from PySide6.QtWidgets import (
     QApplication,
     QWidget,
@@ -6,6 +9,7 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QPushButton,
     QMessageBox,
+    QFileDialog,
 )
 
 
@@ -14,7 +18,7 @@ class DataBase(QWidget):
         super().__init__()
         self.connect = sqlite3.connect("./DataBase/DataBase.db")
         self.cursor = self.connect.cursor()
-        self
+        self.database_folder = './DataBase/'
 
     def commit(self):
         self.connect.commit()
@@ -111,3 +115,27 @@ class DataBase(QWidget):
             self.connect.commit()
         except Exception as e:
             print(f"Error updating user: {e}")
+            
+    def save_db(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        file_path, _ = QFileDialog.getSaveFileName(self, "ذخیره دیتابیس برنامه", self.database_folder, "SQLite Database Files (*.db *.sqlite)", options=options)
+        if file_path:
+            try:
+                # Replace 'your_database.db' with your actual SQLite database file name
+                database_file = os.path.join(self.database_folder, 'DataBase.db')
+                
+                # Connect to SQLite database
+                conn = sqlite3.connect(database_file)
+                if conn:
+                    conn.close()
+                    shutil.copy(database_file, f'{file_path}.db')
+                    QMessageBox.information(self, "ذخیره", "دیتابیس با موقیت ذخیره شد")
+                else:
+                    QMessageBox.critical(
+                    self, "خطا", f"خطا در برقراری ارتباط با پایگاه داده"
+                )
+            except Exception as e:
+                QMessageBox.critical(
+                    self, "خطا", f"{e}"
+                )

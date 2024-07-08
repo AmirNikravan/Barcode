@@ -46,6 +46,7 @@ class MainWindow(QMainWindow):
         # signals
         self.ui.toolButton_navigscan.clicked.connect(lambda: self.navigation("scan"))
         self.ui.toolButton_naviguser.clicked.connect(lambda: self.navigation("user"))
+        self.ui.toolButton_navigdatabase.clicked.connect(lambda: self.navigation("database"))
         self.ui.pushButton_scan.clicked.connect(self.barcode_scan)
         self.ui.toolButton_print.clicked.connect(self.handlePrint)
         self.ui.lineEdit.returnPressed.connect(self.barcode_scan)
@@ -55,6 +56,7 @@ class MainWindow(QMainWindow):
         self.ui.toolButton_newuser.clicked.connect(self.adduser)
         self.ui.toolButton_deleteuser.clicked.connect(self.delete_selected_rows2)
         self.ui.toolButton_edituser.clicked.connect(self.edituser)
+        self.ui.toolButton_exportdb.clicked.connect(lambda : self.dbhandel('exportdb'))
         self.ui.tableWidget_list_users.itemSelectionChanged.connect(self.on_table_item_selection_changed)
 
         # self.ui.tableWidget.itemSelectionChanged.connect(self.changeRowColor)
@@ -65,7 +67,10 @@ class MainWindow(QMainWindow):
         self.ui.tableWidget.setColumnWidth(3, 200)
         self.ui.tableWidget_list_users.setColumnWidth(4,817)
         self.ui.tableWidget_list_users.setStyleSheet("""
-                                                     
+            QTableWidget {
+                background-color: #ffffff;
+                border: 1px solid #d0d0d0;
+            }
             QTableWidget::item:selected {
                 background-color: #b3d9ff; /* Light blue */
             }
@@ -83,6 +88,9 @@ class MainWindow(QMainWindow):
         self.scan_timer.timeout.connect(self.enable_scanning)
         self.handlecombo()
         self.show_table()
+    def dbhandel(self,result):
+        if result == 'exportdb':
+            self.database.save_db()
 
     def on_table_item_selection_changed(self):
         selected_items = self.ui.tableWidget_list_users.selectedItems()
@@ -231,6 +239,8 @@ class MainWindow(QMainWindow):
             self.ui.stackedWidget.setCurrentIndex(0)
         if text == "user":
             self.ui.stackedWidget.setCurrentIndex(1)
+        if  text == 'database':
+            self.ui.stackedWidget.setCurrentIndex(2)
 
     def generate_svg_with_text(text, filename, width="100mm", height="50mm"):
         # Ensure width and height are strings with units
