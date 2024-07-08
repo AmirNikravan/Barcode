@@ -213,7 +213,7 @@ class DataBase(QWidget):
             QMessageBox.critical(self, "Error", str(e))
 
     def search_imei(self,text):
-        imei1_code  = self.search_input.text().strip()
+        imei1_code  = text
         # Check if the dataframe is not empty and contains the required columns
         if not self.df.empty and 'IMEI1' in self.df.columns and 'IMEI2' in self.df.columns:
             # Convert IMEI1 column to string type for comparison
@@ -222,9 +222,10 @@ class DataBase(QWidget):
 
             if not result.empty:
                 imei2_value = result.iloc[0]['IMEI2']
-                self.result_label.setText(f"Result: {imei2_value}")
+                print(imei2_value)
+                return imei2_value
             else:
-                self.result_label.setText("Result: IMEI1 code not found")
+                print("Result: IMEI1 code not found")
         else:
-            self.result_label.setText("Result: No data loaded or incorrect file format")
+            print("Result: No data loaded or incorrect file format")
         
