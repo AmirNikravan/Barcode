@@ -47,6 +47,7 @@ class MainWindow(QMainWindow):
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_labels)
         self.timer.start(1000)  # Update every second
+        self.setWindowTitle('IMEI SCANNER')
         self.update_labels()
         # signals
         self.ui.toolButton_navigscan.clicked.connect(lambda: self.navigation("scan"))
@@ -552,11 +553,20 @@ class MainWindow(QMainWindow):
 
     def handlePrint(self):
         try:
-
+            if (self.ui.tableWidget.item(9,2)) == None:
+                QMessageBox.warning(self,'تعداد IMEI','بارکد ها ناقص می باشند')
+                return
+            if self.ui.comboBox_model.currentText() == "select":
+                msg_box = QtWidgets.QMessageBox(self)
+                msg_box.setIcon(QtWidgets.QMessageBox.Warning)
+                msg_box.setWindowTitle("هشدار")
+                msg_box.setText("لطفا مدل را وارد کنید")
+                msg_box.exec()
+                return
             dialog = QtPrintSupport.QPrintDialog()
             if dialog.exec() == QtWidgets.QDialog.Accepted:
                 self.handlePaintRequest(dialog.printer())
-            self.clear_table()
+                self.clear_table()
         except Exception as e:
             self.error_handler(f"Error Handel Print: {e}")
         self.ui.lineEdit.setFocus()
