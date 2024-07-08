@@ -904,7 +904,7 @@ background-color: rgb(255, 166, 139);
 </string>
               </property>
               <property name="text">
-               <string>input</string>
+               <string>import</string>
               </property>
               <property name="icon">
                <iconset resource="rcs.qrc">
@@ -995,6 +995,9 @@ background-color: rgb(255, 166, 139);
             </item>
             <item>
              <widget class="QToolButton" name="toolButton_inputdb">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>49</width>
@@ -1019,7 +1022,7 @@ background-color: rgb(255, 166, 139);
 </string>
               </property>
               <property name="text">
-               <string>input</string>
+               <string>import</string>
               </property>
               <property name="icon">
                <iconset resource="rcs.qrc">

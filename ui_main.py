@@ -535,6 +535,7 @@ class Ui_MainWindow(object):
 
         self.toolButton_inputdb = QToolButton(self.database)
         self.toolButton_inputdb.setObjectName(u"toolButton_inputdb")
+        self.toolButton_inputdb.setEnabled(False)
         self.toolButton_inputdb.setMinimumSize(QSize(49, 36))
         self.toolButton_inputdb.setFont(font1)
         self.toolButton_inputdb.setStyleSheet(u"QToolButton{border-radius:11px;\n"
@@ -699,10 +700,10 @@ class Ui_MainWindow(object):
         self.toolButton_clearstatus.setText(QCoreApplication.translate("MainWindow", u"\u067e\u0627\u06a9 \u06a9\u0631\u062f\u0646 \u062c\u062f\u0648\u0644", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"\u062f\u06cc\u062a\u0627\u0628\u06cc\u0633", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"\u062f\u06cc\u062a\u0627\u0628\u06cc\u0633 IMEI", None))
-        self.toolButton_inputexcel.setText(QCoreApplication.translate("MainWindow", u"input", None))
+        self.toolButton_inputexcel.setText(QCoreApplication.translate("MainWindow", u"import", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"\u062f\u06cc\u062a\u0627\u0628\u06cc\u0633 \u0628\u0631\u0646\u0627\u0645\u0647", None))
         self.toolButton_exportdb.setText(QCoreApplication.translate("MainWindow", u"export", None))
-        self.toolButton_inputdb.setText(QCoreApplication.translate("MainWindow", u"input", None))
+        self.toolButton_inputdb.setText(QCoreApplication.translate("MainWindow", u"import", None))
         self.toolButton_navigscan.setText(QCoreApplication.translate("MainWindow", u"\u0627\u0633\u06a9\u0646", None))
         self.toolButton_navigdatabase.setText(QCoreApplication.translate("MainWindow", u"\u062f\u06cc\u062a\u0627\u0628\u06cc\u0633", None))
         self.toolButton_naviguser.setText(QCoreApplication.translate("MainWindow", u"\u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))

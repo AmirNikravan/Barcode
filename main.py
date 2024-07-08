@@ -57,6 +57,7 @@ class MainWindow(QMainWindow):
         self.ui.toolButton_deleteuser.clicked.connect(self.delete_selected_rows2)
         self.ui.toolButton_edituser.clicked.connect(self.edituser)
         self.ui.toolButton_exportdb.clicked.connect(lambda : self.dbhandel('exportdb'))
+        self.ui.toolButton_inputdb.clicked.connect(lambda : self.dbhandel('importdb'))
         self.ui.tableWidget_list_users.itemSelectionChanged.connect(self.on_table_item_selection_changed)
 
         # self.ui.tableWidget.itemSelectionChanged.connect(self.changeRowColor)
@@ -90,8 +91,9 @@ class MainWindow(QMainWindow):
         self.show_table()
     def dbhandel(self,result):
         if result == 'exportdb':
-            self.database.save_db()
-
+            self.database.exportdb()
+        if result == 'importdb':
+            self.database.importdb()
     def on_table_item_selection_changed(self):
         selected_items = self.ui.tableWidget_list_users.selectedItems()
 

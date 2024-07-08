@@ -19,10 +19,11 @@ class DataBase(QWidget):
         self.connect = sqlite3.connect("./DataBase/DataBase.db")
         self.cursor = self.connect.cursor()
         self.database_folder = './DataBase/'
-
+        self.current_db_path = os.path.join(self.database_folder, 'DataBase.db')
     def commit(self):
         self.connect.commit()
-
+    def conn(self):
+        self.connect = sqlite3.connect("./DataBase/DataBase.db")
     def close(self):
         self.connect.close()
     def fetch_all(self):
@@ -116,7 +117,8 @@ class DataBase(QWidget):
         except Exception as e:
             print(f"Error updating user: {e}")
             
-    def save_db(self):
+    def exportdb(self):
+        self.close()
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         file_path, _ = QFileDialog.getSaveFileName(self, "ذخیره دیتابیس برنامه", self.database_folder, "SQLite Database Files (*.db *.sqlite)", options=options)
@@ -131,11 +133,49 @@ class DataBase(QWidget):
                     conn.close()
                     shutil.copy(database_file, f'{file_path}.db')
                     QMessageBox.information(self, "ذخیره", "دیتابیس با موقیت ذخیره شد")
+                    
                 else:
                     QMessageBox.critical(
                     self, "خطا", f"خطا در برقراری ارتباط با پایگاه داده"
                 )
+                self.conn()
             except Exception as e:
                 QMessageBox.critical(
                     self, "خطا", f"{e}"
                 )
+            
+    def importdb(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        file_path, _ = QFileDialog.getOpenFileName(self, "Select Database File to Replace", "", "SQLite Database Files (*.db *.sqlite)", options=options)
+        if file_path:
+            try:
+                # Check if the chosen file is the same as the current database
+                if file_path == self.current_db_path:
+                    QMessageBox.critical(self, "Error", "Cannot replace with the same database file.")
+                    return
+
+                # Close any open SQLite connection
+                if self.connect:
+                    self.close()
+                    # self.conn = None
+
+                # Replace the current database with the chosen one
+                if os.path.exists(self.current_db_path):
+                    os.remove(self.current_db_path)  # Remove existing file before copying
+
+                shutil.copy(file_path, self.current_db_path)
+
+                # Rename the chosen database file to 'DataBase.db' if it's not already named that
+                if os.path.basename(file_path) != 'DataBase.db':
+                    new_file_path = os.path.join(self.database_folder, 'DataBase.db')
+                    os.rename(file_path, new_file_path)
+                    file_path = new_file_path
+
+                QMessageBox.information(self, "Success", f"Database replaced successfully. New file path: {file_path}")
+            except Exception as e:
+                QMessageBox.critical(self, "Error", f"Failed to replace database: {str(e)}")
+
+
+
+        
