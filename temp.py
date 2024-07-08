@@ -1,46 +1,57 @@
 import sys
-from PySide6.QtWidgets import QApplication, QDialog, QVBoxLayout, QPushButton, QLabel
+from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QLabel, QWidget
+from PySide6.QtCore import QTimer, QDate, QTime, QLocale
 
-class MyDialog(QDialog):
+class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("My Dialog")
+        self.setWindowTitle("Date, Time, and Day in Farsi")
 
-        # Set up layout and widgets
+        # Create layout and central widget
         layout = QVBoxLayout()
-        self.label = QLabel("Do you want to confirm?")
-        self.confirm_button = QPushButton("Confirm")
+        central_widget = QWidget()
+        central_widget.setLayout(layout)
+        self.setCentralWidget(central_widget)
 
-        layout.addWidget(self.label)
-        layout.addWidget(self.confirm_button)
-        self.setLayout(layout)
+        # Create labels for date, time, and day
+        self.date_label = QLabel()
+        self.time_label = QLabel()
+        self.day_label = QLabel()
 
-        # Connect the confirm button to the accept method
-        self.confirm_button.clicked.connect(self.accept)
+        # Add labels to the layout
+        layout.addWidget(self.date_label)
+        layout.addWidget(self.time_label)
+        layout.addWidget(self.day_label)
 
-class MainWindow(QDialog):
-    def __init__(self):
-        super().__init__()
+        # Set up a timer to update the labels every second
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_labels)
+        self.timer.start(1000)  # Update every second
 
-        self.setWindowTitle("Main Window")
+        # Initial update
+        self.update_labels()
 
-        # Set up layout and widgets
-        layout = QVBoxLayout()
-        self.open_dialog_button = QPushButton("Open Dialog")
-        layout.addWidget(self.open_dialog_button)
-        self.setLayout(layout)
+    def update_labels(self):
+        # Get current date and time
+        current_date = QDate.currentDate()
+        current_time = QTime.currentTime()
+        
+        # Get Farsi locale
+        locale = QLocale(QLocale.Persian, QLocale.Iran)
 
-        # Connect the open dialog button to the method that shows the dialog
-        self.open_dialog_button.clicked.connect(self.show_dialog)
+        # Format date and time in Farsi
+        date_text = locale.toString(current_date, QLocale.LongFormat)
+        time_text = locale.toString(current_time, 'hh:mm:ss')
+        day_text = locale.dayName(current_date.dayOfWeek())
 
-    def show_dialog(self):
-        dialog = MyDialog()
-        if dialog.exec_() == QDialog.Accepted:
-            print("Dialog confirmed")
+        # Set text to labels
+        self.date_label.setText(f"تاریخ: {date_text}")
+        self.time_label.setText(f"زمان: {time_text}")
+        self.day_label.setText(f"روز: {day_text}")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    main_window = MainWindow()
-    main_window.show()
-    sys.exit(app.exec_())
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec())

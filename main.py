@@ -34,6 +34,7 @@ from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPDF
 from db import DataBase
 from EditUser import EditUser
+import jdatetime
 
 
 class MainWindow(QMainWindow):
@@ -43,6 +44,10 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.database = DataBase(self.ui.tableWidget_excel)
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_labels)
+        self.timer.start(1000)  # Update every second
+        self.update_labels()
         # signals
         self.ui.toolButton_navigscan.clicked.connect(lambda: self.navigation("scan"))
         self.ui.toolButton_naviguser.clicked.connect(lambda: self.navigation("user"))
@@ -91,6 +96,20 @@ class MainWindow(QMainWindow):
         self.scan_timer.timeout.connect(self.enable_scanning)
         self.handlecombo()
         self.show_table()
+    def update_labels(self):
+        current_date = jdatetime.date.today()
+        current_time = QTime.currentTime()
+        # locale = QLocale(QLocale.Persian, QLocale.Iran)
+
+        date_text = jdatetime.date.today()
+        date_text = current_date.strftime('%Y/%m/%d')
+        time_text = current_time.toString('hh:mm:ss A')
+        day_names = ["شنبه", "یکشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنجشنبه", "جمعه"]
+        day_text = day_names[current_date.weekday()]
+
+        self.ui.label_time.setText(time_text)
+        self.ui.label_date.setText(date_text)
+        self.ui.label_day.setText(day_text)
     def importexcel(self):
         self.database.importexcel()
     def dbhandel(self,result):
@@ -369,10 +388,14 @@ class MainWindow(QMainWindow):
 
     def barcode_scan(self):
         try:
-
+            if (self.ui.tableWidget.item(9,2)) != None:
+                self.ui.lineEdit.clear()
+                self.ui.lineEdit.setFocus()
+                QMessageBox.information(self, "سطر", "تعداد IMEI ها تکمیل است.")
+                return
             try:
                 self.barcode_serial = self.ui.lineEdit.text()
-                if len(self.barcode_serial) !=15:
+                if len(self.barcode_serial) !=15 or  re.search('[^0-9]', self.barcode_serial):
                     self.ui.lineEdit.clear()
                     self.ui.lineEdit.setFocus()
                     return
