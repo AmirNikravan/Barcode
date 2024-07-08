@@ -21,7 +21,7 @@ class EditUser(QDialog):
         self.dialog = dialog
         self.ui.setupUi(dialog)
         self.table = table
-        self.ui.toolButton_confirm.clicked.connect(self.an)
+        self.ui.toolButton_confirm.clicked.connect(self.update_user)
         self.fun = fun
         self.edit()
 
@@ -68,8 +68,8 @@ class EditUser(QDialog):
             "pdb": self.ui.checkBox_db.isChecked(),
         }
         self.database.update_user(user_info)
-        # QMessageBox.information(
-        #     self, "ویرایش", "ویرایش کاربر با موفقیت انجام شد"
-        # )
+        QMessageBox.information(
+            self, "ویرایش", "ویرایش کاربر با موفقیت انجام شد"
+        )
         self.fun()
         self.finished()

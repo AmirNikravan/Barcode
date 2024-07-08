@@ -16,11 +16,11 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QDoubleSpinBox, QFrame,
-    QHBoxLayout, QHeaderView, QLabel, QLineEdit,
-    QMainWindow, QMenu, QMenuBar, QSizePolicy,
-    QSpacerItem, QStackedWidget, QTableWidget, QTableWidgetItem,
-    QToolButton, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QDoubleSpinBox,
+    QFrame, QHBoxLayout, QHeaderView, QLabel,
+    QLineEdit, QMainWindow, QMenu, QMenuBar,
+    QSizePolicy, QSpacerItem, QStackedWidget, QTableWidget,
+    QTableWidgetItem, QToolButton, QVBoxLayout, QWidget)
 import rcs_rc
 
 class Ui_MainWindow(object):
@@ -369,8 +369,9 @@ class Ui_MainWindow(object):
         __qtablewidgetitem8 = QTableWidgetItem()
         self.tableWidget_list_users.setHorizontalHeaderItem(4, __qtablewidgetitem8)
         self.tableWidget_list_users.setObjectName(u"tableWidget_list_users")
-        self.tableWidget_list_users.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.tableWidget_list_users.horizontalHeader().setDefaultSectionSize(133)
+        self.tableWidget_list_users.setStyleSheet(u"background-color: rgb(195, 188, 219);")
+        self.tableWidget_list_users.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.tableWidget_list_users.horizontalHeader().setDefaultSectionSize(192)
 
         self.verticalLayout_5.addWidget(self.tableWidget_list_users)
 

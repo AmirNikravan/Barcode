@@ -672,10 +672,13 @@ border-radius:10px
           <item>
            <widget class="QTableWidget" name="tableWidget_list_users">
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);</string>
+             <string notr="true">background-color: rgb(195, 188, 219);</string>
+            </property>
+            <property name="editTriggers">
+             <set>QAbstractItemView::NoEditTriggers</set>
             </property>
             <attribute name="horizontalHeaderDefaultSectionSize">
-             <number>133</number>
+             <number>192</number>
             </attribute>
             <column>
              <property name="text">

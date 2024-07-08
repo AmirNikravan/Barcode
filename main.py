@@ -34,6 +34,8 @@ from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPDF
 from db import DataBase
 from EditUser import EditUser
+
+
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         self.barcodes = []
@@ -53,13 +55,23 @@ class MainWindow(QMainWindow):
         self.ui.toolButton_newuser.clicked.connect(self.adduser)
         self.ui.toolButton_deleteuser.clicked.connect(self.delete_selected_rows2)
         self.ui.toolButton_edituser.clicked.connect(self.edituser)
+        self.ui.tableWidget_list_users.itemSelectionChanged.connect(self.on_table_item_selection_changed)
+
         # self.ui.tableWidget.itemSelectionChanged.connect(self.changeRowColor)
         # table config
         self.ui.tableWidget.setColumnWidth(0, 180)
         self.ui.tableWidget.setColumnWidth(1, 450)
         self.ui.tableWidget.setColumnWidth(2, 180)
-        self.ui.tableWidget.setColumnWidth(3, 450)
+        self.ui.tableWidget.setColumnWidth(3, 200)
+        self.ui.tableWidget_list_users.setColumnWidth(4,817)
+        self.ui.tableWidget_list_users.setStyleSheet("""
+                                                     
+            QTableWidget::item:selected {
+                background-color: #b3d9ff; /* Light blue */
+            }
+        """)
         # lineeidt config
+        
         self.ui.lineEdit.setFocus()
         self.ui.lineEdit.setMaxLength(15)
         # total barcodes
@@ -71,21 +83,77 @@ class MainWindow(QMainWindow):
         self.scan_timer.timeout.connect(self.enable_scanning)
         self.handlecombo()
         self.show_table()
+
+    def on_table_item_selection_changed(self):
+        selected_items = self.ui.tableWidget_list_users.selectedItems()
+
+        # Clear previous selection
+        self.clear_previous_selection()
+
+        # Apply selection style to the entire selected row
+        for item in selected_items:
+            row = item.row()
+            col = item.column()
+            self.apply_selection_style(row, col)
+
+    def clear_previous_selection(self):
+        for row in range(self.ui.tableWidget_list_users.rowCount()):
+            for col in range(self.ui.tableWidget_list_users.columnCount()):
+                item = self.ui.tableWidget_list_users.item(row, col)
+                if item:
+                    item.setBackground(QColor('white'))  # Change to your default background color
+
+    def apply_selection_style(self, row, col):
+        for c in range(self.ui.tableWidget_list_users.columnCount()):
+            item = self.ui.tableWidget_list_users.item(row, c)
+            if item:
+                item.setBackground(QColor('#b3d9ff'))
     def show_table(self):
-            rows = self.database.fetch_all()
-            if not rows :
-                return
-            self.ui.tableWidget_list_users.setRowCount(len(rows))
-            self.ui.tableWidget_list_users.setColumnCount(len(rows[0]))
-            for row_idx, row_data in enumerate(rows):
-                    for col_idx, col_data in enumerate(row_data):
-                        item = QTableWidgetItem(str(col_data))
-                        self.ui.tableWidget_list_users.setItem(row_idx, col_idx, item)
+        rows = self.database.fetch_all()
+        if not rows:
+            return
+        
+        # Clear existing table contents
+        self.ui.tableWidget_list_users.clearContents()
+        
+        # Set the number of rows and columns in the table widget
+        self.ui.tableWidget_list_users.setRowCount(len(rows))
+        self.ui.tableWidget_list_users.setColumnCount(5)  # Assuming 4 general info columns + 1 permissions column
+        
+        checkbox_texts = [
+            "تغییر مدل",
+            "مدیریت کاربران",
+            "گزارش گیری",
+            "تولید جعبه",
+            "مدیریت دیتابیس",
+        ]
+        
+        # Iterate over rows to populate table
+        for row_idx, row_data in enumerate(rows):
+            # Display general information (first 4 columns)
+            for col_idx in range(4):
+                item = QTableWidgetItem(str(row_data[col_idx]))
+                self.ui.tableWidget_list_users.setItem(row_idx, col_idx, item)
             
+            # Check permissions (last column)
+            permissions_text = []
+            for col_idx in range(4, 9):  # Assuming permissions are in columns 4 to 8
+                if row_data[col_idx] == 1:
+                    permission_index = col_idx - 4  # Calculate corresponding index in checkbox_texts
+                    if permission_index < len(checkbox_texts):
+                        permissions_text.append(checkbox_texts[permission_index])
+            
+            # Create text from permissions_text list
+            permissions_str = " , ".join(permissions_text)
+            item = QTableWidgetItem(permissions_str)
+            self.ui.tableWidget_list_users.setItem(row_idx, 4, item)
+
     def delete_selected_rows2(self):
         selected_ranges = self.ui.tableWidget_list_users.selectedRanges()
         if not selected_ranges:
-            QMessageBox.warning(self, "سطر انتخاب نشده", "لطفا کاربر مورد نظر را انتخاب کنید")
+            QMessageBox.warning(
+                self, "سطر انتخاب نشده", "لطفا کاربر مورد نظر را انتخاب کنید"
+            )
             return
 
         msg_box = QMessageBox(self)
@@ -100,33 +168,49 @@ class MainWindow(QMainWindow):
             rows_to_delete = set()
 
             for selected_range in selected_ranges:
-                for row in range(selected_range.topRow(), selected_range.bottomRow() + 1):
+                for row in range(
+                    selected_range.topRow(), selected_range.bottomRow() + 1
+                ):
                     rows_to_delete.add(row)
 
             try:
                 for row in sorted(rows_to_delete, reverse=True):
-                    username_item = self.ui.tableWidget_list_users.item(row, 2)  # Assuming username is in column index 2
+                    username_item = self.ui.tableWidget_list_users.item(
+                        row, 2
+                    )  # Assuming username is in column index 2
                     if username_item is not None:
                         username = username_item.text()
                         if username:
                             self.database.delete_user(username)
                             self.ui.tableWidget_list_users.removeRow(row)
             except Exception as e:
-                QMessageBox.critical(self, "خطا در حذف", f"خطا در حذف کاربر از پایگاه داده: {str(e)}")
+                QMessageBox.critical(
+                    self, "خطا در حذف", f"خطا در حذف کاربر از پایگاه داده: {str(e)}"
+                )
 
             QMessageBox.information(self, "حذف", "کاربر مورد نظر با موفقیت حذف شد")
+
     def adduser(self):
         dialog = QDialog(self)
-        ui = AddUser(dialog,self.ui.tableWidget_list_users,self.database)
+        ui = AddUser(dialog, self.ui.tableWidget_list_users, self.database)
         dialog.exec()
+
     def edituser(self):
         selected_items = self.ui.tableWidget_list_users.selectedItems()
         if not selected_items:
-            QMessageBox.warning(self, "سطر انتخاب نشده", "لطفا یک کاربر را برای ویرایش انتخاب کنید")
+            QMessageBox.warning(
+                self, "سطر انتخاب نشده", "لطفا یک کاربر را برای ویرایش انتخاب کنید"
+            )
             return
         dialog = QDialog(self)
-        ui = EditUser(dialog,self.ui.tableWidget_list_users,self.database,selected_items,self.show_table)
-        
+        ui = EditUser(
+            dialog,
+            self.ui.tableWidget_list_users,
+            self.database,
+            selected_items,
+            self.show_table,
+        )
+
         result = dialog.exec()
 
         if result == QDialog.Accepted:
@@ -134,21 +218,19 @@ class MainWindow(QMainWindow):
         elif result == QDialog.Rejected:
             print("User clicked Cancel or closed the dialog")
 
-    def refresh_table(self):
-        rows = self.database.fetch_all()
-        self.ui.tableWidget_list_users.setRowCount(len(rows))
-        self.ui.tableWidget_list_users.setColumnCount(len(rows[0]))
-        for row_idx, row_data in enumerate(rows):
-            for col_idx, col_data in enumerate(row_data):
-                item = QTableWidgetItem(str(col_data))
-                self.ui.tableWidget_list_users.setItem(row_idx, col_idx, item)
+    # def refresh_table(self):
+    #     rows = self.database.fetch_all()
+    #     self.ui.tableWidget_list_users.setRowCount(len(rows))
+    #     self.ui.tableWidget_list_users.setColumnCount(len(rows[0]))
+    #     for row_idx, row_data in enumerate(rows):
+    #         for col_idx, col_data in enumerate(row_data):
+    #             item = QTableWidgetItem(str(col_data))
+    #             self.ui.tableWidget_list_users.setItem(row_idx, col_idx, item)
     def navigation(self, text):
         if text == "scan":
             self.ui.stackedWidget.setCurrentIndex(0)
         if text == "user":
             self.ui.stackedWidget.setCurrentIndex(1)
-
-
 
     def generate_svg_with_text(text, filename, width="100mm", height="50mm"):
         # Ensure width and height are strings with units
@@ -437,7 +519,7 @@ class MainWindow(QMainWindow):
             dialog = QtPrintSupport.QPrintDialog()
             if dialog.exec() == QtWidgets.QDialog.Accepted:
                 self.handlePaintRequest(dialog.printer())
-
+            self.clear_table()
         except Exception as e:
             self.error_handler(f"Error Handel Print: {e}")
         self.ui.lineEdit.setFocus()
