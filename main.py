@@ -73,6 +73,9 @@ class MainWindow(QMainWindow):
         self.ui.tableWidget.setColumnWidth(2, 180)
         self.ui.tableWidget.setColumnWidth(3, 200)
         self.ui.tableWidget_list_users.setColumnWidth(4,817)
+        for col in range(self.ui.tableWidget.columnCount()):
+            self.ui.tableWidget.setSortingEnabled(False)
+
         self.ui.tableWidget_list_users.setStyleSheet("""
             QTableWidget {
                 background-color: #ffffff;
