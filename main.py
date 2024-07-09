@@ -482,12 +482,26 @@ class MainWindow(QMainWindow):
             except Exception as e:
                 self.error_handler(f"Error Line Edit: {e}")
             self.ui.lineEdit.clear()
-            if self.ui.tableWidget.rowCount() > 10:
-                return
             barcode.base.Barcode.default_writer_options["write_text"] = False
             if self.barcode_serial:
-                print(self.barcode_serial)
                 imei2 = self.database.search_imei(self.barcode_serial)
+                if not imei2 :
+                    QMessageBox.warning(self,'هشدار',f'بارکد {self.barcode_serial} در اکسل وجود ندارد.' )
+                    self.ui.lineEdit.clear()
+                    self.ui.lineEdit.setFocus()
+                    return
+                for row in range(self.ui.tableWidget.rowCount()):
+                    item = self.ui.tableWidget.item(row, 0)
+                    if item:
+                        text = item.text()
+                        pattern = re.compile(r"IMEI\s*:\s*(\d+)", re.IGNORECASE)
+                        match = pattern.search(text)
+                        imei_number = match.group(1) if match else ""              
+                        if self.barcode_serial == imei_number:
+                            QMessageBox.warning(self, 'هشدار', f'بارکد {self.barcode_serial} قبلا وارد شده است.')
+                            self.ui.lineEdit.clear()
+                            self.ui.lineEdit.setFocus()
+                            return
                 options = {
                     "dpi": 2000,
                     "module_width": 0.3,

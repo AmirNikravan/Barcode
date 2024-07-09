@@ -85,7 +85,6 @@ class DataBase(QWidget):
                     inform[8],
                 ),
             )
-            print("added")
             self.commit()
             return 1
         except Exception as e:
@@ -250,7 +249,6 @@ class DataBase(QWidget):
 
             if not result.empty:
                 imei2_value = result.iloc[0]['IMEI2']
-                print(imei2_value)
                 return imei2_value
             else:
                 print("Result: IMEI1 code not found")
