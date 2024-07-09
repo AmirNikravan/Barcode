@@ -36,6 +36,7 @@ class MainWindow(QMainWindow):
         self.shortcut.activated.connect(self.handlePrint)
         self.ui.setupUi(self)
         self.database = DataBase(self.ui.tableWidget_excel)
+        self.current_user = None
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_labels)
         self.timer.start(1000)  # Update every second
@@ -44,6 +45,7 @@ class MainWindow(QMainWindow):
         # signals
         self.ui.toolButton_navigscan.clicked.connect(lambda: self.navigation("scan"))
         self.ui.toolButton_naviguser.clicked.connect(lambda: self.navigation("user"))
+        self.ui.toolButton_navigaccount.clicked.connect(lambda:self.navigation('account'))
         self.ui.toolButton_navigdatabase.clicked.connect(
             lambda: self.navigation("database")
         )
@@ -58,6 +60,7 @@ class MainWindow(QMainWindow):
         self.ui.toolButton_edituser.clicked.connect(self.edituser)
         self.ui.toolButton_exportdb.clicked.connect(lambda: self.dbhandel("exportdb"))
         self.ui.toolButton_inputdb.clicked.connect(lambda: self.dbhandel("importdb"))
+        self.ui.toolButton_exit.clicked.connect(self.logout)
         self.ui.tableWidget_list_users.itemSelectionChanged.connect(
             self.on_table_item_selection_changed
         )
@@ -103,11 +106,19 @@ class MainWindow(QMainWindow):
         self.validation()
     def show_main_window(self):
         self.show()
+    def logout(self):
+        self.current_user = None  # Clear current user session
+        # Additional actions to reset UI or return to login state if necessary
+        # For example, hide user-specific UI elements, disable certain actions
+
+        # Optionally, show the login dialog again after logout
+        self.handellogin()
     def handellogin(self):
         dialog = Login(self.database)
         if dialog.exec() == QDialog.Accepted:
             self.show_main_window()
             detail = dialog.detail()
+            self.current_user = detail[2]
             self.ui.label_name.setText(f'{detail[0]} {detail[1]}')
             QMessageBox.information(self,'ورود',f'کاربر {detail[0]} {detail[1]} خوش آمدید.')
             
@@ -304,6 +315,8 @@ class MainWindow(QMainWindow):
             self.ui.stackedWidget.setCurrentIndex(1)
         if text == "database":
             self.ui.stackedWidget.setCurrentIndex(2)
+        if text == 'account':
+            self.ui.stackedWidget.setCurrentIndex(3)
 
     def generate_svg_with_text(text, filename, width="100mm", height="50mm"):
         # Ensure width and height are strings with units
