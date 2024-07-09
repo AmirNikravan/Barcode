@@ -17,17 +17,41 @@ import pandas as pd
 class DataBase(QWidget):
     def __init__(self,excel_table) -> None:
         super().__init__()
-        self.file = None
+        self.file = None #for excel
         self.df = pd.DataFrame()
         self.table = excel_table
-        self.connect = sqlite3.connect("./DataBase/DataBase.db")
-        self.cursor = self.connect.cursor()
+        self.connect = None
+        self.cursor = None
         self.database_folder = './DataBase/'
         self.current_db_path = os.path.join(self.database_folder, 'DataBase.db')
+        self.current_excel_path = os.path.join(self.database_folder, 'Data.xlsx')
+        self.load_existing_files()
+    def load_existing_files(self):
+        # Check if the database file exists and connect to it
+        self.status = [True,True]
+        if os.path.exists(self.current_db_path):
+            self.conn()
+        else:
+            QMessageBox.critical(self, "خطا", "دیتابیس وجود ندارد، لطفا یک دیتابیس معتبر وارد کنید.")
+            self.status[0] = False
+        # Check if the excel file exists and load it
+        if os.path.exists(self.current_excel_path):
+            self.file = self.current_excel_path
+            try:
+                self.df = pd.read_excel(self.current_excel_path)
+                # Load the data into the table widget
+                self.load_excel_data(self.current_excel_path)
+            except Exception as e:
+                QMessageBox.critical(self, "Error", f"Failed to load Excel file: {str(e)}")
+        else:
+            self.status[1] = False
+            QMessageBox.critical(self, "خطا", "فایل اکسل وجود ندارد،لطفا یک اکسل معتبر وارد کنید.")
+        self.validation()
     def commit(self):
         self.connect.commit()
     def conn(self):
-        self.connect = sqlite3.connect("./DataBase/DataBase.db")
+        self.connect = sqlite3.connect(self.current_db_path)
+        self.cursor = self.connect.cursor()
     def close(self):
         self.connect.close()
     def fetch_all(self):
@@ -148,21 +172,20 @@ class DataBase(QWidget):
                     self, "خطا", f"{e}"
                 )
             
-    def importdb(self):
+    def importdb(self):                
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        file_path, _ = QFileDialog.getOpenFileName(self, "Select Database File to Replace", "", "SQLite Database Files (*.db *.sqlite)", options=options)
+        file_path, _ = QFileDialog.getOpenFileName(self, "فایل دیتابیس را انتحاب کنید", "", "SQLite Database Files (*.db *.sqlite)", options=options)
         if file_path:
             try:
                 # Check if the chosen file is the same as the current database
                 if file_path == self.current_db_path:
-                    QMessageBox.critical(self, "Error", "Cannot replace with the same database file.")
+                    QMessageBox.critical(self, "خطا", ".این دیتابیس موجود است،لطفا یک دیتابیس جدید وارد کنید")
                     return
 
                 # Close any open SQLite connection
                 if self.connect:
                     self.close()
-                    # self.conn = None
 
                 # Replace the current database with the chosen one
                 if os.path.exists(self.current_db_path):
@@ -170,22 +193,25 @@ class DataBase(QWidget):
 
                 shutil.copy(file_path, self.current_db_path)
 
-                # Rename the chosen database file to 'DataBase.db' if it's not already named that
-                if os.path.basename(file_path) != 'DataBase.db':
-                    new_file_path = os.path.join(self.database_folder, 'DataBase.db')
-                    os.rename(file_path, new_file_path)
-                    file_path = new_file_path
-
-                QMessageBox.information(self, "Success", f"Database replaced successfully. New file path: {file_path}")
+                QMessageBox.information(self, "Success", f"دیتابیس با موفقیت جایگزین شد")
             except Exception as e:
                 QMessageBox.critical(self, "Error", f"Failed to replace database: {str(e)}")
+
     def importexcel(self):
         self.file, _ = QFileDialog.getOpenFileName(self, "Open Excel File", "", "Excel Files (*.xlsx *.xls)")
-        print(self.file)
         if self.file:
-            self.load_excel_data(self.file)
+            try:
+                # Replace the current excel file with the chosen one
+                if os.path.exists(self.current_excel_path):
+                    os.remove(self.current_excel_path)  # Remove existing file before copying
+
+                shutil.copy(self.file, self.current_excel_path)
+                self.file = self.current_excel_path
+                QMessageBox.information(self, "Success", f"فایل اکسل با موقیت بارگذاری شد.")
+                self.load_excel_data(self.file)
+            except Exception as e:
+                QMessageBox.critical(self, "Error", f"Failed to import Excel file: {str(e)}")
     def load_excel_data(self, file_name):
-        
         try:
             if not self.file:
                 QMessageBox.critical(
@@ -230,11 +256,15 @@ class DataBase(QWidget):
             print("Result: No data loaded or incorrect file format")
     def validation(self):
         try:
-            self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='user';")
-            table_exists = self.cursor.fetchone() is not None
-            # conn.close()
-            return (table_exists,self.df.empty)
-
+            if os.path.exists(self.current_db_path):
+                self.status[0] = True
+            else:
+                self.status[0] = False
+            if os.path.exists(self.current_excel_path):
+                self.status[1] = True
+            else:
+                self.status[1] = False
+            return self.status
         except Exception as e:
             QMessageBox.warning(self, "Database Error", f"Error checking the database: {e}")
             return False

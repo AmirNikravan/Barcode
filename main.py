@@ -100,7 +100,8 @@ class MainWindow(QMainWindow):
         self.scan_timer.setSingleShot(True)
         self.scan_timer.timeout.connect(self.enable_scanning)
         self.handlecombo()
-        self.show_table()
+        # self.show_table()
+        self.validation()
     def update_labels(self):
         current_date = jdatetime.date.today()
         current_time = QTime.currentTime()
@@ -263,6 +264,7 @@ class MainWindow(QMainWindow):
         if text == "scan":
             self.ui.stackedWidget.setCurrentIndex(0)
         if text == "user":
+            self.show_table()
             self.ui.stackedWidget.setCurrentIndex(1)
         if  text == 'database':
             self.ui.stackedWidget.setCurrentIndex(2)
@@ -393,42 +395,45 @@ class MainWindow(QMainWindow):
         self.ui.lineEdit.setFocus()
         self.ui.lineEdit.setFocus()
     def validation(self):
-        status = self.database.validation()
-        print(status)
+        print('clicked')
+        
+        status = self.database.validation()       
         self.ui.label_count.setText(str(self.database.count_rows_in_excel()))
-        if  status[1]:
-                QMessageBox.critical(self,'Excel', 'فایل excel موجود نمی باشد')
-                self.ui.lineEdit.clear()
-                self.ui.lineEdit.setFocus()
-                self.ui.pushButton_scan.setEnabled(True)
-                self.ui.lineEdit.setEnabled(True)
-                self.ui.label_excel_status.setText('نامتعبر')
-                self.ui
-        else:
+        if  status[0] == False:
+            
+            self.ui.toolButton_deleteuser.setEnabled(False)
+            self.ui.toolButton_edituser.setEnabled(False)
+            self.ui.toolButton_newuser.setEnabled(False)
+            
+            self.ui.label_db_status.setText('نامتعبر')
             self.ui.pushButton_scan.setEnabled(False)
             self.ui.lineEdit.setEnabled(False)
-            self.ui.label_excel_status.setText('متعبر')
-        if not status[0]:
-                QMessageBox.critical(self,'Data Base', 'دیتابیس موجود نمی باشد')
-                self.ui.toolButton_deleteuser.setEnabled(False)
-                self.ui.toolButton_edituser.setEnabled(False)
-                self.ui.toolButton_newuser.setEnabled(False)
-                self.ui.label_db_status.setText('نامتعبر')
-                self.ui.pushButton_scan.setEnabled(False)
-                self.ui.lineEdit.setEnabled(False)
-                self.ui.lineEdit.clear()
-                self.ui.lineEdit.setFocus()
+            self.ui.lineEdit.clear()
+            self.ui.lineEdit.setFocus()
+            return
         else:
-                self.ui.label_db_status.setText('معتبر')
-                self.ui.toolButton_deleteuser.setEnabled(True)
-                self.ui.toolButton_edituser.setEnabled(True)
-                self.ui.toolButton_newuser.setEnabled(True)
-                self.ui.pushButton_scan.setEnabled(True)
-                self.ui.lineEdit.setEnabled(True)
+            self.ui.label_db_status.clear()
+            self.ui.label_db_status.setText('معتبر')
+            self.ui.toolButton_deleteuser.setEnabled(True)
+            self.ui.toolButton_edituser.setEnabled(True)
+            self.ui.toolButton_newuser.setEnabled(True)
+            self.ui.pushButton_scan.setEnabled(True)
+            self.ui.lineEdit.setEnabled(True)
+        if  status[1] == False:
+            self.ui.lineEdit.clear()
+            self.ui.lineEdit.setFocus()
+            self.ui.pushButton_scan.setEnabled(False)
+            self.ui.lineEdit.setEnabled(False)
+            self.ui.label_excel_status.setText('نامتعبر')
+            # self.ui
+        else:
+            self.ui.pushButton_scan.setEnabled(True)
+            self.ui.lineEdit.setEnabled(True)
+            self.ui.label_excel_status.setText('متعبر')
+        
         return status[0] and status[1]
     def barcode_scan(self):
         try:
-            self.validation()
             if (self.ui.tableWidget.item(9,2)) != None:
                 self.ui.lineEdit.clear()
                 self.ui.lineEdit.setFocus()

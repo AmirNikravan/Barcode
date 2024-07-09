@@ -690,7 +690,7 @@ class Ui_MainWindow(object):
 
         self.toolButton_inputdb = QToolButton(self.database)
         self.toolButton_inputdb.setObjectName(u"toolButton_inputdb")
-        self.toolButton_inputdb.setEnabled(False)
+        self.toolButton_inputdb.setEnabled(True)
         self.toolButton_inputdb.setMinimumSize(QSize(49, 36))
         self.toolButton_inputdb.setFont(font1)
         self.toolButton_inputdb.setStyleSheet(u"QToolButton{border-radius:11px;\n"
