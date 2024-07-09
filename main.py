@@ -47,12 +47,14 @@ class MainWindow(QMainWindow):
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_labels)
         self.timer.start(1000)  # Update every second
-        self.setWindowTitle('IMEI SCANNER')
+        self.setWindowTitle("IMEI SCANNER")
         self.update_labels()
         # signals
         self.ui.toolButton_navigscan.clicked.connect(lambda: self.navigation("scan"))
         self.ui.toolButton_naviguser.clicked.connect(lambda: self.navigation("user"))
-        self.ui.toolButton_navigdatabase.clicked.connect(lambda: self.navigation("database"))
+        self.ui.toolButton_navigdatabase.clicked.connect(
+            lambda: self.navigation("database")
+        )
         self.ui.pushButton_scan.clicked.connect(self.barcode_scan)
         self.ui.toolButton_print.clicked.connect(self.handlePrint)
         self.ui.lineEdit.returnPressed.connect(self.barcode_scan)
@@ -62,22 +64,25 @@ class MainWindow(QMainWindow):
         self.ui.toolButton_newuser.clicked.connect(self.adduser)
         self.ui.toolButton_deleteuser.clicked.connect(self.delete_selected_rows2)
         self.ui.toolButton_edituser.clicked.connect(self.edituser)
-        self.ui.toolButton_exportdb.clicked.connect(lambda : self.dbhandel('exportdb'))
-        self.ui.toolButton_inputdb.clicked.connect(lambda : self.dbhandel('importdb'))
-        self.ui.tableWidget_list_users.itemSelectionChanged.connect(self.on_table_item_selection_changed)
+        self.ui.toolButton_exportdb.clicked.connect(lambda: self.dbhandel("exportdb"))
+        self.ui.toolButton_inputdb.clicked.connect(lambda: self.dbhandel("importdb"))
+        self.ui.tableWidget_list_users.itemSelectionChanged.connect(
+            self.on_table_item_selection_changed
+        )
         self.ui.toolButton_inputexcel.clicked.connect(self.importexcel)
         self.ui.toolButton_dbcheck.clicked.connect(self.validation)
         # self.ui.tableWidget.itemSelectionChanged.connect(self.changeRowColor)
         # table config
         self.ui.tableWidget.setColumnWidth(0, 180)
-        self.ui.tableWidget.setColumnWidth(1, 450)
+        self.ui.tableWidget.setColumnWidth(1, 400)
         self.ui.tableWidget.setColumnWidth(2, 180)
-        self.ui.tableWidget.setColumnWidth(3, 200)
-        self.ui.tableWidget_list_users.setColumnWidth(4,817)
+        self.ui.tableWidget.setColumnWidth(3, 250)
+        self.ui.tableWidget_list_users.setColumnWidth(4, 810)
         for col in range(self.ui.tableWidget.columnCount()):
             self.ui.tableWidget.setSortingEnabled(False)
 
-        self.ui.tableWidget_list_users.setStyleSheet("""
+        self.ui.tableWidget_list_users.setStyleSheet(
+            """
             QTableWidget {
                 background-color: #ffffff;
                 border: 1px solid #d0d0d0;
@@ -85,11 +90,12 @@ class MainWindow(QMainWindow):
             QTableWidget::item:selected {
                 background-color: #b3d9ff; /* Light blue */
             }
-        """)
-        self.ui.tableWidget_excel.setColumnWidth(0,220)
-        self.ui.tableWidget_excel.setColumnWidth(1,220)
+        """
+        )
+        self.ui.tableWidget_excel.setColumnWidth(0, 220)
+        self.ui.tableWidget_excel.setColumnWidth(1, 220)
         # lineeidt config
-        
+
         self.ui.lineEdit.setFocus()
         self.ui.lineEdit.setMaxLength(15)
         # total barcodes
@@ -102,27 +108,39 @@ class MainWindow(QMainWindow):
         self.handlecombo()
         # self.show_table()
         self.validation()
+
     def update_labels(self):
         current_date = jdatetime.date.today()
         current_time = QTime.currentTime()
         # locale = QLocale(QLocale.Persian, QLocale.Iran)
 
         date_text = jdatetime.date.today()
-        date_text = current_date.strftime('%Y/%m/%d')
-        time_text = current_time.toString('hh:mm:ss A')
-        day_names = ["شنبه", "یکشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنجشنبه", "جمعه"]
+        date_text = current_date.strftime("%Y/%m/%d")
+        time_text = current_time.toString("hh:mm:ss A")
+        day_names = [
+            "شنبه",
+            "یکشنبه",
+            "دوشنبه",
+            "سه شنبه",
+            "چهارشنبه",
+            "پنجشنبه",
+            "جمعه",
+        ]
         day_text = day_names[current_date.weekday()]
 
         self.ui.label_time.setText(time_text)
         self.ui.label_date.setText(date_text)
         self.ui.label_day.setText(day_text)
+
     def importexcel(self):
         self.database.importexcel()
-    def dbhandel(self,result):
-        if result == 'exportdb':
+
+    def dbhandel(self, result):
+        if result == "exportdb":
             self.database.exportdb()
-        if result == 'importdb':
+        if result == "importdb":
             self.database.importdb()
+
     def on_table_item_selection_changed(self):
         selected_items = self.ui.tableWidget_list_users.selectedItems()
 
@@ -140,27 +158,32 @@ class MainWindow(QMainWindow):
             for col in range(self.ui.tableWidget_list_users.columnCount()):
                 item = self.ui.tableWidget_list_users.item(row, col)
                 if item:
-                    item.setBackground(QColor('white'))  # Change to your default background color
+                    item.setBackground(
+                        QColor("white")
+                    )  # Change to your default background color
 
     def apply_selection_style(self, row, col):
         for c in range(self.ui.tableWidget_list_users.columnCount()):
             item = self.ui.tableWidget_list_users.item(row, c)
             if item:
-                item.setBackground(QColor('#b3d9ff'))
+                item.setBackground(QColor("#b3d9ff"))
+
     def show_table(self):
-        if  self.validation() == False:
+        if self.validation() == False:
             return
         rows = self.database.fetch_all()
         if not rows:
             return
-        
+
         # Clear existing table contents
         self.ui.tableWidget_list_users.clearContents()
-        
+
         # Set the number of rows and columns in the table widget
         self.ui.tableWidget_list_users.setRowCount(len(rows))
-        self.ui.tableWidget_list_users.setColumnCount(5)  # Assuming 4 general info columns + 1 permissions column
-        
+        self.ui.tableWidget_list_users.setColumnCount(
+            5
+        )  # Assuming 4 general info columns + 1 permissions column
+
         checkbox_texts = [
             "تغییر مدل",
             "مدیریت کاربران",
@@ -168,22 +191,24 @@ class MainWindow(QMainWindow):
             "تولید جعبه",
             "مدیریت دیتابیس",
         ]
-        
+
         # Iterate over rows to populate table
         for row_idx, row_data in enumerate(rows):
             # Display general information (first 4 columns)
             for col_idx in range(4):
                 item = QTableWidgetItem(str(row_data[col_idx]))
                 self.ui.tableWidget_list_users.setItem(row_idx, col_idx, item)
-            
+
             # Check permissions (last column)
             permissions_text = []
             for col_idx in range(4, 9):  # Assuming permissions are in columns 4 to 8
                 if row_data[col_idx] == 1:
-                    permission_index = col_idx - 4  # Calculate corresponding index in checkbox_texts
+                    permission_index = (
+                        col_idx - 4
+                    )  # Calculate corresponding index in checkbox_texts
                     if permission_index < len(checkbox_texts):
                         permissions_text.append(checkbox_texts[permission_index])
-            
+
             # Create text from permissions_text list
             permissions_str = " , ".join(permissions_text)
             item = QTableWidgetItem(permissions_str)
@@ -232,7 +257,7 @@ class MainWindow(QMainWindow):
             QMessageBox.information(self, "حذف", "کاربر مورد نظر با موفقیت حذف شد")
 
     def adduser(self):
-        
+
         dialog = AddUser(self.ui.tableWidget_list_users, self.database)
         dialog.exec()
 
@@ -243,8 +268,13 @@ class MainWindow(QMainWindow):
                 self, "سطر انتخاب نشده", "لطفا یک کاربر را برای ویرایش انتخاب کنید"
             )
             return
-        dialog = EditUser(self.ui.tableWidget_list_users, self.database, selected_items, self.show_table)
-        
+        dialog = EditUser(
+            self.ui.tableWidget_list_users,
+            self.database,
+            selected_items,
+            self.show_table,
+        )
+
         result = dialog.exec()
 
         if result == QDialog.Accepted:
@@ -266,7 +296,7 @@ class MainWindow(QMainWindow):
         if text == "user":
             self.show_table()
             self.ui.stackedWidget.setCurrentIndex(1)
-        if  text == 'database':
+        if text == "database":
             self.ui.stackedWidget.setCurrentIndex(2)
 
     def generate_svg_with_text(text, filename, width="100mm", height="50mm"):
@@ -394,18 +424,19 @@ class MainWindow(QMainWindow):
         msg.exec()
         self.ui.lineEdit.setFocus()
         self.ui.lineEdit.setFocus()
-    def validation(self):        
-        status = self.database.validation()       
+
+    def validation(self):
+        status = self.database.validation()
         self.ui.label_count.setText(str(self.database.count_rows_in_excel()))
-        if  status[1] == True:
-            self.ui.label_excel_status.setText('متعبر')
-        if  status[0] == False:
-            
+        if status[1] == True:
+            self.ui.label_excel_status.setText("متعبر")
+        if status[0] == False:
+
             self.ui.toolButton_deleteuser.setEnabled(False)
             self.ui.toolButton_edituser.setEnabled(False)
             self.ui.toolButton_newuser.setEnabled(False)
-            
-            self.ui.label_db_status.setText('نامتعبر')
+
+            self.ui.label_db_status.setText("نامتعبر")
             self.ui.pushButton_scan.setEnabled(False)
             self.ui.lineEdit.setEnabled(False)
             self.ui.lineEdit.clear()
@@ -413,36 +444,38 @@ class MainWindow(QMainWindow):
             return False
         else:
             # self.ui.label_db_status.clear()
-            self.ui.label_db_status.setText('معتبر')
+            self.ui.label_db_status.setText("معتبر")
             self.ui.toolButton_deleteuser.setEnabled(True)
             self.ui.toolButton_edituser.setEnabled(True)
             self.ui.toolButton_newuser.setEnabled(True)
             self.ui.pushButton_scan.setEnabled(True)
             self.ui.lineEdit.setEnabled(True)
-        if  status[1] == False:
+        if status[1] == False:
             self.ui.lineEdit.clear()
             self.ui.lineEdit.setFocus()
             self.ui.pushButton_scan.setEnabled(False)
             self.ui.lineEdit.setEnabled(False)
-            self.ui.label_excel_status.setText('نامتعبر')
+            self.ui.label_excel_status.setText("نامتعبر")
             # self.ui
         else:
             self.ui.pushButton_scan.setEnabled(True)
             self.ui.lineEdit.setEnabled(True)
-            print(234234)
-            self.ui.label_excel_status.setText('متعبر')
-        
+            self.ui.label_excel_status.setText("متعبر")
+
         return status[0] and status[1]
+
     def barcode_scan(self):
         try:
-            if (self.ui.tableWidget.item(9,2)) != None:
+            if (self.ui.tableWidget.item(9, 2)) != None:
                 self.ui.lineEdit.clear()
                 self.ui.lineEdit.setFocus()
                 QMessageBox.information(self, "سطر", "تعداد IMEI ها تکمیل است.")
                 return
             try:
                 self.barcode_serial = self.ui.lineEdit.text()
-                if len(self.barcode_serial) !=15 or  re.search('[^0-9]', self.barcode_serial):
+                if len(self.barcode_serial) != 15 or re.search(
+                    "[^0-9]", self.barcode_serial
+                ):
                     self.ui.lineEdit.clear()
                     self.ui.lineEdit.setFocus()
                     return
@@ -454,7 +487,7 @@ class MainWindow(QMainWindow):
             barcode.base.Barcode.default_writer_options["write_text"] = False
             if self.barcode_serial:
                 print(self.barcode_serial)
-                self.database.search_imei(self.barcode_serial)
+                imei2 = self.database.search_imei(self.barcode_serial)
                 options = {
                     "dpi": 2000,
                     "module_width": 0.3,
@@ -473,17 +506,19 @@ class MainWindow(QMainWindow):
                     "font_size": 0.7,
                     "font_path": "ARIAL.TTF",
                 }
-                barcode.base.Barcode.default_writer_options["text"] = (
-                    f"IMEI: {self.barcode_serial}"
-                )
+
                 code = QTableWidgetItem(f"IMEI: {self.barcode_serial}")
                 font = QFont()
                 font.setFamily("Arial")  # Set the font family
                 font.setPointSize(12)
                 code.setFont(font)
-
+                code2 = QTableWidgetItem(f"IMEI: {imei2}")
+                code2.setFont(font)
                 try:
                     with open(f"./images/{self.barcode_serial}.png", "wb") as f:
+                        barcode.base.Barcode.default_writer_options["text"] = (
+                            f"IMEI: {self.barcode_serial}"
+                        )
                         writer = ImageWriter()
 
                         barcode_class = barcode.get_barcode_class("code128")
@@ -495,17 +530,41 @@ class MainWindow(QMainWindow):
                         except Exception as e:
                             print(f"Error creating ImageWriter: {e}")
                             traceback.print_exc()
+
+                    with open(f"./images/{imei2}.png", "wb") as f:
+                        barcode.base.Barcode.default_writer_options["text"] = (
+                            f"IMEI: {imei2}"
+                        )
+                        writer = ImageWriter()
+
+                        barcode_class = barcode.get_barcode_class("code128")
+                        barcode_instance = barcode_class(f"{imei2}", writer)
+                        try:
+                            barcode_instance.write(f, options=options2)
+                        except Exception as e:
+                            print(f"Error creating ImageWriter: {e}")
+                            traceback.print_exc()
+
                     with open(f"./images/{self.barcode_serial}.svg", "wb") as f:
+                        barcode.base.Barcode.default_writer_options["text"] = (
+                            f"IMEI: {self.barcode_serial}"
+                        )
                         writer = SVGWriter()
                         barcode_class = barcode.get_barcode_class("code128")
                         barcode_instance = barcode_class(
                             f"{self.barcode_serial}", writer
                         )
-
                         barcode_instance.write(f, options=options)
-
                         # Print detailed traceback for debuggin
-                        self.barcodes.append(self.barcode_serial)
+                    with open(f"./images/{imei2}.svg", "wb") as f:
+                        barcode.base.Barcode.default_writer_options["text"] = (
+                            f"IMEI: {imei2}"
+                        )
+                        writer = SVGWriter()
+                        barcode_class = barcode.get_barcode_class("code128")
+                        barcode_instance = barcode_class(f"{imei2}", writer)
+                        barcode_instance.write(f, options=options)
+                        # Print detailed traceback for debuggin
 
                 except Exception as e:
                     self.error_handler(f"Error Creating Barcodes: {e}")
@@ -515,34 +574,36 @@ class MainWindow(QMainWindow):
                     label.width = 10
                     label.height = 100
                     label.setPixmap(pic)
+                    pic2 = QtGui.QPixmap(f"./images/{imei2}.png")
+                    label2 = QtWidgets.QLabel()
+                    label2.width = 10
+                    label2.height = 100
+                    label2.setPixmap(pic2)
                 except Exception as e:
                     self.error_handler(f"Error Creating table label: {e}")
                 try:
-                    if self.total % 2 == 0:
-                        self.ui.tableWidget.setRowCount(
-                            self.ui.tableWidget.rowCount() + 1
-                        )
 
-                        self.ui.tableWidget.setItem(
-                            self.ui.tableWidget.rowCount() - 1, 0, code
-                        )
-                        self.ui.tableWidget.setCellWidget(
-                            self.ui.tableWidget.rowCount() - 1, 1, label
-                        )
-                    else:
-                        self.ui.tableWidget.setItem(
-                            self.ui.tableWidget.rowCount() - 1, 2, code
-                        )
-                        self.ui.tableWidget.setCellWidget(
-                            self.ui.tableWidget.rowCount() - 1, 3, label
-                        )
+                    self.ui.tableWidget.setRowCount(self.ui.tableWidget.rowCount() + 1)
+
+                    self.ui.tableWidget.setItem(
+                        self.ui.tableWidget.rowCount() - 1, 0, code
+                    )
+                    self.ui.tableWidget.setCellWidget(
+                        self.ui.tableWidget.rowCount() - 1, 1, label
+                    )
+                    self.ui.tableWidget.setItem(
+                        self.ui.tableWidget.rowCount() - 1, 2, code2
+                    )
+                    self.ui.tableWidget.setCellWidget(
+                        self.ui.tableWidget.rowCount() - 1, 3, label2
+                    )
                     self.ui.tableWidget.setRowHeight(
                         self.ui.tableWidget.rowCount() - 1, 100
                     )
                     label.setAlignment(Qt.AlignCenter)
                 except Exception as e:
                     self.error_handler(f"Error Inserting Barcodes in Table: {e}")
-                self.total += 1
+                self.total += 2
                 self.disable_editing(self.ui.tableWidget.rowCount() - 1)
                 self.disable_scanning()
                 self.ui.lineEdit.setFocus()
@@ -599,8 +660,8 @@ class MainWindow(QMainWindow):
 
     def handlePrint(self):
         try:
-            if (self.ui.tableWidget.item(9,2)) == None:
-                QMessageBox.warning(self,'تعداد IMEI','بارکد ها ناقص می باشند')
+            if (self.ui.tableWidget.item(9, 2)) == None:
+                QMessageBox.warning(self, "تعداد IMEI", "بارکد ها ناقص می باشند")
                 return
             if self.ui.comboBox_model.currentText() == "select":
                 msg_box = QtWidgets.QMessageBox(self)
