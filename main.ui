@@ -1601,6 +1601,16 @@ background-color: rgb(255, 166, 139);
            <string>خروج</string>
           </property>
          </widget>
+         <widget class="QTableWidget" name="tableWidget_2">
+          <property name="geometry">
+           <rect>
+            <x>260</x>
+            <y>380</y>
+            <width>256</width>
+            <height>91</height>
+           </rect>
+          </property>
+         </widget>
         </widget>
        </widget>
       </item>
@@ -1652,6 +1662,49 @@ background-color: rgb(255, 166, 139);
             <size>
              <width>34</width>
              <height>33</height>
+            </size>
+           </property>
+           <property name="toolButtonStyle">
+            <enum>Qt::ToolButtonTextUnderIcon</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="toolButton_navigbox">
+           <property name="minimumSize">
+            <size>
+             <width>54</width>
+             <height>59</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QToolButton{border-radius:11px;
+
+
+	background-color: rgb(132, 171, 108);
+}
+QToolButton:hover{
+background-color: rgb(255, 166, 139);
+}
+
+</string>
+           </property>
+           <property name="text">
+            <string>جعبه</string>
+           </property>
+           <property name="icon">
+            <iconset resource="rcs.qrc">
+             <normaloff>:/icons/Icons/icons8-box-64.png</normaloff>:/icons/Icons/icons8-box-64.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>31</width>
+             <height>34</height>
             </size>
            </property>
            <property name="toolButtonStyle">
@@ -1746,50 +1799,7 @@ background-color: rgb(255, 166, 139);
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="toolButton_navigaccount">
-           <property name="minimumSize">
-            <size>
-             <width>54</width>
-             <height>59</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>12</pointsize>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QToolButton{border-radius:11px;
-
-
-	background-color: rgb(132, 171, 108);
-}
-QToolButton:hover{
-background-color: rgb(255, 166, 139);
-}
-
-</string>
-           </property>
-           <property name="text">
-            <string>اکانت</string>
-           </property>
-           <property name="icon">
-            <iconset resource="rcs.qrc">
-             <normaloff>:/icons/Icons/icons8-account-64.png</normaloff>:/icons/Icons/icons8-account-64.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>31</width>
-             <height>34</height>
-            </size>
-           </property>
-           <property name="toolButtonStyle">
-            <enum>Qt::ToolButtonTextUnderIcon</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButton_report">
+          <widget class="QToolButton" name="toolButton_navigreport">
            <property name="minimumSize">
             <size>
              <width>54</width>
@@ -1832,7 +1842,7 @@ background-color: rgb(255, 166, 139);
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="toolButton_box">
+          <widget class="QToolButton" name="toolButton_navigaccount">
            <property name="minimumSize">
             <size>
              <width>54</width>
@@ -1857,11 +1867,11 @@ background-color: rgb(255, 166, 139);
 </string>
            </property>
            <property name="text">
-            <string>جعبه</string>
+            <string>اکانت</string>
            </property>
            <property name="icon">
             <iconset resource="rcs.qrc">
-             <normaloff>:/icons/Icons/icons8-box-64.png</normaloff>:/icons/Icons/icons8-box-64.png</iconset>
+             <normaloff>:/icons/Icons/icons8-account-64.png</normaloff>:/icons/Icons/icons8-account-64.png</iconset>
            </property>
            <property name="iconSize">
             <size>

@@ -797,6 +797,9 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "")
+        self.tableWidget_2 = QTableWidget(self.account)
+        self.tableWidget_2.setObjectName(u"tableWidget_2")
+        self.tableWidget_2.setGeometry(QRect(260, 380, 256, 91))
         self.stackedWidget.addWidget(self.account)
 
         self.horizontalLayout_4.addWidget(self.stackedWidget)
@@ -829,6 +832,28 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addWidget(self.toolButton_navigscan)
 
+        self.toolButton_navigbox = QToolButton(self.navigation)
+        self.toolButton_navigbox.setObjectName(u"toolButton_navigbox")
+        self.toolButton_navigbox.setMinimumSize(QSize(54, 59))
+        self.toolButton_navigbox.setFont(font2)
+        self.toolButton_navigbox.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+"\n"
+"\n"
+"	background-color: rgb(132, 171, 108);\n"
+"}\n"
+"QToolButton:hover{\n"
+"background-color: rgb(255, 166, 139);\n"
+"}\n"
+"\n"
+"")
+        icon8 = QIcon()
+        icon8.addFile(u":/icons/Icons/icons8-box-64.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_navigbox.setIcon(icon8)
+        self.toolButton_navigbox.setIconSize(QSize(31, 34))
+        self.toolButton_navigbox.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.verticalLayout_2.addWidget(self.toolButton_navigbox)
+
         self.toolButton_navigdatabase = QToolButton(self.navigation)
         self.toolButton_navigdatabase.setObjectName(u"toolButton_navigdatabase")
         self.toolButton_navigdatabase.setMinimumSize(QSize(54, 59))
@@ -843,9 +868,9 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "")
-        icon8 = QIcon()
-        icon8.addFile(u":/icons/Icons/icons8-database-64.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_navigdatabase.setIcon(icon8)
+        icon9 = QIcon()
+        icon9.addFile(u":/icons/Icons/icons8-database-64.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_navigdatabase.setIcon(icon9)
         self.toolButton_navigdatabase.setIconSize(QSize(34, 37))
         self.toolButton_navigdatabase.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
@@ -865,13 +890,35 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "")
-        icon9 = QIcon()
-        icon9.addFile(u":/icons/Icons/icons8-user-40.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_naviguser.setIcon(icon9)
+        icon10 = QIcon()
+        icon10.addFile(u":/icons/Icons/icons8-user-40.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_naviguser.setIcon(icon10)
         self.toolButton_naviguser.setIconSize(QSize(31, 34))
         self.toolButton_naviguser.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
         self.verticalLayout_2.addWidget(self.toolButton_naviguser)
+
+        self.toolButton_navigreport = QToolButton(self.navigation)
+        self.toolButton_navigreport.setObjectName(u"toolButton_navigreport")
+        self.toolButton_navigreport.setMinimumSize(QSize(54, 59))
+        self.toolButton_navigreport.setFont(font2)
+        self.toolButton_navigreport.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+"\n"
+"\n"
+"	background-color: rgb(132, 171, 108);\n"
+"}\n"
+"QToolButton:hover{\n"
+"background-color: rgb(255, 166, 139);\n"
+"}\n"
+"\n"
+"")
+        icon11 = QIcon()
+        icon11.addFile(u":/icons/Icons/icons8-report-64.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_navigreport.setIcon(icon11)
+        self.toolButton_navigreport.setIconSize(QSize(31, 34))
+        self.toolButton_navigreport.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.verticalLayout_2.addWidget(self.toolButton_navigreport)
 
         self.toolButton_navigaccount = QToolButton(self.navigation)
         self.toolButton_navigaccount.setObjectName(u"toolButton_navigaccount")
@@ -887,57 +934,13 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "")
-        icon10 = QIcon()
-        icon10.addFile(u":/icons/Icons/icons8-account-64.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_navigaccount.setIcon(icon10)
+        icon12 = QIcon()
+        icon12.addFile(u":/icons/Icons/icons8-account-64.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_navigaccount.setIcon(icon12)
         self.toolButton_navigaccount.setIconSize(QSize(31, 34))
         self.toolButton_navigaccount.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
         self.verticalLayout_2.addWidget(self.toolButton_navigaccount)
-
-        self.toolButton_report = QToolButton(self.navigation)
-        self.toolButton_report.setObjectName(u"toolButton_report")
-        self.toolButton_report.setMinimumSize(QSize(54, 59))
-        self.toolButton_report.setFont(font2)
-        self.toolButton_report.setStyleSheet(u"QToolButton{border-radius:11px;\n"
-"\n"
-"\n"
-"	background-color: rgb(132, 171, 108);\n"
-"}\n"
-"QToolButton:hover{\n"
-"background-color: rgb(255, 166, 139);\n"
-"}\n"
-"\n"
-"")
-        icon11 = QIcon()
-        icon11.addFile(u":/icons/Icons/icons8-report-64.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_report.setIcon(icon11)
-        self.toolButton_report.setIconSize(QSize(31, 34))
-        self.toolButton_report.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
-        self.verticalLayout_2.addWidget(self.toolButton_report)
-
-        self.toolButton_box = QToolButton(self.navigation)
-        self.toolButton_box.setObjectName(u"toolButton_box")
-        self.toolButton_box.setMinimumSize(QSize(54, 59))
-        self.toolButton_box.setFont(font2)
-        self.toolButton_box.setStyleSheet(u"QToolButton{border-radius:11px;\n"
-"\n"
-"\n"
-"	background-color: rgb(132, 171, 108);\n"
-"}\n"
-"QToolButton:hover{\n"
-"background-color: rgb(255, 166, 139);\n"
-"}\n"
-"\n"
-"")
-        icon12 = QIcon()
-        icon12.addFile(u":/icons/Icons/icons8-box-64.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_box.setIcon(icon12)
-        self.toolButton_box.setIconSize(QSize(31, 34))
-        self.toolButton_box.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
-        self.verticalLayout_2.addWidget(self.toolButton_box)
 
 
         self.horizontalLayout_4.addWidget(self.navigation)
@@ -1042,11 +1045,11 @@ class Ui_MainWindow(object):
         self.label_30.setText(QCoreApplication.translate("MainWindow", u"TextLabel", None))
         self.toolButton_exit.setText(QCoreApplication.translate("MainWindow", u"\u062e\u0631\u0648\u062c", None))
         self.toolButton_navigscan.setText(QCoreApplication.translate("MainWindow", u"\u0627\u0633\u06a9\u0646", None))
+        self.toolButton_navigbox.setText(QCoreApplication.translate("MainWindow", u"\u062c\u0639\u0628\u0647", None))
         self.toolButton_navigdatabase.setText(QCoreApplication.translate("MainWindow", u"\u062f\u06cc\u062a\u0627\u0628\u06cc\u0633", None))
         self.toolButton_naviguser.setText(QCoreApplication.translate("MainWindow", u"\u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
+        self.toolButton_navigreport.setText(QCoreApplication.translate("MainWindow", u"\u06af\u0632\u0627\u0631\u0634", None))
         self.toolButton_navigaccount.setText(QCoreApplication.translate("MainWindow", u"\u0627\u06a9\u0627\u0646\u062a", None))
-        self.toolButton_report.setText(QCoreApplication.translate("MainWindow", u"\u06af\u0632\u0627\u0631\u0634", None))
-        self.toolButton_box.setText(QCoreApplication.translate("MainWindow", u"\u062c\u0639\u0628\u0647", None))
         self.menuHelp.setTitle(QCoreApplication.translate("MainWindow", u"\u06a9\u0645\u06a9", None))
     # retranslateUi
 

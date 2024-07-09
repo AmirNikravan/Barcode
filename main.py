@@ -113,6 +113,32 @@ class MainWindow(QMainWindow):
 
         # Optionally, show the login dialog again after logout
         self.handellogin()
+    def handelpermissions(self):
+        self.permissions = self.database.permission(self.current_user)
+        if self.permissions['model'] == 0:
+            self.ui.comboBox_model.setEnabled(False)
+            self.ui.comboBox_color.setEnabled(False)
+            self.ui.comboBox_sku.setEnabled(False)
+        else:
+            self.ui.comboBox_color.setEnabled(True)
+            self.ui.comboBox_sku.setEnabled(True)
+            self.ui.comboBox_model.setEnabled(True)
+        if self.permissions['user'] == 0:
+            self.ui.toolButton_naviguser.setEnabled(False)
+        else:
+            self.ui.toolButton_naviguser.setEnabled(True)
+        if self.permissions['report'] == 0:
+            self.ui.toolButton_navigreport.setEnabled(False)
+        else:
+            self.ui.toolButton_navigreport.setEnabled(True)
+        if  self.permissions['toolid'] == 0:
+            self.ui.toolButton_navigbox.setEnabled(False)
+        else:
+            self.ui.toolButton_navigbox.setEnabled(True)
+        if self.permissions['db'] == 0:
+            self.ui.toolButton_navigdatabase.setEnabled(False)
+        else:
+            self.ui.toolButton_navigdatabase.setEnabled(True)
     def handellogin(self):
         dialog = Login(self.database)
         if dialog.exec() == QDialog.Accepted:
@@ -120,6 +146,8 @@ class MainWindow(QMainWindow):
             detail = dialog.detail()
             self.current_user = detail[2]
             self.ui.label_name.setText(f'{detail[0]} {detail[1]}')
+            # self.permissions = self.database.permission(detail[2])
+            self.handelpermissions()
             QMessageBox.information(self,'ورود',f'کاربر {detail[0]} {detail[1]} خوش آمدید.')
             
         else:
@@ -295,6 +323,7 @@ class MainWindow(QMainWindow):
         result = dialog.exec()
 
         if result == QDialog.Accepted:
+            self.handelpermissions()
             print("User clicked OK")
         elif result == QDialog.Rejected:
             print("User clicked Cancel or closed the dialog")

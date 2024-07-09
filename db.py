@@ -289,4 +289,8 @@ class DataBase(QWidget):
                 cursor.execute("SELECT * FROM user WHERE username=? AND password=?", (username, password))
                 user = cursor.fetchone()
                 return user is not None
-            
+    def permission(self,username):
+        if self.connect:
+                self.cursor.execute("SELECT pmodel,puser,pgozaresh,ptoolid,pdb FROM user WHERE username=?", (username,))
+                self.perm= self.cursor.fetchone()
+                return{'model':self.perm[0],'user':self.perm[1],'report':self.perm[2],'toolid':self.perm[3],'db':self.perm[4]}    
