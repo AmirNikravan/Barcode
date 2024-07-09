@@ -1009,7 +1009,7 @@ background-color: rgb(255, 166, 139);
                  <set>QAbstractItemView::NoEditTriggers</set>
                 </property>
                 <attribute name="horizontalHeaderDefaultSectionSize">
-                 <number>150</number>
+                 <number>127</number>
                 </attribute>
                 <column>
                  <property name="text">

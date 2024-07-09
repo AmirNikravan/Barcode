@@ -86,8 +86,8 @@ class MainWindow(QMainWindow):
                 background-color: #b3d9ff; /* Light blue */
             }
         """)
-        self.ui.tableWidget_excel.setColumnWidth(0,245)
-        self.ui.tableWidget_excel.setColumnWidth(1,250)
+        self.ui.tableWidget_excel.setColumnWidth(0,220)
+        self.ui.tableWidget_excel.setColumnWidth(1,220)
         # lineeidt config
         
         self.ui.lineEdit.setFocus()
@@ -148,7 +148,7 @@ class MainWindow(QMainWindow):
             if item:
                 item.setBackground(QColor('#b3d9ff'))
     def show_table(self):
-        if not self.validation():
+        if  self.validation() == False:
             return
         rows = self.database.fetch_all()
         if not rows:
@@ -394,11 +394,11 @@ class MainWindow(QMainWindow):
         msg.exec()
         self.ui.lineEdit.setFocus()
         self.ui.lineEdit.setFocus()
-    def validation(self):
-        print('clicked')
-        
+    def validation(self):        
         status = self.database.validation()       
         self.ui.label_count.setText(str(self.database.count_rows_in_excel()))
+        if  status[1] == True:
+            self.ui.label_excel_status.setText('متعبر')
         if  status[0] == False:
             
             self.ui.toolButton_deleteuser.setEnabled(False)
@@ -410,9 +410,9 @@ class MainWindow(QMainWindow):
             self.ui.lineEdit.setEnabled(False)
             self.ui.lineEdit.clear()
             self.ui.lineEdit.setFocus()
-            return
+            return False
         else:
-            self.ui.label_db_status.clear()
+            # self.ui.label_db_status.clear()
             self.ui.label_db_status.setText('معتبر')
             self.ui.toolButton_deleteuser.setEnabled(True)
             self.ui.toolButton_edituser.setEnabled(True)
@@ -429,6 +429,7 @@ class MainWindow(QMainWindow):
         else:
             self.ui.pushButton_scan.setEnabled(True)
             self.ui.lineEdit.setEnabled(True)
+            print(234234)
             self.ui.label_excel_status.setText('متعبر')
         
         return status[0] and status[1]

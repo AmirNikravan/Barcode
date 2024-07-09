@@ -542,7 +542,7 @@ class Ui_MainWindow(object):
         self.tableWidget_excel.setMinimumSize(QSize(0, 0))
         self.tableWidget_excel.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.tableWidget_excel.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.tableWidget_excel.horizontalHeader().setDefaultSectionSize(150)
+        self.tableWidget_excel.horizontalHeader().setDefaultSectionSize(127)
 
         self.horizontalLayout_8.addWidget(self.tableWidget_excel)
 

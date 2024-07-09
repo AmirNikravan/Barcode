@@ -194,6 +194,8 @@ class DataBase(QWidget):
                 shutil.copy(file_path, self.current_db_path)
 
                 QMessageBox.information(self, "Success", f"دیتابیس با موفقیت جایگزین شد")
+                if self.connect == None:
+                    self.conn()
             except Exception as e:
                 QMessageBox.critical(self, "Error", f"Failed to replace database: {str(e)}")
 
