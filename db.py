@@ -283,3 +283,10 @@ class DataBase(QWidget):
         except Exception as e:
             print(f"Error reading the Excel file: {e}")
             return None
+    def login(self, username, password):
+            if self.connect:
+                cursor = self.connect.cursor()
+                cursor.execute("SELECT * FROM user WHERE username=? AND password=?", (username, password))
+                user = cursor.fetchone()
+                return user is not None
+            

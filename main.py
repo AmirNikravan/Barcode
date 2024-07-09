@@ -1,13 +1,4 @@
-from PySide6.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QMessageBox,
-    QLabel,
-    QTableWidgetItem,
-    QErrorMessage,
-    QFileDialog,
-    QDialog,
-)
+from PySide6.QtWidgets import *
 import traceback
 import sys, os
 from PIL import Image
@@ -35,13 +26,14 @@ from reportlab.graphics import renderPDF
 from db import DataBase
 from EditUser import EditUser
 import jdatetime
-
-
+from login import *
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         self.barcodes = []
         super().__init__(parent)
         self.ui = Ui_MainWindow()
+        self.shortcut = QShortcut(QKeySequence("Ctrl+P"), self)
+        self.shortcut.activated.connect(self.handlePrint)
         self.ui.setupUi(self)
         self.database = DataBase(self.ui.tableWidget_excel)
         self.timer = QTimer()
@@ -77,7 +69,7 @@ class MainWindow(QMainWindow):
         self.ui.tableWidget.setColumnWidth(1, 400)
         self.ui.tableWidget.setColumnWidth(2, 180)
         self.ui.tableWidget.setColumnWidth(3, 250)
-        self.ui.tableWidget_list_users.setColumnWidth(4, 810)
+        self.ui.tableWidget_list_users.setColumnWidth(4, 800)
         for col in range(self.ui.tableWidget.columnCount()):
             self.ui.tableWidget.setSortingEnabled(False)
 
@@ -105,10 +97,24 @@ class MainWindow(QMainWindow):
         self.scan_timer = QTimer(self)
         self.scan_timer.setSingleShot(True)
         self.scan_timer.timeout.connect(self.enable_scanning)
+        # self.handellogin()
         self.handlecombo()
         # self.show_table()
         self.validation()
-
+    def show_main_window(self):
+        self.show()
+    def handellogin(self):
+        dialog = Login(self.database)
+        if dialog.exec() == QDialog.Accepted:
+            self.show_main_window()
+            detail = dialog.detail()
+            self.ui.label_name.setText(f'{detail[0]} {detail[1]}')
+            QMessageBox.information(self,'ورود',f'کاربر {detail[0]} {detail[1]} خوش آمدید.')
+            
+        else:
+            # print('Login failed')
+            sys.exit(0)
+            # return
     def update_labels(self):
         current_date = jdatetime.date.today()
         current_time = QTime.currentTime()
@@ -485,8 +491,12 @@ class MainWindow(QMainWindow):
             barcode.base.Barcode.default_writer_options["write_text"] = False
             if self.barcode_serial:
                 imei2 = self.database.search_imei(self.barcode_serial)
-                if not imei2 :
-                    QMessageBox.warning(self,'هشدار',f'بارکد {self.barcode_serial} در اکسل وجود ندارد.' )
+                if not imei2:
+                    QMessageBox.warning(
+                        self,
+                        "هشدار",
+                        f"بارکد {self.barcode_serial} در اکسل وجود ندارد.",
+                    )
                     self.ui.lineEdit.clear()
                     self.ui.lineEdit.setFocus()
                     return
@@ -496,9 +506,13 @@ class MainWindow(QMainWindow):
                         text = item.text()
                         pattern = re.compile(r"IMEI\s*:\s*(\d+)", re.IGNORECASE)
                         match = pattern.search(text)
-                        imei_number = match.group(1) if match else ""              
+                        imei_number = match.group(1) if match else ""
                         if self.barcode_serial == imei_number:
-                            QMessageBox.warning(self, 'هشدار', f'بارکد {self.barcode_serial} قبلا وارد شده است.')
+                            QMessageBox.warning(
+                                self,
+                                "هشدار",
+                                f"بارکد {self.barcode_serial} قبلا وارد شده است.",
+                            )
                             self.ui.lineEdit.clear()
                             self.ui.lineEdit.setFocus()
                             return
@@ -926,5 +940,5 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     widget = MainWindow()
-    widget.show()
+    widget.handellogin()
     sys.exit(app.exec())

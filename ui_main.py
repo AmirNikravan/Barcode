@@ -819,7 +819,7 @@ class Ui_MainWindow(object):
         self.label_time.setText("")
         self.label_date.setText("")
         self.label_day.setText("")
-        self.label_name.setText(QCoreApplication.translate("MainWindow", u"\u0627\u0645\u06cc\u0631\u062d\u0633\u06cc\u0646 \u0646\u06cc\u06a9 \u0631\u0648\u0627\u0646", None))
+        self.label_name.setText("")
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"\u06a9\u0627\u0631\u0628\u0631 :", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"\u0627\u0633\u06a9\u0646 \u0628\u0627\u0631\u06a9\u062f", None))
         self.pushButton_clear.setText(QCoreApplication.translate("MainWindow", u"\u062d\u0630\u0641 \u062c\u062f\u0648\u0644", None))
