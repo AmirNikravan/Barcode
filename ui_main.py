@@ -33,7 +33,7 @@ class Ui_MainWindow(object):
         icon = QIcon()
         icon.addFile(u":/icons/Icons/mainicon.png", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
-        MainWindow.setStyleSheet(u"background-color: rgb(255, 230, 221);")
+        MainWindow.setStyleSheet(u"")
         self.actionAbout = QAction(MainWindow)
         self.actionAbout.setObjectName(u"actionAbout")
         self.centralwidget = QWidget(MainWindow)
@@ -117,11 +117,6 @@ class Ui_MainWindow(object):
 "")
         self.verticalLayout = QVBoxLayout(self.barcode)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.widget_2 = QWidget(self.barcode)
-        self.widget_2.setObjectName(u"widget_2")
-
-        self.verticalLayout.addWidget(self.widget_2)
-
         self.label = QLabel(self.barcode)
         self.label.setObjectName(u"label")
         font3 = QFont()
@@ -481,27 +476,55 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.users)
         self.database = QWidget()
         self.database.setObjectName(u"database")
-        self.verticalLayout_6 = QVBoxLayout(self.database)
-        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.verticalLayout_7 = QVBoxLayout(self.database)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.horizontalLayout_14 = QHBoxLayout()
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.toolButton_dbcheck = QToolButton(self.database)
+        self.toolButton_dbcheck.setObjectName(u"toolButton_dbcheck")
+        self.toolButton_dbcheck.setMinimumSize(QSize(23, 29))
+        self.toolButton_dbcheck.setFont(font1)
+        self.toolButton_dbcheck.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+"\n"
+"\n"
+"	background-color: rgb(132, 171, 108);\n"
+"}\n"
+"QToolButton:hover{\n"
+"background-color: rgb(255, 166, 139);\n"
+"}\n"
+"\n"
+"")
+
+        self.horizontalLayout_14.addWidget(self.toolButton_dbcheck)
+
+        self.horizontalSpacer_14 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_14.addItem(self.horizontalSpacer_14)
+
         self.label_11 = QLabel(self.database)
         self.label_11.setObjectName(u"label_11")
         self.label_11.setFont(font3)
 
-        self.verticalLayout_6.addWidget(self.label_11)
+        self.horizontalLayout_14.addWidget(self.label_11)
+
+
+        self.verticalLayout_7.addLayout(self.horizontalLayout_14)
 
         self.line_4 = QFrame(self.database)
         self.line_4.setObjectName(u"line_4")
         self.line_4.setFrameShape(QFrame.Shape.HLine)
         self.line_4.setFrameShadow(QFrame.Shadow.Sunken)
 
-        self.verticalLayout_6.addWidget(self.line_4)
+        self.verticalLayout_7.addWidget(self.line_4)
 
         self.label_12 = QLabel(self.database)
         self.label_12.setObjectName(u"label_12")
         self.label_12.setFont(font1)
 
-        self.verticalLayout_6.addWidget(self.label_12)
+        self.verticalLayout_7.addWidget(self.label_12)
 
+        self.horizontalLayout_13 = QHBoxLayout()
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
         self.horizontalLayout_8 = QHBoxLayout()
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
         self.horizontalSpacer_10 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
@@ -528,7 +551,54 @@ class Ui_MainWindow(object):
         self.horizontalLayout_8.addItem(self.horizontalSpacer_11)
 
 
-        self.verticalLayout_6.addLayout(self.horizontalLayout_8)
+        self.horizontalLayout_13.addLayout(self.horizontalLayout_8)
+
+        self.verticalLayout_6 = QVBoxLayout()
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.horizontalLayout_10 = QHBoxLayout()
+        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.label_excel_status = QLabel(self.database)
+        self.label_excel_status.setObjectName(u"label_excel_status")
+        self.label_excel_status.setMinimumSize(QSize(50, 0))
+        self.label_excel_status.setFont(font1)
+
+        self.horizontalLayout_10.addWidget(self.label_excel_status)
+
+        self.label_14 = QLabel(self.database)
+        self.label_14.setObjectName(u"label_14")
+        self.label_14.setFont(font1)
+
+        self.horizontalLayout_10.addWidget(self.label_14)
+
+
+        self.verticalLayout_6.addLayout(self.horizontalLayout_10)
+
+        self.horizontalLayout_11 = QHBoxLayout()
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
+        self.label_count = QLabel(self.database)
+        self.label_count.setObjectName(u"label_count")
+        self.label_count.setFont(font1)
+
+        self.horizontalLayout_11.addWidget(self.label_count)
+
+        self.label_15 = QLabel(self.database)
+        self.label_15.setObjectName(u"label_15")
+        self.label_15.setFont(font1)
+
+        self.horizontalLayout_11.addWidget(self.label_15)
+
+
+        self.verticalLayout_6.addLayout(self.horizontalLayout_11)
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_6.addItem(self.verticalSpacer)
+
+
+        self.horizontalLayout_13.addLayout(self.verticalLayout_6)
+
+
+        self.verticalLayout_7.addLayout(self.horizontalLayout_13)
 
         self.horizontalLayout_7 = QHBoxLayout()
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
@@ -564,13 +634,35 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.addItem(self.horizontalSpacer_9)
 
 
-        self.verticalLayout_6.addLayout(self.horizontalLayout_7)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_7)
 
         self.label_13 = QLabel(self.database)
         self.label_13.setObjectName(u"label_13")
         self.label_13.setFont(font1)
 
-        self.verticalLayout_6.addWidget(self.label_13)
+        self.verticalLayout_7.addWidget(self.label_13)
+
+        self.horizontalLayout_12 = QHBoxLayout()
+        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
+        self.horizontalSpacer_13 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_12.addItem(self.horizontalSpacer_13)
+
+        self.label_db_status = QLabel(self.database)
+        self.label_db_status.setObjectName(u"label_db_status")
+        self.label_db_status.setMinimumSize(QSize(71, 0))
+        self.label_db_status.setFont(font1)
+
+        self.horizontalLayout_12.addWidget(self.label_db_status)
+
+        self.label_16 = QLabel(self.database)
+        self.label_16.setObjectName(u"label_16")
+        self.label_16.setFont(font1)
+
+        self.horizontalLayout_12.addWidget(self.label_16)
+
+
+        self.verticalLayout_7.addLayout(self.horizontalLayout_12)
 
         self.horizontalLayout_6 = QHBoxLayout()
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
@@ -618,7 +710,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6.addWidget(self.toolButton_inputdb)
 
 
-        self.verticalLayout_6.addLayout(self.horizontalLayout_6)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_6)
 
         self.stackedWidget.addWidget(self.database)
 
@@ -715,7 +807,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -765,14 +857,21 @@ class Ui_MainWindow(object):
         self.toolButton_edituser.setText(QCoreApplication.translate("MainWindow", u"\u0648\u06cc\u0631\u0627\u06cc\u0634 \u06a9\u0627\u0631\u0628\u0631", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"\u06af\u0632\u0627\u0631\u0634 \u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
         self.toolButton_clearstatus.setText(QCoreApplication.translate("MainWindow", u"\u067e\u0627\u06a9 \u06a9\u0631\u062f\u0646 \u062c\u062f\u0648\u0644", None))
+        self.toolButton_dbcheck.setText(QCoreApplication.translate("MainWindow", u"\u0628\u0631\u0631\u0633\u06cc \u062f\u06cc\u062a\u0627\u0628\u06cc\u0633 \u0647\u0627", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"\u062f\u06cc\u062a\u0627\u0628\u06cc\u0633", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"\u062f\u06cc\u062a\u0627\u0628\u06cc\u0633 IMEI", None))
         ___qtablewidgetitem9 = self.tableWidget_excel.horizontalHeaderItem(0)
         ___qtablewidgetitem9.setText(QCoreApplication.translate("MainWindow", u"IMEI1", None));
         ___qtablewidgetitem10 = self.tableWidget_excel.horizontalHeaderItem(1)
         ___qtablewidgetitem10.setText(QCoreApplication.translate("MainWindow", u"IMEI2", None));
+        self.label_excel_status.setText("")
+        self.label_14.setText(QCoreApplication.translate("MainWindow", u"\u0648\u0636\u0639\u06cc\u062a :", None))
+        self.label_count.setText("")
+        self.label_15.setText(QCoreApplication.translate("MainWindow", u"\u062a\u0639\u062f\u0627\u062f IMEI :", None))
         self.toolButton_inputexcel.setText(QCoreApplication.translate("MainWindow", u"import", None))
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"\u062f\u06cc\u062a\u0627\u0628\u06cc\u0633 \u0628\u0631\u0646\u0627\u0645\u0647", None))
+        self.label_db_status.setText("")
+        self.label_16.setText(QCoreApplication.translate("MainWindow", u"\u0648\u0636\u0639\u06cc\u062a :", None))
         self.toolButton_exportdb.setText(QCoreApplication.translate("MainWindow", u"export", None))
         self.toolButton_inputdb.setText(QCoreApplication.translate("MainWindow", u"import", None))
         self.toolButton_navigscan.setText(QCoreApplication.translate("MainWindow", u"\u0627\u0633\u06a9\u0646", None))

@@ -228,4 +228,28 @@ class DataBase(QWidget):
                 print("Result: IMEI1 code not found")
         else:
             print("Result: No data loaded or incorrect file format")
-        
+    def validation(self):
+        try:
+            self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='user';")
+            table_exists = self.cursor.fetchone() is not None
+            # conn.close()
+            return (table_exists,self.df.empty)
+
+        except Exception as e:
+            QMessageBox.warning(self, "Database Error", f"Error checking the database: {e}")
+            return False
+    def count_rows_in_excel(self):
+        try:
+            # Read the Excel file into a DataFrame
+            if self.file:
+                df = pd.read_excel(self.file)
+                
+                # Get the number of rows
+                num_rows = len(df)
+                
+                return num_rows
+            else:
+                return 0
+        except Exception as e:
+            print(f"Error reading the Excel file: {e}")
+            return None

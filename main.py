@@ -66,6 +66,7 @@ class MainWindow(QMainWindow):
         self.ui.toolButton_inputdb.clicked.connect(lambda : self.dbhandel('importdb'))
         self.ui.tableWidget_list_users.itemSelectionChanged.connect(self.on_table_item_selection_changed)
         self.ui.toolButton_inputexcel.clicked.connect(self.importexcel)
+        self.ui.toolButton_dbcheck.clicked.connect(self.validation)
         # self.ui.tableWidget.itemSelectionChanged.connect(self.changeRowColor)
         # table config
         self.ui.tableWidget.setColumnWidth(0, 180)
@@ -146,6 +147,8 @@ class MainWindow(QMainWindow):
             if item:
                 item.setBackground(QColor('#b3d9ff'))
     def show_table(self):
+        if not self.validation():
+            return
         rows = self.database.fetch_all()
         if not rows:
             return
@@ -389,9 +392,43 @@ class MainWindow(QMainWindow):
         msg.exec()
         self.ui.lineEdit.setFocus()
         self.ui.lineEdit.setFocus()
-
+    def validation(self):
+        status = self.database.validation()
+        print(status)
+        self.ui.label_count.setText(str(self.database.count_rows_in_excel()))
+        if  status[1]:
+                QMessageBox.critical(self,'Excel', 'فایل excel موجود نمی باشد')
+                self.ui.lineEdit.clear()
+                self.ui.lineEdit.setFocus()
+                self.ui.pushButton_scan.setEnabled(True)
+                self.ui.lineEdit.setEnabled(True)
+                self.ui.label_excel_status.setText('نامتعبر')
+                self.ui
+        else:
+            self.ui.pushButton_scan.setEnabled(False)
+            self.ui.lineEdit.setEnabled(False)
+            self.ui.label_excel_status.setText('متعبر')
+        if not status[0]:
+                QMessageBox.critical(self,'Data Base', 'دیتابیس موجود نمی باشد')
+                self.ui.toolButton_deleteuser.setEnabled(False)
+                self.ui.toolButton_edituser.setEnabled(False)
+                self.ui.toolButton_newuser.setEnabled(False)
+                self.ui.label_db_status.setText('نامتعبر')
+                self.ui.pushButton_scan.setEnabled(False)
+                self.ui.lineEdit.setEnabled(False)
+                self.ui.lineEdit.clear()
+                self.ui.lineEdit.setFocus()
+        else:
+                self.ui.label_db_status.setText('معتبر')
+                self.ui.toolButton_deleteuser.setEnabled(True)
+                self.ui.toolButton_edituser.setEnabled(True)
+                self.ui.toolButton_newuser.setEnabled(True)
+                self.ui.pushButton_scan.setEnabled(True)
+                self.ui.lineEdit.setEnabled(True)
+        return status[0] and status[1]
     def barcode_scan(self):
         try:
+            self.validation()
             if (self.ui.tableWidget.item(9,2)) != None:
                 self.ui.lineEdit.clear()
                 self.ui.lineEdit.setFocus()
@@ -418,7 +455,7 @@ class MainWindow(QMainWindow):
                     "module_height": 8,
                     "quiet_zone": 5,
                     "text_distance": 5,
-                    "font_size": 12,
+                    "font_size": 8.5,
                     "font_path": "ARIAL.TTF",
                 }
                 options2 = {
@@ -520,7 +557,7 @@ class MainWindow(QMainWindow):
     def handlecombo(self):
         self.data = {
             "select": {},
-            "NOKIA 105 TA-1557 DS": {
+            "NOKIA 105TA-1557 DS": {
                 "1GF019CPG6F02": ["Cyan"],
                 "1GF019CPA2F01": ["Charcoal"],
                 "1GF019CPA2F02": ["Charcoal"],
