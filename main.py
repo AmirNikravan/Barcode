@@ -562,7 +562,7 @@ class MainWindow(QMainWindow):
                     "dpi": 2000,
                     "module_width": 0.3,
                     "module_height": 8,
-                    "quiet_zone": 5,
+                    "quiet_zone": 1,
                     "text_distance": 5,
                     "font_size": 8.5,
                     "font_path": "ARIAL.TTF",
@@ -767,7 +767,14 @@ class MainWindow(QMainWindow):
             return
         try:
             bala_layout = ss.VBoxLayout()
-
+            bala_chap = ss.VBoxLayout()
+            bala_final = ss.HBoxLayout()
+            bala_chap.addSVG(
+                f"./svgs/blank5.svg", alignment=ss.AlignTop | ss.AlignLeft
+            )
+            bala_layout.addSVG(
+                f"./svgs/blank6.svg", alignment=ss.AlignTop | ss.AlignLeft
+            )
             bala_layout.addSVG(
                 f"./svgs/b{sku}.svg", alignment=ss.AlignTop | ss.AlignLeft
             )
@@ -777,16 +784,20 @@ class MainWindow(QMainWindow):
             bala_layout.addSVG(
                 f"./svgs/blank3.svg", alignment=ss.AlignTop | ss.AlignLeft
             )
-
+            bala_final.addLayout(bala_chap)
+            bala_final.addLayout(bala_layout)
             full_table_layout = ss.HBoxLayout()
             table1_layout = ss.HBoxLayout()
             table2_layout = ss.HBoxLayout()
             l11 = ss.VBoxLayout()
             l12 = ss.VBoxLayout()
+            lfirst = ss.VBoxLayout()
             l13 = ss.VBoxLayout()
+            l14 = ss.VBoxLayout()
             l21 = ss.VBoxLayout()
             l22 = ss.VBoxLayout()
             l23 = ss.VBoxLayout()
+            l24 = ss.VBoxLayout()
         except Exception as e:
             self.error_handler(f"Error bala_layout: {e}")
         try:
@@ -808,6 +819,9 @@ class MainWindow(QMainWindow):
                     path1 = f"./images/{imei_number}.svg"
                     # Print the path
                     if row == 0:
+                        lfirst.addSVG(
+                            "./svgs/blank7.svg", alignment=ss.AlignTop | ss.AlignLeft
+                        )
                         l11.addSVG(
                             "./svgs/imei1.svg", alignment=ss.AlignTop | ss.AlignLeft
                         )
@@ -817,8 +831,8 @@ class MainWindow(QMainWindow):
                     if row < 5:
                         l12.addSVG(path1, alignment=ss.AlignTop | ss.AlignLeft)
                     else:
-                        # l3.addSVG("blank1.svg", alignment=ss.AlignTop | ss.AlignLeft)
-                        l13.addSVG(path1, alignment=ss.AlignTop | ss.AlignLeft)
+                        l13.addSVG("./svgs/blank8.svg", alignment=ss.AlignTop | ss.AlignLeft)
+                        l14.addSVG(path1, alignment=ss.AlignTop | ss.AlignLeft)
 
                 vasat = ss.HBoxLayout()
                 vasat.addSVG("./svgs/blank2.svg", alignment=ss.AlignTop | ss.AlignLeft)
@@ -844,8 +858,8 @@ class MainWindow(QMainWindow):
                     if row < 5:
                         l22.addSVG(path2, alignment=ss.AlignTop | ss.AlignLeft)
                     else:
-                        # l2.addSVG("blank1.svg", alignment=ss.AlignTop | ss.AlignLeft)
-                        l23.addSVG(path2, alignment=ss.AlignTop | ss.AlignLeft)
+                        l23.addSVG("./svgs/blank8.svg", alignment=ss.AlignTop | ss.AlignLeft)
+                        l24.addSVG(path2, alignment=ss.AlignTop | ss.AlignLeft)
         except Exception as e:
             self.error_handler(f"Error output tables: {e}")
         try:
@@ -855,7 +869,7 @@ class MainWindow(QMainWindow):
                 qr = qrcode.QRCode(
                     version=1,  # Controls the size of the QR Code: 1 is the smallest
                     error_correction=qrcode.constants.ERROR_CORRECT_L,  # Error correction level
-                    box_size=10,  # Size of each box in pixels
+                    box_size=14,  # Size of each box in pixels
                     border=4,  # Thickness of the border (default is 4)
                 )
                 qr.add_data(data)
@@ -882,17 +896,20 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self.error_handler(f"Error creating Qr code: {e}")
         try:
+            table1_layout.addLayout(lfirst)
             table1_layout.addLayout(l11)
-            table1_layout.addLayout(l13)
             table1_layout.addLayout(l12)
+            table1_layout.addLayout(l13)
+            table1_layout.addLayout(l14)
             table2_layout.addLayout(l21)
             table2_layout.addLayout(l22)
             table2_layout.addLayout(l23)
+            table2_layout.addLayout(l24)
             full_table_layout.addLayout(table1_layout)
             full_table_layout.addLayout(vasat)
 
             full_table_layout.addLayout(table2_layout)
-            final_layout.addLayout(bala_layout)
+            final_layout.addLayout(bala_final)
             final_layout.addLayout(full_table_layout)
             final_layout.addLayout(full_qr_layout)
             doc.setLayout(final_layout)
