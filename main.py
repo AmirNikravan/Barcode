@@ -27,6 +27,8 @@ from db import DataBase
 from EditUser import EditUser
 import jdatetime
 from login import *
+
+
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         self.barcodes = []
@@ -45,7 +47,9 @@ class MainWindow(QMainWindow):
         # signals
         self.ui.toolButton_navigscan.clicked.connect(lambda: self.navigation("scan"))
         self.ui.toolButton_naviguser.clicked.connect(lambda: self.navigation("user"))
-        self.ui.toolButton_navigaccount.clicked.connect(lambda:self.navigation('account'))
+        self.ui.toolButton_navigaccount.clicked.connect(
+            lambda: self.navigation("account")
+        )
         self.ui.toolButton_navigdatabase.clicked.connect(
             lambda: self.navigation("database")
         )
@@ -104,8 +108,10 @@ class MainWindow(QMainWindow):
         self.handlecombo()
         # self.show_table()
         self.validation()
+
     def show_main_window(self):
         self.show()
+
     def logout(self):
         self.current_user = None  # Clear current user session
         # Additional actions to reset UI or return to login state if necessary
@@ -113,9 +119,10 @@ class MainWindow(QMainWindow):
 
         # Optionally, show the login dialog again after logout
         self.handellogin()
+
     def handelpermissions(self):
         self.permissions = self.database.permission(self.current_user)
-        if self.permissions['model'] == 0:
+        if self.permissions["model"] == 0:
             self.ui.comboBox_model.setEnabled(False)
             self.ui.comboBox_color.setEnabled(False)
             self.ui.comboBox_sku.setEnabled(False)
@@ -123,37 +130,41 @@ class MainWindow(QMainWindow):
             self.ui.comboBox_color.setEnabled(True)
             self.ui.comboBox_sku.setEnabled(True)
             self.ui.comboBox_model.setEnabled(True)
-        if self.permissions['user'] == 0:
+        if self.permissions["user"] == 0:
             self.ui.toolButton_naviguser.setEnabled(False)
         else:
             self.ui.toolButton_naviguser.setEnabled(True)
-        if self.permissions['report'] == 0:
+        if self.permissions["report"] == 0:
             self.ui.toolButton_navigreport.setEnabled(False)
         else:
             self.ui.toolButton_navigreport.setEnabled(True)
-        if  self.permissions['toolid'] == 0:
+        if self.permissions["toolid"] == 0:
             self.ui.toolButton_navigbox.setEnabled(False)
         else:
             self.ui.toolButton_navigbox.setEnabled(True)
-        if self.permissions['db'] == 0:
+        if self.permissions["db"] == 0:
             self.ui.toolButton_navigdatabase.setEnabled(False)
         else:
             self.ui.toolButton_navigdatabase.setEnabled(True)
+
     def handellogin(self):
         dialog = Login(self.database)
         if dialog.exec() == QDialog.Accepted:
             self.show_main_window()
             detail = dialog.detail()
             self.current_user = detail[2]
-            self.ui.label_name.setText(f'{detail[0]} {detail[1]}')
+            self.ui.label_name.setText(f"{detail[0]} {detail[1]}")
             # self.permissions = self.database.permission(detail[2])
             self.handelpermissions()
-            QMessageBox.information(self,'ورود',f'کاربر {detail[0]} {detail[1]} خوش آمدید.')
-            
+            QMessageBox.information(
+                self, "ورود", f"کاربر {detail[0]} {detail[1]} خوش آمدید."
+            )
+
         else:
             # print('Login failed')
             sys.exit(0)
             # return
+
     def update_labels(self):
         current_date = jdatetime.date.today()
         current_time = QTime.currentTime()
@@ -344,7 +355,7 @@ class MainWindow(QMainWindow):
             self.ui.stackedWidget.setCurrentIndex(1)
         if text == "database":
             self.ui.stackedWidget.setCurrentIndex(2)
-        if text == 'account':
+        if text == "account":
             self.ui.stackedWidget.setCurrentIndex(3)
 
     def generate_svg_with_text(text, filename, width="100mm", height="50mm"):
@@ -769,9 +780,7 @@ class MainWindow(QMainWindow):
             bala_layout = ss.VBoxLayout()
             bala_chap = ss.VBoxLayout()
             bala_final = ss.HBoxLayout()
-            bala_chap.addSVG(
-                f"./svgs/blank5.svg", alignment=ss.AlignTop | ss.AlignLeft
-            )
+            bala_chap.addSVG(f"./svgs/blank5.svg", alignment=ss.AlignTop | ss.AlignLeft)
             bala_layout.addSVG(
                 f"./svgs/blank6.svg", alignment=ss.AlignTop | ss.AlignLeft
             )
@@ -831,7 +840,9 @@ class MainWindow(QMainWindow):
                     if row < 5:
                         l12.addSVG(path1, alignment=ss.AlignTop | ss.AlignLeft)
                     else:
-                        l13.addSVG("./svgs/blank8.svg", alignment=ss.AlignTop | ss.AlignLeft)
+                        l13.addSVG(
+                            "./svgs/blank8.svg", alignment=ss.AlignTop | ss.AlignLeft
+                        )
                         l14.addSVG(path1, alignment=ss.AlignTop | ss.AlignLeft)
 
                 vasat = ss.HBoxLayout()
@@ -858,7 +869,9 @@ class MainWindow(QMainWindow):
                     if row < 5:
                         l22.addSVG(path2, alignment=ss.AlignTop | ss.AlignLeft)
                     else:
-                        l23.addSVG("./svgs/blank8.svg", alignment=ss.AlignTop | ss.AlignLeft)
+                        l23.addSVG(
+                            "./svgs/blank8.svg", alignment=ss.AlignTop | ss.AlignLeft
+                        )
                         l24.addSVG(path2, alignment=ss.AlignTop | ss.AlignLeft)
         except Exception as e:
             self.error_handler(f"Error output tables: {e}")

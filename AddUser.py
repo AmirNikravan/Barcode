@@ -1,5 +1,13 @@
 from add_user import Ui_Dialog
-from PySide6.QtWidgets import  QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QPushButton, QMessageBox,QDialog
+from PySide6.QtWidgets import (
+    QWidget,
+    QVBoxLayout,
+    QTableWidget,
+    QTableWidgetItem,
+    QPushButton,
+    QMessageBox,
+    QDialog,
+)
 from PySide6.QtCore import (
     QCoreApplication,
     QDate,
@@ -13,13 +21,12 @@ from PySide6.QtCore import (
     QTime,
     QUrl,
     Qt,
-    
 )
 from db import DataBase
 
 
 class AddUser(QDialog):
-    def __init__(self,table,db):
+    def __init__(self, table, db):
         self.database = db
         super().__init__()
         self.table = table
@@ -50,16 +57,24 @@ class AddUser(QDialog):
             self.ui.checkBox_db.text(),
         ]
         checkbox_states = self.inform[-5:]
-        checked_texts = [self.checkbox_texts[i] for i in range(len(checkbox_states)) if checkbox_states[i]]
+        checked_texts = [
+            self.checkbox_texts[i]
+            for i in range(len(checkbox_states))
+            if checkbox_states[i]
+        ]
         self.status_add = self.database.add_user(self.inform)
-        if self.status_add ==1 :
+        if self.status_add == 1:
             row_position = self.table.rowCount()
             self.table.insertRow(row_position)
-            items = [self.inform[0], self.inform[1], self.inform[2], self.inform[3],", ".join(checked_texts)  ]
+            items = [
+                self.inform[0],
+                self.inform[1],
+                self.inform[2],
+                self.inform[3],
+                ", ".join(checked_texts),
+            ]
 
             for col, item in enumerate(items):
                 self.table.setItem(row_position, col, QTableWidgetItem(item))
-            QMessageBox.information(
-            self, "اضافه", "کاربر جدید با موقیت ساخته شد"
-        )
+            QMessageBox.information(self, "اضافه", "کاربر جدید با موقیت ساخته شد")
         self.accept()

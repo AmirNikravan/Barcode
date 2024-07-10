@@ -21,7 +21,9 @@ class EditUser(QDialog):
         self.ui.setupUi(self)  # Setup the UI for 'self'
         self.table = table
         self.fun = fun
-        self.ui.toolButton_confirm.clicked.connect(self.update_user)  # Connect confirm button to accept method
+        self.ui.toolButton_confirm.clicked.connect(
+            self.update_user
+        )  # Connect confirm button to accept method
         self.ui.toolButton_cancel.clicked.connect(self.close)
         self.edit()
 
@@ -50,8 +52,10 @@ class EditUser(QDialog):
         self.ui.checkBox_gozaresh.setChecked(user_info["pgozaresh"])
         self.ui.checkBox_tolid.setChecked(user_info["ptoolid"])
         self.ui.checkBox_db.setChecked(user_info["pdb"])
+
     def an(self):
         self.close()
+
     def update_user(self):
         self.close()
         user_info = {
@@ -66,8 +70,6 @@ class EditUser(QDialog):
             "pdb": self.ui.checkBox_db.isChecked(),
         }
         self.database.update_user(user_info)
-        QMessageBox.information(
-            self, "ویرایش", "ویرایش کاربر با موفقیت انجام شد"
-        )
+        QMessageBox.information(self, "ویرایش", "ویرایش کاربر با موفقیت انجام شد")
         self.fun()
         self.accept()

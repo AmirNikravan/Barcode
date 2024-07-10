@@ -2,7 +2,8 @@ import sys
 import os
 from PySide6.QtWidgets import QMessageBox
 
-class Directory():
+
+class Directory:
     def __init__(self):
         self.create_images_directory()
 
