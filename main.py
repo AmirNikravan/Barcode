@@ -28,6 +28,7 @@ from EditUser import EditUser
 import jdatetime
 from login import *
 
+import datetime
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -44,6 +45,8 @@ class MainWindow(QMainWindow):
         self.timer.start(1000)  # Update every second
         self.setWindowTitle("IMEI SCANNER")
         self.update_labels()
+
+            
         # signals
         self.ui.toolButton_navigscan.clicked.connect(lambda: self.navigation("scan"))
         self.ui.toolButton_naviguser.clicked.connect(lambda: self.navigation("user"))
@@ -111,7 +114,7 @@ class MainWindow(QMainWindow):
 
     def show_main_window(self):
         self.show()
-
+    
     def logout(self):
         self.current_user = None  # Clear current user session
         # Additional actions to reset UI or return to login state if necessary
@@ -758,6 +761,17 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self.error_handler(f"Error Handel Print: {e}")
         self.ui.lineEdit.setFocus()
+    
+    def create_svg(self,text, filename):
+    # Create an SVG drawing
+        dwg = svgwrite.Drawing(f'{filename}', profile='tiny', size=("400px", "100px"))
+
+        # Add text to the drawing
+        dwg.add(dwg.text(text, insert=(1, 22), fill='black', font_size='5px'))
+
+        # Save the SVG file
+        dwg.save()
+
 
     def handlePaintRequest(self, printer):
 
@@ -778,8 +792,11 @@ class MainWindow(QMainWindow):
             return
         try:
             bala_layout = ss.VBoxLayout()
+            bala_rast= ss.VBoxLayout()
             bala_chap = ss.VBoxLayout()
             bala_final = ss.HBoxLayout()
+            self.create_svg(f'Manufacture Date: {datetime.datetime.now().year}/{datetime.datetime.now().month}','./images/date.svg')
+            bala_chap.addSVG(f"./images/date.svg", alignment=ss.AlignTop | ss.AlignLeft)
             bala_chap.addSVG(f"./svgs/blank5.svg", alignment=ss.AlignTop | ss.AlignLeft)
             bala_layout.addSVG(
                 f"./svgs/blank6.svg", alignment=ss.AlignTop | ss.AlignLeft
@@ -793,6 +810,7 @@ class MainWindow(QMainWindow):
             bala_layout.addSVG(
                 f"./svgs/blank3.svg", alignment=ss.AlignTop | ss.AlignLeft
             )
+            
             bala_final.addLayout(bala_chap)
             bala_final.addLayout(bala_layout)
             full_table_layout = ss.HBoxLayout()

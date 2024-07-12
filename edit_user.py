@@ -60,7 +60,7 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName("Dialog")
-        Dialog.resize(481, 372)
+        Dialog.resize(496, 428)
         self.verticalLayout = QVBoxLayout(Dialog)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QLabel(Dialog)
@@ -114,6 +114,7 @@ class Ui_Dialog(object):
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.lineEdit_username = QLineEdit(Dialog)
         self.lineEdit_username.setObjectName("lineEdit_username")
+        self.lineEdit_username.setEnabled(False)
 
         self.horizontalLayout_3.addWidget(self.lineEdit_username)
 
@@ -164,6 +165,7 @@ class Ui_Dialog(object):
 
         self.checkBox_user = QCheckBox(Dialog)
         self.checkBox_user.setObjectName("checkBox_user")
+        self.checkBox_user.setEnabled(False)
         self.checkBox_user.setFont(font2)
 
         self.horizontalLayout_5.addWidget(self.checkBox_user)
@@ -206,7 +208,7 @@ class Ui_Dialog(object):
             "background-color: rgb(255, 166, 139);\n"
             "}\n"
             "\n"
-            ""
+            "                                                                "
         )
 
         self.horizontalLayout_6.addWidget(self.toolButton_cancel)
@@ -225,7 +227,7 @@ class Ui_Dialog(object):
             "background-color: rgb(255, 166, 139);\n"
             "}\n"
             "\n"
-            ""
+            "                                                                "
         )
 
         self.horizontalLayout_6.addWidget(self.toolButton_confirm)
@@ -245,7 +247,13 @@ class Ui_Dialog(object):
     # setupUi
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(QCoreApplication.translate("Dialog", "Dialog", None))
+        Dialog.setWindowTitle(
+            QCoreApplication.translate(
+                "Dialog",
+                "\u0648\u06cc\u0631\u0627\u06cc\u0634 \u06a9\u0627\u0631\u0628\u0631",
+                None,
+            )
+        )
         self.label.setText(
             QCoreApplication.translate(
                 "Dialog",
@@ -253,8 +261,22 @@ class Ui_Dialog(object):
                 None,
             )
         )
+        # if QT_CONFIG(accessibility)
+        self.lineEdit_usersname.setAccessibleName("")
+        # endif // QT_CONFIG(accessibility)
+        self.lineEdit_usersname.setText("")
+        self.lineEdit_usersname.setPlaceholderText(
+            QCoreApplication.translate("Dialog", "\u0646\u0627\u0645", None)
+        )
         self.label_2.setText(
             QCoreApplication.translate("Dialog", "\u0646\u0627\u0645 :", None)
+        )
+        self.lineEdit_userslastname.setPlaceholderText(
+            QCoreApplication.translate(
+                "Dialog",
+                "\u0646\u0627\u0645 \u062e\u0627\u0646\u0648\u0627\u062f\u06af\u06cc",
+                None,
+            )
         )
         self.label_3.setText(
             QCoreApplication.translate(
@@ -263,8 +285,23 @@ class Ui_Dialog(object):
                 None,
             )
         )
-        self.label_4.setText(QCoreApplication.translate("Dialog", ":Username", None))
-        self.label_5.setText(QCoreApplication.translate("Dialog", ":Password", None))
+        self.label_4.setText(
+            QCoreApplication.translate(
+                "Dialog",
+                "\u0646\u0627\u0645 \u06a9\u0627\u0631\u0628\u0631\u06cc:",
+                None,
+            )
+        )
+        self.lineEdit_password.setPlaceholderText(
+            QCoreApplication.translate(
+                "Dialog", "\u0631\u0645\u0632\u0639\u0628\u0648\u0631", None
+            )
+        )
+        self.label_5.setText(
+            QCoreApplication.translate(
+                "Dialog", "\u0631\u0645\u0632\u0639\u0628\u0648\u0631:", None
+            )
+        )
         self.checkBox_db.setText(
             QCoreApplication.translate(
                 "Dialog",

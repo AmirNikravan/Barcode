@@ -18,4 +18,15 @@
     <file>Icons/deleterow.png</file>
     <file>Icons/scan.png</file>
   </qresource>
+  <qresource prefix="fonts">
+    <file>fonts/IRANSansXFaNum-Black.ttf</file>
+    <file>fonts/IRANSansXFaNum-Bold.ttf</file>
+    <file>fonts/IRANSansXFaNum-DemiBold.ttf</file>
+    <file>fonts/IRANSansXFaNum-ExtraBold.ttf</file>
+    <file>fonts/IRANSansXFaNum-Light.ttf</file>
+    <file>fonts/IRANSansXFaNum-Medium.ttf</file>
+    <file>fonts/IRANSansXFaNum-Regular.ttf</file>
+    <file>fonts/IRANSansXFaNum-Thin.ttf</file>
+    <file>fonts/IRANSansXFaNum-UltraLight.ttf</file>
+  </qresource>
 </RCC>

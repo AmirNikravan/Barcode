@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<svg baseProfile="tiny" height="20px" version="1.2" width="100px"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs />
+    <text fill="black" font-size="10px" x="1" y="22">Manufacture Date: 2024</text>
+</svg>
