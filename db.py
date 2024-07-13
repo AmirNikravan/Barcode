@@ -58,7 +58,14 @@ class DataBase(QWidget):
 
     def commit(self):
         self.connect.commit()
-
+    def fetch_all(self):
+        if self.connect:
+            self.cursor.execute('select * from user')
+            return self.cursor.fetchall()
+    def fetch_one(self,username):
+        if self.connect:
+            self.cursor.execute('select * from user where username = ?',(username,))
+            return self.cursor.fetchone()
     def conn(self):
         self.connect = sqlite3.connect(self.current_db_path)
         self.cursor = self.connect.cursor()
@@ -385,6 +392,19 @@ class DataBase(QWidget):
         if self.connect:
             self.cursor.execute(
                 'SELECT time , action from user_action where username =? ',(username,)
+            )
+            rows = self.cursor.fetchall()
+            return rows
+    def barcode_scan(self,username,time,barcode):
+        if self.connect:
+            self.cursor.execute(
+                'INSERT INTO barcode (username,time,barcode) VALUES(?,?,?)',(username,time,barcode)
+            )
+            self.commit()
+    def get_barcode_scan(self):
+        if self.connect:
+            self.cursor.execute(
+                'SELECT * from barcode'
             )
             rows = self.cursor.fetchall()
             return rows

@@ -599,6 +599,7 @@ class Ui_MainWindow(object):
         self.label_count = QLabel(self.database)
         self.label_count.setObjectName(u"label_count")
         self.label_count.setFont(font2)
+        self.label_count.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.horizontalLayout_11.addWidget(self.label_count)
 
@@ -807,12 +808,13 @@ class Ui_MainWindow(object):
 
         self.label_accusername = QLabel(self.groupBox)
         self.label_accusername.setObjectName(u"label_accusername")
+        self.label_accusername.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.horizontalLayout_17.addWidget(self.label_accusername)
 
         self.label_22 = QLabel(self.groupBox)
         self.label_22.setObjectName(u"label_22")
-        self.label_22.setMaximumSize(QSize(47, 16777215))
+        self.label_22.setMaximumSize(QSize(62, 16777215))
 
         self.horizontalLayout_17.addWidget(self.label_22)
 
@@ -827,6 +829,8 @@ class Ui_MainWindow(object):
 
         self.label_acctotal = QLabel(self.groupBox)
         self.label_acctotal.setObjectName(u"label_acctotal")
+        self.label_acctotal.setCursor(QCursor(Qt.ArrowCursor))
+        self.label_acctotal.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.horizontalLayout_19.addWidget(self.label_acctotal)
 
@@ -882,11 +886,11 @@ class Ui_MainWindow(object):
         self.tableWidget_history.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.tableWidget_history.setSelectionMode(QAbstractItemView.NoSelection)
         self.tableWidget_history.setTextElideMode(Qt.ElideRight)
-        self.tableWidget_history.horizontalHeader().setVisible(True)
+        self.tableWidget_history.horizontalHeader().setVisible(False)
         self.tableWidget_history.horizontalHeader().setCascadingSectionResizes(False)
         self.tableWidget_history.horizontalHeader().setMinimumSectionSize(28)
         self.tableWidget_history.horizontalHeader().setDefaultSectionSize(140)
-        self.tableWidget_history.verticalHeader().setVisible(True)
+        self.tableWidget_history.verticalHeader().setVisible(False)
         self.tableWidget_history.verticalHeader().setDefaultSectionSize(23)
 
         self.verticalLayout_9.addWidget(self.tableWidget_history)
@@ -1057,7 +1061,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)

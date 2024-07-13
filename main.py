@@ -164,9 +164,9 @@ class MainWindow(QMainWindow):
         dialog = Login(self.database)
         if dialog.exec() == QDialog.Accepted:
             self.show_main_window()
-            detail = dialog.detail()
-            self.current_user = detail[2]
-            self.ui.label_name.setText(f"{detail[0]} {detail[1]}")
+            self.detail = dialog.detail()
+            self.current_user = self.detail[2]
+            self.ui.label_name.setText(f"{self.detail[0]} {self.detail[1]}")
             # self.permissions = self.database.permission(detail[2])
             self.handelpermissions()
             action = "کاربر وارد سیستم شد"
@@ -175,7 +175,7 @@ class MainWindow(QMainWindow):
             )
             self.print_action()
             QMessageBox.information(
-                self, "ورود", f"کاربر {detail[0]} {detail[1]} خوش آمدید."
+                self, "ورود", f"کاربر {self.detail[0]} {self.detail[1]} خوش آمدید."
             )
 
         else:
@@ -705,6 +705,9 @@ class MainWindow(QMainWindow):
                         self.ui.tableWidget.rowCount() - 1, 100
                     )
                     label.setAlignment(Qt.AlignCenter)
+                    self.database.barcode_scan(self.current_user,f"{self.date_text}-{self.time_text}",f'{self.barcode_serial}')
+                    print(imei2)
+                    self.database.barcode_scan(self.current_user,f"{self.date_text}-{self.time_text}",f'{imei2}')
                 except Exception as e:
                     self.error_handler(f"Error Inserting Barcodes in Table: {e}")
                 self.total += 2
@@ -1110,12 +1113,36 @@ class MainWindow(QMainWindow):
     def print_action(self):
         rows = self.database.get_user_action(self.current_user)
         self.ui.tableWidget_history.setRowCount(0) 
+        all_data = self.database.fetch_one(self.current_user)
         # print(rows)
-        
+        checkbox_texts = [
+            "تغییر مدل",
+            "مدیریت کاربران",
+            "گزارش گیری",
+            "تولید جعبه",
+            "مدیریت دیتابیس",
+        ]
+        permissions_text = []
+        # Iterate over rows to populate table
+        # for  row_data in enumerate(all_data):
+        for col_idx in range(4, 9):  # Assuming permissions are in columns 4 to 8
+            if all_data[col_idx] == 1:
+                permission_index = (
+                    col_idx - 4
+                )  # Calculate corresponding index in checkbox_texts
+                if permission_index < len(checkbox_texts):
+                    permissions_text.append(checkbox_texts[permission_index])
+            #     pass
+            # print(all_data)
+
+            # Create text from permissions_text list
+            permissions_str = " , ".join(permissions_text)
+        self.ui.label_acclastname.setText(all_data[1])
+        self.ui.label_accname.setText(all_data[0])
+        self.ui.label_accusername.setText(all_data[3])
+        self.ui.label_accperm.setText(permissions_str)
         for num_row, (time, action) in enumerate(rows):
             self.ui.tableWidget_history.setRowCount(self.ui.tableWidget_history.rowCount() + 1)
-            print(time)
-            print(action)
             self.ui.tableWidget_history.setItem(num_row, 0, QTableWidgetItem(time))
             self.ui.tableWidget_history.setItem(num_row, 1, QTableWidgetItem(action))
             
