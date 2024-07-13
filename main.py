@@ -81,6 +81,7 @@ class MainWindow(QMainWindow):
         self.ui.tableWidget.setColumnWidth(2, 180)
         self.ui.tableWidget.setColumnWidth(3, 250)
         self.ui.tableWidget_list_users.setColumnWidth(4, 800)
+        self.ui.tableWidget_history.setColumnWidth(1, 1400)
         for col in range(self.ui.tableWidget.columnCount()):
             self.ui.tableWidget.setSortingEnabled(False)
 
@@ -112,14 +113,19 @@ class MainWindow(QMainWindow):
         self.handlecombo()
         # self.show_table()
         self.validation()
+        
 
     def show_main_window(self):
         self.show()
 
-    def format_number(self, n, width=14):
+    def format_number(self, n, width=7):
         return f"{n:0{width}}"
 
     def logout(self):
+        action = "کاربر خارج شد"
+        self.database.action(
+            self.current_user, f"{self.date_text}-{self.time_text}", action
+        )
         self.current_user = None  # Clear current user session
         # Additional actions to reset UI or return to login state if necessary
         # For example, hide user-specific UI elements, disable certain actions
@@ -163,6 +169,11 @@ class MainWindow(QMainWindow):
             self.ui.label_name.setText(f"{detail[0]} {detail[1]}")
             # self.permissions = self.database.permission(detail[2])
             self.handelpermissions()
+            action = "کاربر وارد سیستم شد"
+            self.database.action(
+                self.current_user, f"{self.date_text}-{self.time_text}", action
+            )
+            self.print_action()
             QMessageBox.information(
                 self, "ورود", f"کاربر {detail[0]} {detail[1]} خوش آمدید."
             )
@@ -177,9 +188,9 @@ class MainWindow(QMainWindow):
         current_time = QTime.currentTime()
         # locale = QLocale(QLocale.Persian, QLocale.Iran)
 
-        date_text = jdatetime.date.today()
-        date_text = current_date.strftime("%Y/%m/%d")
-        time_text = current_time.toString("hh:mm:ss A")
+        self.date_text = jdatetime.date.today()
+        self.date_text = current_date.strftime("%Y/%m/%d")
+        self.time_text = current_time.toString("hh:mm:ss A")
         day_names = [
             "شنبه",
             "یکشنبه",
@@ -191,8 +202,8 @@ class MainWindow(QMainWindow):
         ]
         day_text = day_names[current_date.weekday()]
 
-        self.ui.label_time.setText(time_text)
-        self.ui.label_date.setText(date_text)
+        self.ui.label_time.setText(self.time_text)
+        self.ui.label_date.setText(self.date_text)
         self.ui.label_day.setText(day_text)
 
     def importexcel(self):
@@ -363,6 +374,7 @@ class MainWindow(QMainWindow):
         if text == "database":
             self.ui.stackedWidget.setCurrentIndex(2)
         if text == "account":
+            self.print_action()
             self.ui.stackedWidget.setCurrentIndex(3)
 
     def generate_svg_with_text(text, filename, width="100mm", height="50mm"):
@@ -576,6 +588,10 @@ class MainWindow(QMainWindow):
                             self.ui.lineEdit.clear()
                             self.ui.lineEdit.setFocus()
                             return
+                action = f"بارکد {self.barcode_serial} اسکن شد"
+                self.database.action(
+                    self.current_user, f"{self.date_text}-{self.time_text}", action
+                )
                 options = {
                     "dpi": 2000,
                     "module_width": 0.3,
@@ -753,16 +769,16 @@ class MainWindow(QMainWindow):
             "module_height": 8,
             "quiet_zone": 1,
             "text_distance": 5,
-            "font_size": 5.5,
+            "font_size": 7.5,
             "font_path": "ARIAL.TTF",
         }
         with open(f"./images/box.svg", "wb") as f:
             barcode.base.Barcode.default_writer_options["text"] = (
-                f"Cartoon Number: {text}"
+                f"Carton Number: {text}"
             )
             writer = SVGWriter()
             barcode_class = barcode.get_barcode_class("code128")
-            barcode_instance = barcode_class("box", writer)
+            barcode_instance = barcode_class(text, writer)
             barcode_instance.write(f, options=options)
 
     def handlePrint(self):
@@ -787,7 +803,7 @@ class MainWindow(QMainWindow):
 
     def create_svg(self, text, filename, font, x, y):
         # Create an SVG drawing
-        dwg = svgwrite.Drawing(f"{filename}", profile="tiny", size=("200px", "20px"))
+        dwg = svgwrite.Drawing(f"{filename}", profile="tiny", size=("200px", "15px"))
 
         # Add text to the drawing
         dwg.add(dwg.text(text, insert=(x, y), fill="black", font_size=f"{font}px"))
@@ -832,12 +848,15 @@ class MainWindow(QMainWindow):
                 1,
                 1,
             )
-            if model == "NOKIA 105TA-1557 DS" or "NOKIA 106TA-1564 DS":
-                model_text = "1.750"
-            else:
+            print(model)
+            if model == "NOKIA 110TA-1567 DS":
                 model_text = "1.752"
+            else:
+                print(234234)
+                model_text = "1.750"
+            print(model_text)
             self.create_svg(
-                f"Wieght: {model_text}",
+                f"Weight: {model_text}kg",
                 "./images/wieght.svg",
                 10,
                 1,
@@ -851,6 +870,7 @@ class MainWindow(QMainWindow):
                 1,
             )
             formatted_text = self.format_number(self.box)
+            formatted_text = "SamTel" + formatted_text
             self.box += 1
             self.print_box(formatted_text)
             bala_rast.addSVG(
@@ -1086,6 +1106,19 @@ class MainWindow(QMainWindow):
             self.ui.lineEdit.setFocus()
         except Exception as e:
             self.error_handler(f"Error enable scanning: {e}")
+
+    def print_action(self):
+        rows = self.database.get_user_action(self.current_user)
+        self.ui.tableWidget_history.setRowCount(0) 
+        # print(rows)
+        
+        for num_row, (time, action) in enumerate(rows):
+            self.ui.tableWidget_history.setRowCount(self.ui.tableWidget_history.rowCount() + 1)
+            print(time)
+            print(action)
+            self.ui.tableWidget_history.setItem(num_row, 0, QTableWidgetItem(time))
+            self.ui.tableWidget_history.setItem(num_row, 1, QTableWidgetItem(action))
+            
 
     def error_handler(self, msg):
         try:

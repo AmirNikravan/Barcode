@@ -66,10 +66,6 @@ class DataBase(QWidget):
     def close(self):
         self.connect.close()
 
-    def fetch_all(self):
-        self.cursor.execute("SELECT * FROM user")
-        return self.cursor.fetchall()
-
     def add_user(self, inform):
         try:
             self.cursor.execute("SELECT * FROM user WHERE username = ?", (inform[2],))
@@ -379,3 +375,16 @@ class DataBase(QWidget):
                 "toolid": self.perm[3],
                 "db": self.perm[4],
             }
+    def action(self,username,time,action):
+        if self.connect:
+            self.cursor.execute(
+                'INSERT INTO user_action (username,time,action) VALUES(?,?,?)',(username,time,action)
+            )
+            self.commit()
+    def get_user_action(self,username):
+        if self.connect:
+            self.cursor.execute(
+                'SELECT time , action from user_action where username =? ',(username,)
+            )
+            rows = self.cursor.fetchall()
+            return rows
