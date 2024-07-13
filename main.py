@@ -30,11 +30,13 @@ from login import *
 
 import datetime
 
+
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         self.barcodes = []
         super().__init__(parent)
         self.ui = Ui_MainWindow()
+
         self.shortcut = QShortcut(QKeySequence("Ctrl+P"), self)
         self.shortcut.activated.connect(self.handlePrint)
         self.ui.setupUi(self)
@@ -45,8 +47,7 @@ class MainWindow(QMainWindow):
         self.timer.start(1000)  # Update every second
         self.setWindowTitle("IMEI SCANNER")
         self.update_labels()
-
-            
+        self.box = 1
         # signals
         self.ui.toolButton_navigscan.clicked.connect(lambda: self.navigation("scan"))
         self.ui.toolButton_naviguser.clicked.connect(lambda: self.navigation("user"))
@@ -114,7 +115,10 @@ class MainWindow(QMainWindow):
 
     def show_main_window(self):
         self.show()
-    
+
+    def format_number(self, n, width=14):
+        return f"{n:0{width}}"
+
     def logout(self):
         self.current_user = None  # Clear current user session
         # Additional actions to reset UI or return to login state if necessary
@@ -742,18 +746,37 @@ class MainWindow(QMainWindow):
         self.ui.comboBox_color.clear()
         self.ui.comboBox_color.addItems(colors)
 
+    def print_box(self, text):
+        options = {
+            "dpi": 2000,
+            "module_width": 0.3,
+            "module_height": 8,
+            "quiet_zone": 1,
+            "text_distance": 5,
+            "font_size": 5.5,
+            "font_path": "ARIAL.TTF",
+        }
+        with open(f"./images/box.svg", "wb") as f:
+            barcode.base.Barcode.default_writer_options["text"] = (
+                f"Cartoon Number: {text}"
+            )
+            writer = SVGWriter()
+            barcode_class = barcode.get_barcode_class("code128")
+            barcode_instance = barcode_class("box", writer)
+            barcode_instance.write(f, options=options)
+
     def handlePrint(self):
         try:
-            if (self.ui.tableWidget.item(9, 2)) == None:
-                QMessageBox.warning(self, "تعداد IMEI", "بارکد ها ناقص می باشند")
-                return
-            if self.ui.comboBox_model.currentText() == "select":
-                msg_box = QtWidgets.QMessageBox(self)
-                msg_box.setIcon(QtWidgets.QMessageBox.Warning)
-                msg_box.setWindowTitle("هشدار")
-                msg_box.setText("لطفا مدل را وارد کنید")
-                msg_box.exec()
-                return
+            # if (self.ui.tableWidget.item(9, 2)) == None:
+            #     QMessageBox.warning(self, "تعداد IMEI", "بارکد ها ناقص می باشند")
+            #     return
+            # if self.ui.comboBox_model.currentText() == "select":
+            #     msg_box = QtWidgets.QMessageBox(self)
+            #     msg_box.setIcon(QtWidgets.QMessageBox.Warning)
+            #     msg_box.setWindowTitle("هشدار")
+            #     msg_box.setText("لطفا مدل را وارد کنید")
+            #     msg_box.exec()
+            #     return
             dialog = QtPrintSupport.QPrintDialog()
             if dialog.exec() == QtWidgets.QDialog.Accepted:
                 self.handlePaintRequest(dialog.printer())
@@ -761,17 +784,16 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self.error_handler(f"Error Handel Print: {e}")
         self.ui.lineEdit.setFocus()
-    
-    def create_svg(self,text, filename):
-    # Create an SVG drawing
-        dwg = svgwrite.Drawing(f'{filename}', profile='tiny', size=("400px", "100px"))
+
+    def create_svg(self, text, filename, font, x, y):
+        # Create an SVG drawing
+        dwg = svgwrite.Drawing(f"{filename}", profile="tiny", size=("200px", "20px"))
 
         # Add text to the drawing
-        dwg.add(dwg.text(text, insert=(1, 22), fill='black', font_size='5px'))
+        dwg.add(dwg.text(text, insert=(x, y), fill="black", font_size=f"{font}px"))
 
         # Save the SVG file
         dwg.save()
-
 
     def handlePaintRequest(self, printer):
 
@@ -783,24 +805,72 @@ class MainWindow(QMainWindow):
             color = self.ui.comboBox_color.currentText()
         except Exception as e:
             self.error_handler(f"Error Handel print: {e}")
-        if model == "select":
-            msg_box = QtWidgets.QMessageBox(self)
-            msg_box.setIcon(QtWidgets.QMessageBox.Warning)
-            msg_box.setWindowTitle("هشدار")
-            msg_box.setText("لطفا مدل را وارد کنید")
-            msg_box.exec()
-            return
+        # if model == "select":
+        #     msg_box = QtWidgets.QMessageBox(self)
+        #     msg_box.setIcon(QtWidgets.QMessageBox.Warning)
+        #     msg_box.setWindowTitle("هشدار")
+        #     msg_box.setText("لطفا مدل را وارد کنید")
+        #     msg_box.exec()
+        #     return
         try:
             bala_layout = ss.VBoxLayout()
-            bala_rast= ss.VBoxLayout()
+            bala_rast = ss.VBoxLayout()
             bala_chap = ss.VBoxLayout()
+            bala_vasat = ss.HBoxLayout()
             bala_final = ss.HBoxLayout()
-            self.create_svg(f'Manufacture Date: {datetime.datetime.now().year}/{datetime.datetime.now().month}','./images/date.svg')
-            bala_chap.addSVG(f"./images/date.svg", alignment=ss.AlignTop | ss.AlignLeft)
+            self.create_svg(
+                f"Manufacture Date: {datetime.datetime.now().year}/{datetime.datetime.now().month}",
+                "./images/date.svg",
+                10,
+                1,
+                1,
+            )
+            self.create_svg(
+                f"Part Number: {sku}",
+                "./images/pn.svg",
+                10,
+                1,
+                1,
+            )
+            if model == "NOKIA 105TA-1557 DS" or "NOKIA 106TA-1564 DS":
+                model_text = "1.750"
+            else:
+                model_text = "1.752"
+            self.create_svg(
+                f"Wieght: {model_text}",
+                "./images/wieght.svg",
+                10,
+                1,
+                1,
+            )
+            self.create_svg(
+                "Quantity: 10/10",
+                "./images/quantity.svg",
+                10,
+                1,
+                1,
+            )
+            formatted_text = self.format_number(self.box)
+            self.box += 1
+            self.print_box(formatted_text)
+            bala_rast.addSVG(
+                f"./svgs/blank11.svg", alignment=ss.AlignTop | ss.AlignLeft
+            )
+            bala_rast.addSVG(f"./images/date.svg", alignment=ss.AlignTop | ss.AlignLeft)
+            bala_rast.addSVG(f"./images/pn.svg", alignment=ss.AlignTop | ss.AlignLeft)
+            bala_rast.addSVG(
+                f"./images/wieght.svg", alignment=ss.AlignTop | ss.AlignLeft
+            )
+
+            bala_rast.addSVG(f"./images/box.svg", alignment=ss.AlignTop | ss.AlignLeft)
+            bala_rast.addSVG(
+                f"./images/quantity.svg", alignment=ss.AlignTop | ss.AlignLeft
+            )
             bala_chap.addSVG(f"./svgs/blank5.svg", alignment=ss.AlignTop | ss.AlignLeft)
             bala_layout.addSVG(
                 f"./svgs/blank6.svg", alignment=ss.AlignTop | ss.AlignLeft
             )
+            bala_layout.addSVG(f"./svgs/logo.svg", alignment=ss.AlignTop | ss.AlignLeft)
             bala_layout.addSVG(
                 f"./svgs/b{sku}.svg", alignment=ss.AlignTop | ss.AlignLeft
             )
@@ -810,9 +880,14 @@ class MainWindow(QMainWindow):
             bala_layout.addSVG(
                 f"./svgs/blank3.svg", alignment=ss.AlignTop | ss.AlignLeft
             )
-            
+            bala_vasat.addSVG(
+                f"./svgs/blank10.svg", alignment=ss.AlignTop | ss.AlignLeft
+            )
+
             bala_final.addLayout(bala_chap)
             bala_final.addLayout(bala_layout)
+            bala_final.addLayout(bala_vasat)
+            bala_final.addLayout(bala_rast)
             full_table_layout = ss.HBoxLayout()
             table1_layout = ss.HBoxLayout()
             table2_layout = ss.HBoxLayout()

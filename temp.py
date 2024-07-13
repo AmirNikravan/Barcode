@@ -1,17 +1,12 @@
-import svgwrite
+# Starting number
+number = 1
 
-def create_svg(text, filename):
-    # Create an SVG drawing
-    dwg = svgwrite.Drawing(filename, profile='tiny', size=("400px", "100px"))
+# Function to format number with leading zeros
+def format_number(n, width=7):
+    return f"{n:0{width}}"
 
-    # Add text to the drawing
-    dwg.add(dwg.text(text, insert=(10, 50), fill='black', font_size='20px'))
-
-    # Save the SVG file
-    dwg.save()
-
-if __name__ == "__main__":
-    text = input("Enter the text for the SVG: ")
-    filename = "output.svg"
-    create_svg(text, filename)
-    print(f"SVG file '{filename}' created with the text: {text}")
+# Increment the number and format it
+for i in range(10):
+    formatted_number = format_number(number)
+    print(formatted_number)
+    number += 1
