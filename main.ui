@@ -166,7 +166,7 @@ background-color: rgb(255, 166, 139);
          <string notr="true">background-color: rgb(231, 235, 255);</string>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>4</number>
         </property>
         <widget class="QWidget" name="barcode">
          <property name="styleSheet">
@@ -1700,7 +1700,61 @@ background-color: rgb(255, 166, 139);
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="page"/>
+        <widget class="QWidget" name="report">
+         <layout class="QVBoxLayout" name="verticalLayout_10">
+          <item>
+           <widget class="QLabel" name="label_19">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>گزارش گیری</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QTabWidget" name="tabWidget">
+            <property name="mouseTracking">
+             <bool>false</bool>
+            </property>
+            <property name="layoutDirection">
+             <enum>Qt::RightToLeft</enum>
+            </property>
+            <property name="tabPosition">
+             <enum>QTabWidget::North</enum>
+            </property>
+            <property name="tabShape">
+             <enum>QTabWidget::Rounded</enum>
+            </property>
+            <property name="currentIndex">
+             <number>0</number>
+            </property>
+            <property name="elideMode">
+             <enum>Qt::ElideRight</enum>
+            </property>
+            <widget class="QWidget" name="barcode_report">
+             <attribute name="title">
+              <string>بارکد</string>
+             </attribute>
+            </widget>
+            <widget class="QWidget" name="users_report">
+             <attribute name="title">
+              <string>کاربران</string>
+             </attribute>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </widget>
       </item>
       <item>
@@ -1892,6 +1946,9 @@ background-color: rgb(255, 166, 139);
          </item>
          <item>
           <widget class="QToolButton" name="toolButton_navigreport">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
            <property name="minimumSize">
             <size>
              <width>54</width>

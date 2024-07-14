@@ -51,6 +51,9 @@ class MainWindow(QMainWindow):
         # signals
         self.ui.toolButton_navigscan.clicked.connect(lambda: self.navigation("scan"))
         self.ui.toolButton_naviguser.clicked.connect(lambda: self.navigation("user"))
+        self.ui.toolButton_navigreport.clicked.connect(
+            lambda: self.navigation("report")
+        )
         self.ui.toolButton_navigaccount.clicked.connect(
             lambda: self.navigation("account")
         )
@@ -113,7 +116,6 @@ class MainWindow(QMainWindow):
         self.handlecombo()
         # self.show_table()
         self.validation()
-        
 
     def show_main_window(self):
         self.show()
@@ -174,6 +176,7 @@ class MainWindow(QMainWindow):
                 self.current_user, f"{self.date_text}-{self.time_text}", action
             )
             self.print_action()
+            self.ui.stackedWidget.setCurrentIndex(0)
             QMessageBox.information(
                 self, "ورود", f"کاربر {self.detail[0]} {self.detail[1]} خوش آمدید."
             )
@@ -376,6 +379,8 @@ class MainWindow(QMainWindow):
         if text == "account":
             self.print_action()
             self.ui.stackedWidget.setCurrentIndex(3)
+        if text == 'report':
+            self.ui.stackedWidget.setCurrentIndex(4)
 
     def generate_svg_with_text(text, filename, width="100mm", height="50mm"):
         # Ensure width and height are strings with units
@@ -705,9 +710,17 @@ class MainWindow(QMainWindow):
                         self.ui.tableWidget.rowCount() - 1, 100
                     )
                     label.setAlignment(Qt.AlignCenter)
-                    self.database.barcode_scan(self.current_user,f"{self.date_text}-{self.time_text}",f'{self.barcode_serial}')
+                    self.database.barcode_scan(
+                        self.current_user,
+                        f"{self.date_text}-{self.time_text}",
+                        f"{self.barcode_serial}",
+                    )
                     print(imei2)
-                    self.database.barcode_scan(self.current_user,f"{self.date_text}-{self.time_text}",f'{imei2}')
+                    self.database.barcode_scan(
+                        self.current_user,
+                        f"{self.date_text}-{self.time_text}",
+                        f"{imei2}",
+                    )
                 except Exception as e:
                     self.error_handler(f"Error Inserting Barcodes in Table: {e}")
                 self.total += 2
@@ -786,16 +799,16 @@ class MainWindow(QMainWindow):
 
     def handlePrint(self):
         try:
-            # if (self.ui.tableWidget.item(9, 2)) == None:
-            #     QMessageBox.warning(self, "تعداد IMEI", "بارکد ها ناقص می باشند")
-            #     return
-            # if self.ui.comboBox_model.currentText() == "select":
-            #     msg_box = QtWidgets.QMessageBox(self)
-            #     msg_box.setIcon(QtWidgets.QMessageBox.Warning)
-            #     msg_box.setWindowTitle("هشدار")
-            #     msg_box.setText("لطفا مدل را وارد کنید")
-            #     msg_box.exec()
-            #     return
+            if (self.ui.tableWidget.item(9, 2)) == None:
+                QMessageBox.warning(self, "تعداد IMEI", "بارکد ها ناقص می باشند")
+                return
+            if self.ui.comboBox_model.currentText() == "select":
+                msg_box = QtWidgets.QMessageBox(self)
+                msg_box.setIcon(QtWidgets.QMessageBox.Warning)
+                msg_box.setWindowTitle("هشدار")
+                msg_box.setText("لطفا مدل را وارد کنید")
+                msg_box.exec()
+                return
             dialog = QtPrintSupport.QPrintDialog()
             if dialog.exec() == QtWidgets.QDialog.Accepted:
                 self.handlePaintRequest(dialog.printer())
@@ -1112,7 +1125,7 @@ class MainWindow(QMainWindow):
 
     def print_action(self):
         rows = self.database.get_user_action(self.current_user)
-        self.ui.tableWidget_history.setRowCount(0) 
+        self.ui.tableWidget_history.setRowCount(0)
         all_data = self.database.fetch_one(self.current_user)
         # print(rows)
         checkbox_texts = [
@@ -1142,10 +1155,11 @@ class MainWindow(QMainWindow):
         self.ui.label_accusername.setText(all_data[3])
         self.ui.label_accperm.setText(permissions_str)
         for num_row, (time, action) in enumerate(rows):
-            self.ui.tableWidget_history.setRowCount(self.ui.tableWidget_history.rowCount() + 1)
+            self.ui.tableWidget_history.setRowCount(
+                self.ui.tableWidget_history.rowCount() + 1
+            )
             self.ui.tableWidget_history.setItem(num_row, 0, QTableWidgetItem(time))
             self.ui.tableWidget_history.setItem(num_row, 1, QTableWidgetItem(action))
-            
 
     def error_handler(self, msg):
         try:

@@ -20,8 +20,8 @@ from PySide6.QtWidgets import (QAbstractItemView, QApplication, QComboBox, QDoub
     QFrame, QGroupBox, QHBoxLayout, QHeaderView,
     QLabel, QLayout, QLineEdit, QMainWindow,
     QMenu, QMenuBar, QSizePolicy, QSpacerItem,
-    QStackedWidget, QTableWidget, QTableWidgetItem, QToolButton,
-    QVBoxLayout, QWidget)
+    QStackedWidget, QTabWidget, QTableWidget, QTableWidgetItem,
+    QToolButton, QVBoxLayout, QWidget)
 import rcs_rc
 
 class Ui_MainWindow(object):
@@ -896,9 +896,42 @@ class Ui_MainWindow(object):
         self.verticalLayout_9.addWidget(self.tableWidget_history)
 
         self.stackedWidget.addWidget(self.account)
-        self.page = QWidget()
-        self.page.setObjectName(u"page")
-        self.stackedWidget.addWidget(self.page)
+        self.report = QWidget()
+        self.report.setObjectName(u"report")
+        self.verticalLayout_10 = QVBoxLayout(self.report)
+        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
+        self.label_19 = QLabel(self.report)
+        self.label_19.setObjectName(u"label_19")
+        font8 = QFont()
+        font8.setPointSize(14)
+        self.label_19.setFont(font8)
+
+        self.verticalLayout_10.addWidget(self.label_19)
+
+        self.line_6 = QFrame(self.report)
+        self.line_6.setObjectName(u"line_6")
+        self.line_6.setFrameShape(QFrame.Shape.HLine)
+        self.line_6.setFrameShadow(QFrame.Shadow.Sunken)
+
+        self.verticalLayout_10.addWidget(self.line_6)
+
+        self.tabWidget = QTabWidget(self.report)
+        self.tabWidget.setObjectName(u"tabWidget")
+        self.tabWidget.setMouseTracking(False)
+        self.tabWidget.setLayoutDirection(Qt.RightToLeft)
+        self.tabWidget.setTabPosition(QTabWidget.North)
+        self.tabWidget.setTabShape(QTabWidget.Rounded)
+        self.tabWidget.setElideMode(Qt.ElideRight)
+        self.barcode_report = QWidget()
+        self.barcode_report.setObjectName(u"barcode_report")
+        self.tabWidget.addTab(self.barcode_report, "")
+        self.users_report = QWidget()
+        self.users_report.setObjectName(u"users_report")
+        self.tabWidget.addTab(self.users_report, "")
+
+        self.verticalLayout_10.addWidget(self.tabWidget)
+
+        self.stackedWidget.addWidget(self.report)
 
         self.horizontalLayout_4.addWidget(self.stackedWidget)
 
@@ -999,6 +1032,7 @@ class Ui_MainWindow(object):
 
         self.toolButton_navigreport = QToolButton(self.navigation)
         self.toolButton_navigreport.setObjectName(u"toolButton_navigreport")
+        self.toolButton_navigreport.setEnabled(True)
         self.toolButton_navigreport.setMinimumSize(QSize(54, 59))
         self.toolButton_navigreport.setFont(font3)
         self.toolButton_navigreport.setStyleSheet(u"QToolButton{border-radius:11px;\n"
@@ -1061,7 +1095,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(4)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -1146,6 +1181,9 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem11.setText(QCoreApplication.translate("MainWindow", u"\u0632\u0645\u0627\u0646", None));
         ___qtablewidgetitem12 = self.tableWidget_history.horizontalHeaderItem(1)
         ___qtablewidgetitem12.setText(QCoreApplication.translate("MainWindow", u"\u0641\u0639\u0627\u0644\u06cc\u062a", None));
+        self.label_19.setText(QCoreApplication.translate("MainWindow", u"\u06af\u0632\u0627\u0631\u0634 \u06af\u06cc\u0631\u06cc", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.barcode_report), QCoreApplication.translate("MainWindow", u"\u0628\u0627\u0631\u06a9\u062f", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.users_report), QCoreApplication.translate("MainWindow", u"\u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
         self.toolButton_navigscan.setText(QCoreApplication.translate("MainWindow", u"\u0627\u0633\u06a9\u0646", None))
         self.toolButton_navigbox.setText(QCoreApplication.translate("MainWindow", u"\u062c\u0639\u0628\u0647", None))
         self.toolButton_navigdatabase.setText(QCoreApplication.translate("MainWindow", u"\u062f\u06cc\u062a\u0627\u0628\u06cc\u0633", None))
