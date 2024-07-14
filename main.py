@@ -118,133 +118,165 @@ class MainWindow(QMainWindow):
         self.validation()
 
     def show_main_window(self):
-        self.show()
+        try:
+            self.show()
+        except Exception as e:
+            self.error_handler(f"Error show main window: {e}")
 
     def format_number(self, n, width=7):
-        return f"{n:0{width}}"
+        try:
+            return f"{n:0{width}}"
+        except Exception as e:
+            self.error_handler(f"Error format number: {e}")
 
     def logout(self):
-        action = "کاربر خارج شد"
-        self.database.action(
-            self.current_user, f"{self.date_text}-{self.time_text}", action
-        )
-        self.current_user = None  # Clear current user session
-        # Additional actions to reset UI or return to login state if necessary
-        # For example, hide user-specific UI elements, disable certain actions
-
-        # Optionally, show the login dialog again after logout
-        self.handellogin()
-
-    def handelpermissions(self):
-        self.permissions = self.database.permission(self.current_user)
-        if self.permissions["model"] == 0:
-            self.ui.comboBox_model.setEnabled(False)
-            self.ui.comboBox_color.setEnabled(False)
-            self.ui.comboBox_sku.setEnabled(False)
-        else:
-            self.ui.comboBox_color.setEnabled(True)
-            self.ui.comboBox_sku.setEnabled(True)
-            self.ui.comboBox_model.setEnabled(True)
-        if self.permissions["user"] == 0:
-            self.ui.toolButton_naviguser.setEnabled(False)
-        else:
-            self.ui.toolButton_naviguser.setEnabled(True)
-        if self.permissions["report"] == 0:
-            self.ui.toolButton_navigreport.setEnabled(False)
-        else:
-            self.ui.toolButton_navigreport.setEnabled(True)
-        if self.permissions["toolid"] == 0:
-            self.ui.toolButton_navigbox.setEnabled(False)
-        else:
-            self.ui.toolButton_navigbox.setEnabled(True)
-        if self.permissions["db"] == 0:
-            self.ui.toolButton_navigdatabase.setEnabled(False)
-        else:
-            self.ui.toolButton_navigdatabase.setEnabled(True)
-
-    def handellogin(self):
-        dialog = Login(self.database)
-        if dialog.exec() == QDialog.Accepted:
-            self.show_main_window()
-            self.detail = dialog.detail()
-            self.current_user = self.detail[2]
-            self.ui.label_name.setText(f"{self.detail[0]} {self.detail[1]}")
-            # self.permissions = self.database.permission(detail[2])
-            self.handelpermissions()
-            action = "کاربر وارد سیستم شد"
+        try:
+            action = "کاربر خارج شد"
             self.database.action(
                 self.current_user, f"{self.date_text}-{self.time_text}", action
             )
-            self.print_action()
-            self.ui.stackedWidget.setCurrentIndex(0)
-            QMessageBox.information(
-                self, "ورود", f"کاربر {self.detail[0]} {self.detail[1]} خوش آمدید."
-            )
+            self.current_user = None  # Clear current user session
+            # Additional actions to reset UI or return to login state if necessary
+            # For example, hide user-specific UI elements, disable certain actions
 
-        else:
-            # print('Login failed')
-            sys.exit(0)
-            # return
+            # Optionally, show the login dialog again after logout
+            self.handellogin()
+        except Exception as e:
+            self.error_handler(f"Error LOGOUT: {e}")
+
+    def handelpermissions(self):
+        try:
+            self.permissions = self.database.permission(self.current_user)
+            if self.permissions["model"] == 0:
+                self.ui.comboBox_model.setEnabled(False)
+                self.ui.comboBox_color.setEnabled(False)
+                self.ui.comboBox_sku.setEnabled(False)
+            else:
+                self.ui.comboBox_color.setEnabled(True)
+                self.ui.comboBox_sku.setEnabled(True)
+                self.ui.comboBox_model.setEnabled(True)
+            if self.permissions["user"] == 0:
+                self.ui.toolButton_naviguser.setEnabled(False)
+            else:
+                self.ui.toolButton_naviguser.setEnabled(True)
+            if self.permissions["report"] == 0:
+                self.ui.toolButton_navigreport.setEnabled(False)
+            else:
+                self.ui.toolButton_navigreport.setEnabled(True)
+            if self.permissions["toolid"] == 0:
+                self.ui.toolButton_navigbox.setEnabled(False)
+            else:
+                self.ui.toolButton_navigbox.setEnabled(True)
+            if self.permissions["db"] == 0:
+                self.ui.toolButton_navigdatabase.setEnabled(False)
+            else:
+                self.ui.toolButton_navigdatabase.setEnabled(True)
+        except Exception as e:
+            self.error_handler(f"Error fetching user: {e}")
+
+    def handellogin(self):
+        try:
+            dialog = Login(self.database)
+            if dialog.exec() == QDialog.Accepted:
+                self.show_main_window()
+                self.detail = dialog.detail()
+                self.current_user = self.detail[2]
+                self.ui.label_name.setText(f"{self.detail[0]} {self.detail[1]}")
+                # self.permissions = self.database.permission(detail[2])
+                self.handelpermissions()
+                action = "کاربر وارد سیستم شد"
+                self.database.action(
+                    self.current_user, f"{self.date_text}-{self.time_text}", action
+                )
+                self.print_action()
+                self.ui.stackedWidget.setCurrentIndex(0)
+                QMessageBox.information(
+                    self, "ورود", f"کاربر {self.detail[0]} {self.detail[1]} خوش آمدید."
+                )
+
+            else:
+                # print('Login failed')
+                sys.exit(0)
+                # return
+        except Exception as e:
+            self.error_handler(f"Error handellogin: {e}")
 
     def update_labels(self):
-        current_date = jdatetime.date.today()
-        current_time = QTime.currentTime()
-        # locale = QLocale(QLocale.Persian, QLocale.Iran)
+        try:
+            current_date = jdatetime.date.today()
+            current_time = QTime.currentTime()
+            # locale = QLocale(QLocale.Persian, QLocale.Iran)
 
-        self.date_text = jdatetime.date.today()
-        self.date_text = current_date.strftime("%Y/%m/%d")
-        self.time_text = current_time.toString("hh:mm:ss A")
-        day_names = [
-            "شنبه",
-            "یکشنبه",
-            "دوشنبه",
-            "سه شنبه",
-            "چهارشنبه",
-            "پنجشنبه",
-            "جمعه",
-        ]
-        day_text = day_names[current_date.weekday()]
+            self.date_text = jdatetime.date.today()
+            self.date_text = current_date.strftime("%Y/%m/%d")
+            self.time_text = current_time.toString("hh:mm:ss A")
+            day_names = [
+                "شنبه",
+                "یکشنبه",
+                "دوشنبه",
+                "سه شنبه",
+                "چهارشنبه",
+                "پنجشنبه",
+                "جمعه",
+            ]
+            day_text = day_names[current_date.weekday()]
 
-        self.ui.label_time.setText(self.time_text)
-        self.ui.label_date.setText(self.date_text)
-        self.ui.label_day.setText(day_text)
+            self.ui.label_time.setText(self.time_text)
+            self.ui.label_date.setText(self.date_text)
+            self.ui.label_day.setText(day_text)
+        except Exception as e:
+            self.error_handler(f"Error upadte labels: {e}")
 
     def importexcel(self):
-        self.database.importexcel()
+        try:
+            self.database.importexcel()
+        except Exception as e:
+            self.error_handler(f"Erro main importexcel: {e}")
 
     def dbhandel(self, result):
-        if result == "exportdb":
-            self.database.exportdb()
-        if result == "importdb":
-            self.database.importdb()
+        try:
+            if result == "exportdb":
+                self.database.exportdb()
+            if result == "importdb":
+                self.database.importdb()
+        except Exception as e:
+            self.error_handler(f"Error dbhandel: {e}")
 
     def on_table_item_selection_changed(self):
-        selected_items = self.ui.tableWidget_list_users.selectedItems()
+        try:
+            selected_items = self.ui.tableWidget_list_users.selectedItems()
 
-        # Clear previous selection
-        self.clear_previous_selection()
+            # Clear previous selection
+            self.clear_previous_selection()
 
-        # Apply selection style to the entire selected row
-        for item in selected_items:
-            row = item.row()
-            col = item.column()
-            self.apply_selection_style(row, col)
+            # Apply selection style to the entire selected row
+            for item in selected_items:
+                row = item.row()
+                col = item.column()
+                self.apply_selection_style(row, col)
+        except Exception as e:
+            self.error_handler(f"Error on table selection changed: {e}")
 
     def clear_previous_selection(self):
-        for row in range(self.ui.tableWidget_list_users.rowCount()):
-            for col in range(self.ui.tableWidget_list_users.columnCount()):
-                item = self.ui.tableWidget_list_users.item(row, col)
-                if item:
-                    item.setBackground(
-                        QColor("white")
-                    )  # Change to your default background color
+        try:
+            for row in range(self.ui.tableWidget_list_users.rowCount()):
+                for col in range(self.ui.tableWidget_list_users.columnCount()):
+                    item = self.ui.tableWidget_list_users.item(row, col)
+                    if item:
+                        item.setBackground(
+                            QColor("white")
+                        )  # Change to your default background color
+        except Exception as e:
+            self.error_handler(f"Error clear previous selection: {e}")
 
     def apply_selection_style(self, row, col):
-        for c in range(self.ui.tableWidget_list_users.columnCount()):
-            item = self.ui.tableWidget_list_users.item(row, c)
-            if item:
-                item.setBackground(QColor("#b3d9ff"))
-
+        try:
+            for c in range(self.ui.tableWidget_list_users.columnCount()):
+                item = self.ui.tableWidget_list_users.item(row, c)
+                if item:
+                    item.setBackground(QColor("#b3d9ff"))
+        except Exception as e:
+            self.error_handler(f"Error apply selection style: {e}")
     def show_table(self):
         if self.validation() == False:
             return
@@ -379,7 +411,7 @@ class MainWindow(QMainWindow):
         if text == "account":
             self.print_action()
             self.ui.stackedWidget.setCurrentIndex(3)
-        if text == 'report':
+        if text == "report":
             self.ui.stackedWidget.setCurrentIndex(4)
 
     def generate_svg_with_text(text, filename, width="100mm", height="50mm"):
@@ -509,44 +541,46 @@ class MainWindow(QMainWindow):
         self.ui.lineEdit.setFocus()
 
     def validation(self):
-        status = self.database.validation()
-        self.ui.label_count.setText(str(self.database.count_rows_in_excel()))
-        if status[1] == True:
-            self.ui.label_excel_status.setText("متعبر")
-        if status[0] == False:
+        try:
+            status = self.database.validation()
+            self.ui.label_count.setText(str(self.database.count_rows_in_excel()))
+            if status[1] == True:
+                self.ui.label_excel_status.setText("متعبر")
+            if status[0] == False:
 
-            self.ui.toolButton_deleteuser.setEnabled(False)
-            self.ui.toolButton_edituser.setEnabled(False)
-            self.ui.toolButton_newuser.setEnabled(False)
+                self.ui.toolButton_deleteuser.setEnabled(False)
+                self.ui.toolButton_edituser.setEnabled(False)
+                self.ui.toolButton_newuser.setEnabled(False)
 
-            self.ui.label_db_status.setText("نامتعبر")
-            self.ui.pushButton_scan.setEnabled(False)
-            self.ui.lineEdit.setEnabled(False)
-            self.ui.lineEdit.clear()
-            self.ui.lineEdit.setFocus()
-            return False
-        else:
-            # self.ui.label_db_status.clear()
-            self.ui.label_db_status.setText("معتبر")
-            self.ui.toolButton_deleteuser.setEnabled(True)
-            self.ui.toolButton_edituser.setEnabled(True)
-            self.ui.toolButton_newuser.setEnabled(True)
-            self.ui.pushButton_scan.setEnabled(True)
-            self.ui.lineEdit.setEnabled(True)
-        if status[1] == False:
-            self.ui.lineEdit.clear()
-            self.ui.lineEdit.setFocus()
-            self.ui.pushButton_scan.setEnabled(False)
-            self.ui.lineEdit.setEnabled(False)
-            self.ui.label_excel_status.setText("نامتعبر")
-            # self.ui
-        else:
-            self.ui.pushButton_scan.setEnabled(True)
-            self.ui.lineEdit.setEnabled(True)
-            self.ui.label_excel_status.setText("متعبر")
+                self.ui.label_db_status.setText("نامتعبر")
+                self.ui.pushButton_scan.setEnabled(False)
+                self.ui.lineEdit.setEnabled(False)
+                self.ui.lineEdit.clear()
+                self.ui.lineEdit.setFocus()
+                return False
+            else:
+                # self.ui.label_db_status.clear()
+                self.ui.label_db_status.setText("معتبر")
+                self.ui.toolButton_deleteuser.setEnabled(True)
+                self.ui.toolButton_edituser.setEnabled(True)
+                self.ui.toolButton_newuser.setEnabled(True)
+                self.ui.pushButton_scan.setEnabled(True)
+                self.ui.lineEdit.setEnabled(True)
+            if status[1] == False:
+                self.ui.lineEdit.clear()
+                self.ui.lineEdit.setFocus()
+                self.ui.pushButton_scan.setEnabled(False)
+                self.ui.lineEdit.setEnabled(False)
+                self.ui.label_excel_status.setText("نامتعبر")
+                # self.ui
+            else:
+                self.ui.pushButton_scan.setEnabled(True)
+                self.ui.lineEdit.setEnabled(True)
+                self.ui.label_excel_status.setText("متعبر")
 
-        return status[0] and status[1]
-
+            return status[0] and status[1]
+        except Exception as e:
+            self.error_handler(f"Error main validation: {e}")    
     def barcode_scan(self):
         try:
             if (self.ui.tableWidget.item(9, 2)) != None:
@@ -742,28 +776,30 @@ class MainWindow(QMainWindow):
             self.error_handler(f"Error disable editing: {e}")
 
     def handlecombo(self):
-        self.data = {
-            "select": {},
-            "NOKIA 105TA-1557 DS": {
-                "1GF019CPG6F02": ["Cyan"],
-                "1GF019CPA2F01": ["Charcoal"],
-                "1GF019CPA2F02": ["Charcoal"],
-            },
-            "NOKIA 106TA-1564 DS": {
-                "1GF019BPA2F02": ["Charcoal"],
-                "1GF019BPJ1F02": ["Emerald Green"],
-                "1GF019BPB1F02": ["Terracotta Red"],
-            },
-            "NOKIA 110TA-1567 DS": {
-                "1GF019FPA2F02": ["Charcoal"],
-                "1GF019FPG3F02": ["Cloudy Blue"],
-            },
-        }
+        try:
+            self.data = {
+                "select": {},
+                "NOKIA 105TA-1557 DS": {
+                    "1GF019CPG6F02": ["Cyan"],
+                    "1GF019CPA2F01": ["Charcoal"],
+                    "1GF019CPA2F02": ["Charcoal"],
+                },
+                "NOKIA 106TA-1564 DS": {
+                    "1GF019BPA2F02": ["Charcoal"],
+                    "1GF019BPJ1F02": ["Emerald Green"],
+                    "1GF019BPB1F02": ["Terracotta Red"],
+                },
+                "NOKIA 110TA-1567 DS": {
+                    "1GF019FPA2F02": ["Charcoal"],
+                    "1GF019FPG3F02": ["Cloudy Blue"],
+                },
+            }
 
-        self.ui.comboBox_model.addItems(self.data.keys())
-        self.ui.comboBox_model.currentIndexChanged.connect(self.update_skus)
-        self.ui.comboBox_sku.currentIndexChanged.connect(self.update_colors)
-
+            self.ui.comboBox_model.addItems(self.data.keys())
+            self.ui.comboBox_model.currentIndexChanged.connect(self.update_skus)
+            self.ui.comboBox_sku.currentIndexChanged.connect(self.update_colors)
+        except Exception as e:
+            self.error_handler(f"Error handel combo: {e}")
     def update_skus(self):
         selected_model = self.ui.comboBox_model.currentText()
         skus = self.data.get(selected_model, {}).keys()
@@ -886,7 +922,7 @@ class MainWindow(QMainWindow):
                 1,
             )
             formatted_text = self.format_number(self.box)
-            formatted_text = "SamTel" + formatted_text
+            formatted_text = "SAMTEL" + formatted_text
             self.box += 1
             self.print_box(formatted_text)
             bala_rast.addSVG(

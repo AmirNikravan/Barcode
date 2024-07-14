@@ -30,49 +30,64 @@ class DataBase(QWidget):
 
     def load_existing_files(self):
         # Check if the database file exists and connect to it
-        self.status = [True, True]
-        if os.path.exists(self.current_db_path):
-            self.conn()
-        else:
-            QMessageBox.critical(
-                self, "خطا", "دیتابیس وجود ندارد، لطفا یک دیتابیس معتبر وارد کنید."
-            )
-            self.status[0] = False
-        # Check if the excel file exists and load it
-        if os.path.exists(self.current_excel_path):
-            self.file = self.current_excel_path
-            try:
-                self.df = pd.read_excel(self.current_excel_path)
-                # Load the data into the table widget
-                self.load_excel_data(self.current_excel_path)
-            except Exception as e:
+        try:
+            self.status = [True, True]
+            if os.path.exists(self.current_db_path):
+                self.conn()
+            else:
                 QMessageBox.critical(
-                    self, "Error", f"Failed to load Excel file: {str(e)}"
+                    self, "خطا", "دیتابیس وجود ندارد، لطفا یک دیتابیس معتبر وارد کنید."
                 )
-        else:
-            self.status[1] = False
-            QMessageBox.critical(
-                self, "خطا", "فایل اکسل وجود ندارد،لطفا یک اکسل معتبر وارد کنید."
-            )
-        self.validation()
-
+                self.status[0] = False
+            # Check if the excel file exists and load it
+            if os.path.exists(self.current_excel_path):
+                self.file = self.current_excel_path
+                try:
+                    self.df = pd.read_excel(self.current_excel_path)
+                    # Load the data into the table widget
+                    self.load_excel_data(self.current_excel_path)
+                except Exception as e:
+                    QMessageBox.critical(
+                        self, "Error", f"Failed to load Excel file: {str(e)}"
+                    )
+            else:
+                self.status[1] = False
+                QMessageBox.critical(
+                    self, "خطا", "فایل اکسل وجود ندارد،لطفا یک اکسل معتبر وارد کنید."
+                )
+            self.validation()
+        except Exception as e:
+            self.error_handler(f"Error loading existing files: {e}")
     def commit(self):
-        self.connect.commit()
+        try:
+            self.connect.commit()
+        except Exception as e:
+            self.error_handler(f"Error commit: {e}")
     def fetch_all(self):
-        if self.connect:
-            self.cursor.execute('select * from user')
-            return self.cursor.fetchall()
+        try:
+            if self.connect:
+                self.cursor.execute('select * from user')
+                return self.cursor.fetchall()
+        except Exception as e:
+            self.error_handler(f"Error fetch all: {e}")
     def fetch_one(self,username):
-        if self.connect:
-            self.cursor.execute('select * from user where username = ?',(username,))
-            return self.cursor.fetchone()
+        try:
+            if self.connect:
+                self.cursor.execute('select * from user where username = ?',(username,))
+                return self.cursor.fetchone()
+        except Exception as e:
+            self.error_handler(f"Error fetch one: {e}")
     def conn(self):
-        self.connect = sqlite3.connect(self.current_db_path)
-        self.cursor = self.connect.cursor()
-
+        try:
+            self.connect = sqlite3.connect(self.current_db_path)
+            self.cursor = self.connect.cursor()
+        except Exception as e:
+            self.error_handler(f"Error connecting to database: {e}")
     def close(self):
-        self.connect.close()
-
+        try:
+            self.connect.close()
+        except Exception as e:
+            self.error_handler(f"Error closing database: {e}")
     def add_user(self, inform):
         try:
             self.cursor.execute("SELECT * FROM user WHERE username = ?", (inform[2],))
@@ -80,7 +95,7 @@ class DataBase(QWidget):
 
             if existing_user:
                 QMessageBox.warning(
-                    self, "Error", f"Username '{inform[2]}' already exists."
+                    self, "Error", f"نام کاربری {inform[2]} موجود است."
                 )
                 return 3
             # print(inform)
@@ -104,7 +119,7 @@ class DataBase(QWidget):
             self.commit()
             return 1
         except Exception as e:
-            print(f"error inserting user: {e}")
+            self.error_handler(f"error inserting user: {e}")
             return 0
 
     def delete_user(self, username):
@@ -114,7 +129,7 @@ class DataBase(QWidget):
             self.connect.commit()
             return True
         except Exception as e:
-            print(f"Error deleting user: {e}")
+            self.error_handler(f"Error deleting user: {e}")
             return False
 
     def __del__(self):
@@ -143,7 +158,7 @@ class DataBase(QWidget):
                 }
             return None
         except Exception as e:
-            print(f"Error fetching user: {e}")
+            self.error_handler(f"Error fetching user: {e}")
             return None
 
     def update_user(self, user_info):
@@ -175,105 +190,111 @@ class DataBase(QWidget):
             )
             self.connect.commit()
         except Exception as e:
-            print(f"Error updating user: {e}")
+            self.error_handler(f"Error updating user: {e}")
 
     def exportdb(self):
-        self.close()
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
-        file_path, _ = QFileDialog.getSaveFileName(
-            self,
-            "ذخیره دیتابیس برنامه",
-            self.database_folder,
-            "SQLite Database Files (*.db *.sqlite)",
-            options=options,
-        )
-        if file_path:
-            try:
-                # Replace 'your_database.db' with your actual SQLite database file name
-                database_file = os.path.join(self.database_folder, "DataBase.db")
+        try:
+            self.close()
+            options = QFileDialog.Options()
+            options |= QFileDialog.DontUseNativeDialog
+            file_path, _ = QFileDialog.getSaveFileName(
+                self,
+                "ذخیره دیتابیس برنامه",
+                self.database_folder,
+                "SQLite Database Files (*.db *.sqlite)",
+                options=options,
+            )
+            if file_path:
+                try:
+                    # Replace 'your_database.db' with your actual SQLite database file name
+                    database_file = os.path.join(self.database_folder, "DataBase.db")
 
-                # Connect to SQLite database
-                conn = sqlite3.connect(database_file)
-                if conn:
-                    conn.close()
-                    shutil.copy(database_file, f"{file_path}.db")
-                    QMessageBox.information(self, "ذخیره", "دیتابیس با موقیت ذخیره شد")
+                    # Connect to SQLite database
+                    conn = sqlite3.connect(database_file)
+                    if conn:
+                        conn.close()
+                        shutil.copy(database_file, f"{file_path}.db")
+                        QMessageBox.information(self, "ذخیره", "دیتابیس با موقیت ذخیره شد")
 
-                else:
-                    QMessageBox.critical(
-                        self, "خطا", f"خطا در برقراری ارتباط با پایگاه داده"
-                    )
-                self.conn()
-            except Exception as e:
-                QMessageBox.critical(self, "خطا", f"{e}")
-
-    def importdb(self):
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
-        file_path, _ = QFileDialog.getOpenFileName(
-            self,
-            "فایل دیتابیس را انتحاب کنید",
-            "",
-            "SQLite Database Files (*.db *.sqlite)",
-            options=options,
-        )
-        if file_path:
-            try:
-                # Check if the chosen file is the same as the current database
-                if file_path == self.current_db_path:
-                    QMessageBox.critical(
-                        self,
-                        "خطا",
-                        ".این دیتابیس موجود است،لطفا یک دیتابیس جدید وارد کنید",
-                    )
-                    return
-
-                # Close any open SQLite connection
-                if self.connect:
-                    self.close()
-
-                # Replace the current database with the chosen one
-                if os.path.exists(self.current_db_path):
-                    os.remove(
-                        self.current_db_path
-                    )  # Remove existing file before copying
-
-                shutil.copy(file_path, self.current_db_path)
-
-                QMessageBox.information(
-                    self, "Success", f"دیتابیس با موفقیت جایگزین شد"
-                )
-                if self.connect == None:
+                    else:
+                        QMessageBox.critical(
+                            self, "خطا", f"خطا در برقراری ارتباط با پایگاه داده"
+                        )
                     self.conn()
-            except Exception as e:
-                QMessageBox.critical(
-                    self, "Error", f"Failed to replace database: {str(e)}"
-                )
+                except Exception as e:
+                    QMessageBox.critical(self, "خطا", f"{e}")
+        except Exception as e:
+            self.error_handler(f"Error export database: {e}")
+    def importdb(self):
+        try:
+            options = QFileDialog.Options()
+            options |= QFileDialog.DontUseNativeDialog
+            file_path, _ = QFileDialog.getOpenFileName(
+                self,
+                "فایل دیتابیس را انتحاب کنید",
+                "",
+                "SQLite Database Files (*.db *.sqlite)",
+                options=options,
+            )
+            if file_path:
+                try:
+                    # Check if the chosen file is the same as the current database
+                    if file_path == self.current_db_path:
+                        QMessageBox.critical(
+                            self,
+                            "خطا",
+                            ".این دیتابیس موجود است،لطفا یک دیتابیس جدید وارد کنید",
+                        )
+                        return
 
+                    # Close any open SQLite connection
+                    if self.connect:
+                        self.close()
+
+                    # Replace the current database with the chosen one
+                    if os.path.exists(self.current_db_path):
+                        os.remove(
+                            self.current_db_path
+                        )  # Remove existing file before copying
+
+                    shutil.copy(file_path, self.current_db_path)
+
+                    QMessageBox.information(
+                        self, "Success", f"دیتابیس با موفقیت جایگزین شد"
+                    )
+                    if self.connect == None:
+                        self.conn()
+                except Exception as e:
+                    QMessageBox.critical(
+                        self, "Error", f"Failed to replace database: {str(e)}"
+                    )
+        except Exception as e:
+            self.error_handler(f"Error import Data Base: {e}")
     def importexcel(self):
-        self.file, _ = QFileDialog.getOpenFileName(
-            self, "Open Excel File", "", "Excel Files (*.xlsx *.xls)"
-        )
-        if self.file:
-            try:
-                # Replace the current excel file with the chosen one
-                if os.path.exists(self.current_excel_path):
-                    os.remove(
-                        self.current_excel_path
-                    )  # Remove existing file before copying
+        try:
+            self.file, _ = QFileDialog.getOpenFileName(
+                self, "Open Excel File", "", "Excel Files (*.xlsx *.xls)"
+            )
+            if self.file:
+                try:
+                    # Replace the current excel file with the chosen one
+                    if os.path.exists(self.current_excel_path):
+                        os.remove(
+                            self.current_excel_path
+                        )  # Remove existing file before copying
 
-                shutil.copy(self.file, self.current_excel_path)
-                self.file = self.current_excel_path
-                QMessageBox.information(
-                    self, "Success", f"فایل اکسل با موقیت بارگذاری شد."
-                )
-                self.load_excel_data(self.file)
-            except Exception as e:
-                QMessageBox.critical(
-                    self, "Error", f"Failed to import Excel file: {str(e)}"
-                )
-
+                    shutil.copy(self.file, self.current_excel_path)
+                    self.file = self.current_excel_path
+                    QMessageBox.information(
+                        self, "Success", f"فایل اکسل با موقیت بارگذاری شد."
+                    )
+                    self.load_excel_data(self.file)
+                except Exception as e:
+                    QMessageBox.critical(
+                        self, "Error", f"Failed to import Excel file: {str(e)}"
+                    )
+        except Exception as e:
+            self.error_handler(f"Error import excel: {e}")
     def load_excel_data(self, file_name):
         try:
             if not self.file:
@@ -303,28 +324,30 @@ class DataBase(QWidget):
                     "The selected file does not contain the required columns 'imei1' and 'imei2'.",
                 )
         except Exception as e:
-            QMessageBox.critical(self, "Error", str(e))
+            self.error_handler(f"Error load excel data: {e}")
 
     def search_imei(self, text):
-        imei1_code = text
-        # Check if the dataframe is not empty and contains the required columns
-        if (
-            not self.df.empty
-            and "IMEI1" in self.df.columns
-            and "IMEI2" in self.df.columns
-        ):
-            # Convert IMEI1 column to string type for comparison
-            self.df["IMEI1"] = self.df["IMEI1"].astype(str)
-            result = self.df[self.df["IMEI1"] == imei1_code]
+        try:
+            imei1_code = text
+            # Check if the dataframe is not empty and contains the required columns
+            if (
+                not self.df.empty
+                and "IMEI1" in self.df.columns
+                and "IMEI2" in self.df.columns
+            ):
+                # Convert IMEI1 column to string type for comparison
+                self.df["IMEI1"] = self.df["IMEI1"].astype(str)
+                result = self.df[self.df["IMEI1"] == imei1_code]
 
-            if not result.empty:
-                imei2_value = result.iloc[0]["IMEI2"]
-                return imei2_value
+                if not result.empty:
+                    imei2_value = result.iloc[0]["IMEI2"]
+                    return imei2_value
+                else:
+                    print("Result: IMEI1 code not found")
             else:
-                print("Result: IMEI1 code not found")
-        else:
-            print("Result: No data loaded or incorrect file format")
-
+                print("Result: No data loaded or incorrect file format")
+        except Exception as e:
+            self.error_handler(f"Error search IMEI: {e}")
     def validation(self):
         try:
             if os.path.exists(self.current_db_path):
@@ -337,9 +360,7 @@ class DataBase(QWidget):
                 self.status[1] = False
             return self.status
         except Exception as e:
-            QMessageBox.warning(
-                self, "Database Error", f"Error checking the database: {e}"
-            )
+            self.error_handler(f"Error db validation: {e}")
             return False
 
     def count_rows_in_excel(self):
@@ -355,56 +376,86 @@ class DataBase(QWidget):
             else:
                 return 0
         except Exception as e:
-            print(f"Error reading the Excel file: {e}")
+            self.error_handler(f"Error count rows in excel: {e}")
             return None
 
     def login(self, username, password):
-        if self.connect:
-            cursor = self.connect.cursor()
-            cursor.execute(
-                "SELECT * FROM user WHERE username=? AND password=?",
-                (username, password),
-            )
-            user = cursor.fetchone()
-            return user is not None
-
+        try:
+            if self.connect:
+                cursor = self.connect.cursor()
+                cursor.execute(
+                    "SELECT * FROM user WHERE username=? AND password=?",
+                    (username, password),
+                )
+                user = cursor.fetchone()
+                return user is not None
+        except Exception as e:
+            self.error_handler(f"Error db Login: {e}")
     def permission(self, username):
-        if self.connect:
-            self.cursor.execute(
-                "SELECT pmodel,puser,pgozaresh,ptoolid,pdb FROM user WHERE username=?",
-                (username,),
-            )
-            self.perm = self.cursor.fetchone()
-            return {
-                "model": self.perm[0],
-                "user": self.perm[1],
-                "report": self.perm[2],
-                "toolid": self.perm[3],
-                "db": self.perm[4],
-            }
+        try:
+            if self.connect:
+                self.cursor.execute(
+                    "SELECT pmodel,puser,pgozaresh,ptoolid,pdb FROM user WHERE username=?",
+                    (username,),
+                )
+                self.perm = self.cursor.fetchone()
+                return {
+                    "model": self.perm[0],
+                    "user": self.perm[1],
+                    "report": self.perm[2],
+                    "toolid": self.perm[3],
+                    "db": self.perm[4],
+                }
+        except Exception as e:
+            self.error_handler(f"Error db permission: {e}")
     def action(self,username,time,action):
-        if self.connect:
-            self.cursor.execute(
-                'INSERT INTO user_action (username,time,action) VALUES(?,?,?)',(username,time,action)
-            )
-            self.commit()
+        try:
+            if self.connect:
+                self.cursor.execute(
+                    'INSERT INTO user_action (username,time,action) VALUES(?,?,?)',(username,time,action)
+                )
+                self.commit()
+        except Exception as e:
+            self.error_handler(f"Error db action: {e}")
     def get_user_action(self,username):
-        if self.connect:
-            self.cursor.execute(
-                'SELECT time , action from user_action where username =? ',(username,)
-            )
-            rows = self.cursor.fetchall()
-            return rows
+        try:
+            if self.connect:
+                self.cursor.execute(
+                    'SELECT time , action from user_action where username =? ',(username,)
+                )
+                rows = self.cursor.fetchall()
+                return rows
+        except Exception as e:
+            self.error_handler(f"Error db get user action: {e}")
     def barcode_scan(self,username,time,barcode):
-        if self.connect:
-            self.cursor.execute(
-                'INSERT INTO barcode (username,time,barcode) VALUES(?,?,?)',(username,time,barcode)
-            )
-            self.commit()
+        try:
+            if self.connect:
+                self.cursor.execute(
+                    'INSERT INTO barcode (username,time,barcode) VALUES(?,?,?)',(username,time,barcode)
+                )
+                self.commit()
+        except Exception as e:
+            self.error_handler(f"Error fetching user: {e}")
     def get_barcode_scan(self):
-        if self.connect:
-            self.cursor.execute(
-                'SELECT * from barcode'
-            )
-            rows = self.cursor.fetchall()
-            return rows
+        try:
+            if self.connect:
+                self.cursor.execute(
+                    'SELECT * from barcode'
+                )
+                rows = self.cursor.fetchall()
+                return rows
+        except Exception as e:
+            self.error_handler(f"Error db get barcode scan: {e}")
+    def error_handler(self, msg):
+        try:
+            msg_box = QMessageBox(self)
+            msg_box.setIcon(QMessageBox.Critical)
+            msg_box.setWindowTitle("Error")
+            msg_box.setText(msg)
+            msg_box.exec()
+        except Exception as e:
+            msg_box2 = QMessageBox(self)
+            msg_box2.setIcon(QMessageBox.Critical)
+            msg_box2.setWindowTitle("Error")
+            msg_box2.setText(f"error handler db:{msg}")
+            msg_box2.exec()

@@ -1,52 +1,77 @@
 import sys
-import jdatetime
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QTextEdit, QPushButton
-from PyQt5.QtCore import QTimer
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QCalendarWidget, QPushButton, QTableWidget, QTableWidgetItem, QWidget
+from persiantools.jdatetime import JalaliDate
 
-class DateTimeWidget(QWidget):
+class PersianCalendarWidget(QCalendarWidget):
+    def __init__(self, parent=None):
+        super(PersianCalendarWidget, self).__init__(parent)
+        self.setGridVisible(True)
+        self.clicked.connect(self.update_persian_date)
+
+    def update_persian_date(self):
+        self.selected_date = self.selectedDate()
+        self.persian_date = JalaliDate.to_jalali(self.selected_date.year(), self.selected_date.month(), self.selected_date.day())
+
+class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.init_ui()
 
-    def init_ui(self):
-        # تنظیمات اولیه ویجت
-        self.setWindowTitle('Current DateTime in Jalali')
-        self.setGeometry(100, 100, 300, 200)
+        self.setWindowTitle('Persian Calendar Filter Example')
+        self.setGeometry(100, 100, 800, 600)
 
-        # ایجاد تکست باکس
-        self.text_edit = QTextEdit(self)
-        self.text_edit.setReadOnly(True)
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
 
-        # ایجاد دکمه برای به‌روزرسانی زمان
-        self.button = QPushButton('Update Time', self)
-        self.button.clicked.connect(self.update_time)
+        self.layout = QVBoxLayout(self.central_widget)
 
-        # تنظیم لایه
-        layout = QVBoxLayout()
-        layout.addWidget(self.text_edit)
-        layout.addWidget(self.button)
-        self.setLayout(layout)
+        self.calendar_widget = PersianCalendarWidget(self)
+        self.layout.addWidget(self.calendar_widget)
 
-        # تنظیم تایمر برای به‌روزرسانی زمان هر ثانیه
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.update_time)
-        self.timer.start(1000)  # به‌روزرسانی هر 1000 میلی‌ثانیه (1 ثانیه)
+        self.filter_button = QPushButton('Filter Data', self)
+        self.filter_button.clicked.connect(self.filter_data)
+        self.layout.addWidget(self.filter_button)
 
-        # نمایش زمان اولیه
-        self.update_time()
+        self.table_widget = QTableWidget(self)
+        self.table_widget.setColumnCount(4)
+        self.table_widget.setHorizontalHeaderLabels(['ID', 'Username', 'Action', 'Action Date'])
+        self.layout.addWidget(self.table_widget)
 
-    def update_time(self):
-        # گرفتن زمان حال
-        now = jdatetime.datetime.now()
-        current_time = now.strftime('%H:%M:%S')
-        current_date = now.strftime('%Y/%m/%d')
-        full_date_time = f'{current_date} - {current_time}'
+        # Sample data
+        self.data = [
+            {'id': 1, 'username': 'user1', 'action': 'scanned barcode', 'action_date': '1402-04-23'},
+            {'id': 2, 'username': 'user2', 'action': 'logged in', 'action_date': '1402-04-22'},
+            {'id': 3, 'username': 'user3', 'action': 'logged out', 'action_date': '1402-04-24'}
+        ]
 
-        # نمایش زمان در تکست باکس
-        self.text_edit.setText(full_date_time)
+        # Populate table with initial data
+        self.populate_table()
+
+    def populate_table(self):
+        self.table_widget.setRowCount(len(self.data))
+
+        for row_index, row_data in enumerate(self.data):
+            self.table_widget.setItem(row_index, 0, QTableWidgetItem(str(row_data['id'])))
+            self.table_widget.setItem(row_index, 1, QTableWidgetItem(row_data['username']))
+            self.table_widget.setItem(row_index, 2, QTableWidgetItem(row_data['action']))
+            self.table_widget.setItem(row_index, 3, QTableWidgetItem(row_data['action_date']))
+
+    def filter_data(self):
+        selected_date = self.calendar_widget.persian_date
+        selected_date_str = selected_date.strftime('%Y-%m-%d')
+
+        filtered_data = [row for row in self.data if row['action_date'] == selected_date_str]
+
+        self.table_widget.setRowCount(len(filtered_data))
+
+        for row_index, row_data in enumerate(filtered_data):
+            self.table_widget.setItem(row_index, 0, QTableWidgetItem(str(row_data['id'])))
+            self.table_widget.setItem(row_index, 1, QTableWidgetItem(row_data['username']))
+            self.table_widget.setItem(row_index, 2, QTableWidgetItem(row_data['action']))
+            self.table_widget.setItem(row_index, 3, QTableWidgetItem(row_data['action_date']))
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    ex = DateTimeWidget()
-    ex.show()
+    main_window = MainWindow()
+    main_window.show()
     sys.exit(app.exec_())
