@@ -924,6 +924,36 @@ class Ui_MainWindow(object):
         self.tabWidget.setElideMode(Qt.ElideRight)
         self.barcode_report = QWidget()
         self.barcode_report.setObjectName(u"barcode_report")
+        self.tableWidget_report_barcode = QTableWidget(self.barcode_report)
+        self.tableWidget_report_barcode.setObjectName(u"tableWidget_report_barcode")
+        self.tableWidget_report_barcode.setGeometry(QRect(70, 90, 531, 341))
+        self.tableWidget_report_barcode.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.toolButton_barcode_excel = QToolButton(self.barcode_report)
+        self.toolButton_barcode_excel.setObjectName(u"toolButton_barcode_excel")
+        self.toolButton_barcode_excel.setGeometry(QRect(370, 440, 21, 16))
+        self.toolButton_barcode_excel.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+"\n"
+"\n"
+"	background-color: rgb(132, 171, 108);\n"
+"}\n"
+"QToolButton:hover{\n"
+"background-color: rgb(255, 166, 139);\n"
+"}\n"
+"\n"
+"                        ")
+        self.toolButton_barcode_print = QToolButton(self.barcode_report)
+        self.toolButton_barcode_print.setObjectName(u"toolButton_barcode_print")
+        self.toolButton_barcode_print.setGeometry(QRect(280, 440, 21, 16))
+        self.toolButton_barcode_print.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+"\n"
+"\n"
+"	background-color: rgb(132, 171, 108);\n"
+"}\n"
+"QToolButton:hover{\n"
+"background-color: rgb(255, 166, 139);\n"
+"}\n"
+"\n"
+"                        ")
         self.tabWidget.addTab(self.barcode_report, "")
         self.users_report = QWidget()
         self.users_report.setObjectName(u"users_report")
@@ -1182,6 +1212,8 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem12 = self.tableWidget_history.horizontalHeaderItem(1)
         ___qtablewidgetitem12.setText(QCoreApplication.translate("MainWindow", u"\u0641\u0639\u0627\u0644\u06cc\u062a", None));
         self.label_19.setText(QCoreApplication.translate("MainWindow", u"\u06af\u0632\u0627\u0631\u0634 \u06af\u06cc\u0631\u06cc", None))
+        self.toolButton_barcode_excel.setText(QCoreApplication.translate("MainWindow", u"excel", None))
+        self.toolButton_barcode_print.setText(QCoreApplication.translate("MainWindow", u"print", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.barcode_report), QCoreApplication.translate("MainWindow", u"\u0628\u0627\u0631\u06a9\u062f", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.users_report), QCoreApplication.translate("MainWindow", u"\u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
         self.toolButton_navigscan.setText(QCoreApplication.translate("MainWindow", u"\u0627\u0633\u06a9\u0646", None))

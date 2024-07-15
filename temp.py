@@ -1,77 +1,87 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QCalendarWidget, QPushButton, QTableWidget, QTableWidgetItem, QWidget
-from persiantools.jdatetime import JalaliDate
+import jdatetime
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget, QPushButton, QHBoxLayout, QLabel
+from starcal import StarCalendarWidget
 
-class PersianCalendarWidget(QCalendarWidget):
-    def __init__(self, parent=None):
-        super(PersianCalendarWidget, self).__init__(parent)
-        self.setGridVisible(True)
-        self.clicked.connect(self.update_persian_date)
-
-    def update_persian_date(self):
-        self.selected_date = self.selectedDate()
-        self.persian_date = JalaliDate.to_jalali(self.selected_date.year(), self.selected_date.month(), self.selected_date.day())
-
-class MainWindow(QMainWindow):
+class TableWidgetDemo(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle('Persian Calendar Filter Example')
+        self.setWindowTitle('QTableWidget Demo with Shamsi Date Filter')
         self.setGeometry(100, 100, 800, 600)
 
-        self.central_widget = QWidget()
-        self.setCentralWidget(self.central_widget)
-
-        self.layout = QVBoxLayout(self.central_widget)
-
-        self.calendar_widget = PersianCalendarWidget(self)
-        self.layout.addWidget(self.calendar_widget)
-
-        self.filter_button = QPushButton('Filter Data', self)
-        self.filter_button.clicked.connect(self.filter_data)
-        self.layout.addWidget(self.filter_button)
-
-        self.table_widget = QTableWidget(self)
-        self.table_widget.setColumnCount(4)
-        self.table_widget.setHorizontalHeaderLabels(['ID', 'Username', 'Action', 'Action Date'])
-        self.layout.addWidget(self.table_widget)
-
-        # Sample data
         self.data = [
-            {'id': 1, 'username': 'user1', 'action': 'scanned barcode', 'action_date': '1402-04-23'},
-            {'id': 2, 'username': 'user2', 'action': 'logged in', 'action_date': '1402-04-22'},
-            {'id': 3, 'username': 'user3', 'action': 'logged out', 'action_date': '1402-04-24'}
+            ['John Doe', '30', '1403/04/24-04:47:53 AM'],
+            ['Jane Smith', '25', '1403/04/25-10:22:10 AM'],
+            ['Emily Johnson', '35', '1403/04/23-01:14:33 PM'],
+            ['Michael Brown', '40', '1403/04/20-11:47:00 AM']
         ]
 
-        # Populate table with initial data
-        self.populate_table()
+        self.initUI()
 
-    def populate_table(self):
-        self.table_widget.setRowCount(len(self.data))
+    def initUI(self):
+        layout = QVBoxLayout()
 
-        for row_index, row_data in enumerate(self.data):
-            self.table_widget.setItem(row_index, 0, QTableWidgetItem(str(row_data['id'])))
-            self.table_widget.setItem(row_index, 1, QTableWidgetItem(row_data['username']))
-            self.table_widget.setItem(row_index, 2, QTableWidgetItem(row_data['action']))
-            self.table_widget.setItem(row_index, 3, QTableWidgetItem(row_data['action_date']))
+        # Create filter layout
+        filter_layout = QHBoxLayout()
+        self.start_date_edit = StarCalendarWidget(self)
+        self.end_date_edit = StarCalendarWidget(self)
+        
+        filter_button = QPushButton('Apply Filter')
+        filter_button.clicked.connect(self.apply_filter)
 
-    def filter_data(self):
-        selected_date = self.calendar_widget.persian_date
-        selected_date_str = selected_date.strftime('%Y-%m-%d')
+        filter_layout.addWidget(QLabel('Start Date:'))
+        filter_layout.addWidget(self.start_date_edit)
+        filter_layout.addWidget(QLabel('End Date:'))
+        filter_layout.addWidget(self.end_date_edit)
+        filter_layout.addWidget(filter_button)
 
-        filtered_data = [row for row in self.data if row['action_date'] == selected_date_str]
+        layout.addLayout(filter_layout)
+
+        # Create table widget
+        self.table_widget = QTableWidget()
+        layout.addWidget(self.table_widget)
+
+        container = QWidget()
+        container.setLayout(layout)
+        self.setCentralWidget(container)
+
+        self.load_data()
+
+    def load_data(self, start_date=None, end_date=None):
+        if start_date and end_date:
+            filtered_data = [
+                row for row in self.data
+                if start_date <= self.parse_jalali_date(row[2]) <= end_date
+            ]
+        else:
+            filtered_data = self.data
+
+        column_names = ['Name', 'Age', 'Date']
 
         self.table_widget.setRowCount(len(filtered_data))
+        self.table_widget.setColumnCount(len(column_names))
+        self.table_widget.setHorizontalHeaderLabels(column_names)
 
-        for row_index, row_data in enumerate(filtered_data):
-            self.table_widget.setItem(row_index, 0, QTableWidgetItem(str(row_data['id'])))
-            self.table_widget.setItem(row_index, 1, QTableWidgetItem(row_data['username']))
-            self.table_widget.setItem(row_index, 2, QTableWidgetItem(row_data['action']))
-            self.table_widget.setItem(row_index, 3, QTableWidgetItem(row_data['action_date']))
+        for row_idx, row_data in enumerate(filtered_data):
+            for col_idx, cell_data in enumerate(row_data):
+                self.table_widget.setItem(row_idx, col_idx, QTableWidgetItem(str(cell_data)))
 
+        self.table_widget.resizeColumnsToContents()
+
+    def apply_filter(self):
+        start_date = self.start_date_edit.selectedDate().toPyDate()
+        end_date = self.end_date_edit.selectedDate().toPyDate()
+        self.load_data(start_date, end_date)
+
+    def parse_jalali_date(self, date_str):
+        # Parse date from string and convert to jdatetime.date
+        date_str = date_str.split('-')[0]
+        year, month, day = map(int, date_str.split('/'))
+        return jdatetime.date(year, month, day).togregorian()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    main_window = MainWindow()
-    main_window.show()
+    demo = TableWidgetDemo()
+    demo.show()
     sys.exit(app.exec_())

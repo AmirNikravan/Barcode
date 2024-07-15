@@ -277,6 +277,7 @@ class MainWindow(QMainWindow):
                     item.setBackground(QColor("#b3d9ff"))
         except Exception as e:
             self.error_handler(f"Error apply selection style: {e}")
+
     def show_table(self):
         if self.validation() == False:
             return
@@ -412,6 +413,7 @@ class MainWindow(QMainWindow):
             self.print_action()
             self.ui.stackedWidget.setCurrentIndex(3)
         if text == "report":
+            self.report_barcode()
             self.ui.stackedWidget.setCurrentIndex(4)
 
     def generate_svg_with_text(text, filename, width="100mm", height="50mm"):
@@ -580,7 +582,8 @@ class MainWindow(QMainWindow):
 
             return status[0] and status[1]
         except Exception as e:
-            self.error_handler(f"Error main validation: {e}")    
+            self.error_handler(f"Error main validation: {e}")
+
     def barcode_scan(self):
         try:
             if (self.ui.tableWidget.item(9, 2)) != None:
@@ -800,6 +803,7 @@ class MainWindow(QMainWindow):
             self.ui.comboBox_sku.currentIndexChanged.connect(self.update_colors)
         except Exception as e:
             self.error_handler(f"Error handel combo: {e}")
+
     def update_skus(self):
         selected_model = self.ui.comboBox_model.currentText()
         skus = self.data.get(selected_model, {}).keys()
@@ -1196,6 +1200,28 @@ class MainWindow(QMainWindow):
             )
             self.ui.tableWidget_history.setItem(num_row, 0, QTableWidgetItem(time))
             self.ui.tableWidget_history.setItem(num_row, 1, QTableWidgetItem(action))
+
+    def report_barcode(self):
+        try:
+            rows = self.database.get_barcode_scan()
+            self.ui.tableWidget_report_barcode.setColumnCount(3)
+            self.ui.tableWidget_report_barcode.setHorizontalHeaderLabels(
+                ["نام کاربری", "زمان", "بارکد"]
+            )
+            self.ui.tableWidget_report_barcode.setColumnWidth(0,110)
+            self.ui.tableWidget_report_barcode.setColumnWidth(1,110)
+            self.ui.tableWidget_report_barcode.setColumnWidth(2,750)
+            self.ui.tableWidget_report_barcode.setRowCount(0)
+            for num_row, (username, time, barcode) in enumerate(rows):
+                print((username, time, barcode))
+                self.ui.tableWidget_report_barcode.setRowCount(
+                    self.ui.tableWidget_report_barcode.rowCount() + 1
+                )
+                self.ui.tableWidget_report_barcode.setItem(num_row, 0,QTableWidgetItem(username))
+                self.ui.tableWidget_report_barcode.setItem(num_row, 1,QTableWidgetItem(time))
+                self.ui.tableWidget_report_barcode.setItem(num_row, 2,QTableWidgetItem(barcode))
+        except Exception as e:
+            self.error_handler(f"Error report barcode: {e}")
 
     def error_handler(self, msg):
         try:
