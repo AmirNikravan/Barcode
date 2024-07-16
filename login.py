@@ -3,7 +3,6 @@ from PySide6.QtGui import *
 from ui_login import *
 from PySide6 import QtCore
 from PySide6.QtGui import QPalette, QColor
-from PyQt5.QtCore import *
 
 
 class Login(QDialog):

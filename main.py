@@ -199,7 +199,7 @@ class MainWindow(QMainWindow):
                 sys.exit(0)
                 # return
         except Exception as e:
-            print(f"Error handellogin: {e}")
+            self.error_handler(f"Error handellogin: {e}")
 
     def update_labels(self):
         try:
