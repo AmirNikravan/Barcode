@@ -28,7 +28,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(756, 630)
+        MainWindow.resize(756, 738)
         MainWindow.setMinimumSize(QSize(450, 450))
         icon = QIcon()
         icon.addFile(u":/icons/Icons/mainicon.png", QSize(), QIcon.Normal, QIcon.Off)
@@ -874,12 +874,14 @@ class Ui_MainWindow(object):
         self.verticalLayout_9.addWidget(self.label_30)
 
         self.tableWidget_history = QTableWidget(self.account)
-        if (self.tableWidget_history.columnCount() < 2):
-            self.tableWidget_history.setColumnCount(2)
+        if (self.tableWidget_history.columnCount() < 3):
+            self.tableWidget_history.setColumnCount(3)
         __qtablewidgetitem11 = QTableWidgetItem()
         self.tableWidget_history.setHorizontalHeaderItem(0, __qtablewidgetitem11)
         __qtablewidgetitem12 = QTableWidgetItem()
         self.tableWidget_history.setHorizontalHeaderItem(1, __qtablewidgetitem12)
+        __qtablewidgetitem13 = QTableWidgetItem()
+        self.tableWidget_history.setHorizontalHeaderItem(2, __qtablewidgetitem13)
         self.tableWidget_history.setObjectName(u"tableWidget_history")
         self.tableWidget_history.setLayoutDirection(Qt.RightToLeft)
         self.tableWidget_history.setStyleSheet(u"background-color: rgb(255, 255, 255);")
@@ -888,10 +890,10 @@ class Ui_MainWindow(object):
         self.tableWidget_history.setTextElideMode(Qt.ElideRight)
         self.tableWidget_history.horizontalHeader().setVisible(False)
         self.tableWidget_history.horizontalHeader().setCascadingSectionResizes(False)
-        self.tableWidget_history.horizontalHeader().setMinimumSectionSize(28)
-        self.tableWidget_history.horizontalHeader().setDefaultSectionSize(140)
+        self.tableWidget_history.horizontalHeader().setMinimumSectionSize(43)
+        self.tableWidget_history.horizontalHeader().setDefaultSectionSize(207)
         self.tableWidget_history.verticalHeader().setVisible(False)
-        self.tableWidget_history.verticalHeader().setDefaultSectionSize(23)
+        self.tableWidget_history.verticalHeader().setDefaultSectionSize(76)
 
         self.verticalLayout_9.addWidget(self.tableWidget_history)
 
@@ -924,14 +926,136 @@ class Ui_MainWindow(object):
         self.tabWidget.setElideMode(Qt.ElideRight)
         self.barcode_report = QWidget()
         self.barcode_report.setObjectName(u"barcode_report")
+        self.verticalLayout_12 = QVBoxLayout(self.barcode_report)
+        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
+        self.horizontalLayout_24 = QHBoxLayout()
+        self.horizontalLayout_24.setObjectName(u"horizontalLayout_24")
+        self.horizontalLayout_23 = QHBoxLayout()
+        self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
+        self.label_21 = QLabel(self.barcode_report)
+        self.label_21.setObjectName(u"label_21")
+
+        self.horizontalLayout_23.addWidget(self.label_21)
+
+        self.lineEdit_barrep = QLineEdit(self.barcode_report)
+        self.lineEdit_barrep.setObjectName(u"lineEdit_barrep")
+        self.lineEdit_barrep.setMaxLength(15)
+
+        self.horizontalLayout_23.addWidget(self.lineEdit_barrep)
+
+        self.label_23 = QLabel(self.barcode_report)
+        self.label_23.setObjectName(u"label_23")
+
+        self.horizontalLayout_23.addWidget(self.label_23)
+
+        self.comboBox_barrep_user = QComboBox(self.barcode_report)
+        self.comboBox_barrep_user.setObjectName(u"comboBox_barrep_user")
+        self.comboBox_barrep_user.setMinimumSize(QSize(118, 0))
+
+        self.horizontalLayout_23.addWidget(self.comboBox_barrep_user)
+
+
+        self.horizontalLayout_24.addLayout(self.horizontalLayout_23)
+
+        self.verticalLayout_11 = QVBoxLayout()
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.horizontalLayout_21 = QHBoxLayout()
+        self.horizontalLayout_21.setObjectName(u"horizontalLayout_21")
+        self.label_24 = QLabel(self.barcode_report)
+        self.label_24.setObjectName(u"label_24")
+        self.label_24.setMinimumSize(QSize(55, 0))
+
+        self.horizontalLayout_21.addWidget(self.label_24)
+
+        self.comboBox_barrep_start_day = QComboBox(self.barcode_report)
+        self.comboBox_barrep_start_day.setObjectName(u"comboBox_barrep_start_day")
+
+        self.horizontalLayout_21.addWidget(self.comboBox_barrep_start_day)
+
+        self.comboBox_barrep_start_month = QComboBox(self.barcode_report)
+        self.comboBox_barrep_start_month.setObjectName(u"comboBox_barrep_start_month")
+
+        self.horizontalLayout_21.addWidget(self.comboBox_barrep_start_month)
+
+        self.comboBox_barrep_start_year = QComboBox(self.barcode_report)
+        self.comboBox_barrep_start_year.addItem("")
+        self.comboBox_barrep_start_year.addItem("")
+        self.comboBox_barrep_start_year.addItem("")
+        self.comboBox_barrep_start_year.addItem("")
+        self.comboBox_barrep_start_year.addItem("")
+        self.comboBox_barrep_start_year.addItem("")
+        self.comboBox_barrep_start_year.addItem("")
+        self.comboBox_barrep_start_year.addItem("")
+        self.comboBox_barrep_start_year.addItem("")
+        self.comboBox_barrep_start_year.setObjectName(u"comboBox_barrep_start_year")
+
+        self.horizontalLayout_21.addWidget(self.comboBox_barrep_start_year)
+
+
+        self.verticalLayout_11.addLayout(self.horizontalLayout_21)
+
+        self.horizontalLayout_22 = QHBoxLayout()
+        self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
+        self.label_27 = QLabel(self.barcode_report)
+        self.label_27.setObjectName(u"label_27")
+        self.label_27.setMinimumSize(QSize(55, 0))
+
+        self.horizontalLayout_22.addWidget(self.label_27)
+
+        self.comboBox_barrep_end_day = QComboBox(self.barcode_report)
+        self.comboBox_barrep_end_day.setObjectName(u"comboBox_barrep_end_day")
+
+        self.horizontalLayout_22.addWidget(self.comboBox_barrep_end_day)
+
+        self.comboBox_barrep_end_month = QComboBox(self.barcode_report)
+        self.comboBox_barrep_end_month.setObjectName(u"comboBox_barrep_end_month")
+
+        self.horizontalLayout_22.addWidget(self.comboBox_barrep_end_month)
+
+        self.comboBox_barrep_end_year = QComboBox(self.barcode_report)
+        self.comboBox_barrep_end_year.setObjectName(u"comboBox_barrep_end_year")
+
+        self.horizontalLayout_22.addWidget(self.comboBox_barrep_end_year)
+
+
+        self.verticalLayout_11.addLayout(self.horizontalLayout_22)
+
+
+        self.horizontalLayout_24.addLayout(self.verticalLayout_11)
+
+
+        self.verticalLayout_12.addLayout(self.horizontalLayout_24)
+
+        self.horizontalLayout_25 = QHBoxLayout()
+        self.horizontalLayout_25.setObjectName(u"horizontalLayout_25")
+        self.horizontalSpacer_21 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_25.addItem(self.horizontalSpacer_21)
+
+        self.toolButton_barrep_search = QToolButton(self.barcode_report)
+        self.toolButton_barrep_search.setObjectName(u"toolButton_barrep_search")
+
+        self.horizontalLayout_25.addWidget(self.toolButton_barrep_search)
+
+        self.horizontalSpacer_18 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_25.addItem(self.horizontalSpacer_18)
+
+
+        self.verticalLayout_12.addLayout(self.horizontalLayout_25)
+
         self.tableWidget_report_barcode = QTableWidget(self.barcode_report)
         self.tableWidget_report_barcode.setObjectName(u"tableWidget_report_barcode")
-        self.tableWidget_report_barcode.setGeometry(QRect(70, 90, 531, 341))
         self.tableWidget_report_barcode.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.toolButton_barcode_excel = QToolButton(self.barcode_report)
-        self.toolButton_barcode_excel.setObjectName(u"toolButton_barcode_excel")
-        self.toolButton_barcode_excel.setGeometry(QRect(370, 440, 21, 16))
-        self.toolButton_barcode_excel.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+        self.tableWidget_report_barcode.setEditTriggers(QAbstractItemView.NoEditTriggers)
+
+        self.verticalLayout_12.addWidget(self.tableWidget_report_barcode)
+
+        self.horizontalLayout_18 = QHBoxLayout()
+        self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
+        self.toolButton_barrep_print = QToolButton(self.barcode_report)
+        self.toolButton_barrep_print.setObjectName(u"toolButton_barrep_print")
+        self.toolButton_barrep_print.setStyleSheet(u"QToolButton{border-radius:11px;\n"
 "\n"
 "\n"
 "	background-color: rgb(132, 171, 108);\n"
@@ -941,10 +1065,13 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "                        ")
-        self.toolButton_barcode_print = QToolButton(self.barcode_report)
-        self.toolButton_barcode_print.setObjectName(u"toolButton_barcode_print")
-        self.toolButton_barcode_print.setGeometry(QRect(280, 440, 21, 16))
-        self.toolButton_barcode_print.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+
+        self.horizontalLayout_18.addWidget(self.toolButton_barrep_print)
+
+        self.toolButton_barrep_excel = QToolButton(self.barcode_report)
+        self.toolButton_barrep_excel.setObjectName(u"toolButton_barrep_excel")
+        self.toolButton_barrep_excel.setMinimumSize(QSize(0, 0))
+        self.toolButton_barrep_excel.setStyleSheet(u"QToolButton{border-radius:11px;\n"
 "\n"
 "\n"
 "	background-color: rgb(132, 171, 108);\n"
@@ -954,6 +1081,12 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "                        ")
+
+        self.horizontalLayout_18.addWidget(self.toolButton_barrep_excel)
+
+
+        self.verticalLayout_12.addLayout(self.horizontalLayout_18)
+
         self.tabWidget.addTab(self.barcode_report, "")
         self.users_report = QWidget()
         self.users_report.setObjectName(u"users_report")
@@ -1208,12 +1341,29 @@ class Ui_MainWindow(object):
         self.label_28.setText(QCoreApplication.translate("MainWindow", u"\u0645\u062c\u0648\u0632 \u0647\u0627:", None))
         self.label_30.setText(QCoreApplication.translate("MainWindow", u"\u062a\u0627\u0631\u06cc\u062e\u0686\u0647 \u0639\u0645\u0644\u06a9\u0631\u062f", None))
         ___qtablewidgetitem11 = self.tableWidget_history.horizontalHeaderItem(0)
-        ___qtablewidgetitem11.setText(QCoreApplication.translate("MainWindow", u"\u0632\u0645\u0627\u0646", None));
+        ___qtablewidgetitem11.setText(QCoreApplication.translate("MainWindow", u"\u062a\u0627\u0631\u06cc\u062e", None));
         ___qtablewidgetitem12 = self.tableWidget_history.horizontalHeaderItem(1)
-        ___qtablewidgetitem12.setText(QCoreApplication.translate("MainWindow", u"\u0641\u0639\u0627\u0644\u06cc\u062a", None));
+        ___qtablewidgetitem12.setText(QCoreApplication.translate("MainWindow", u"\u0632\u0645\u0627\u0646", None));
+        ___qtablewidgetitem13 = self.tableWidget_history.horizontalHeaderItem(2)
+        ___qtablewidgetitem13.setText(QCoreApplication.translate("MainWindow", u"\u0641\u0639\u0627\u0644\u06cc\u062a", None));
         self.label_19.setText(QCoreApplication.translate("MainWindow", u"\u06af\u0632\u0627\u0631\u0634 \u06af\u06cc\u0631\u06cc", None))
-        self.toolButton_barcode_excel.setText(QCoreApplication.translate("MainWindow", u"excel", None))
-        self.toolButton_barcode_print.setText(QCoreApplication.translate("MainWindow", u"print", None))
+        self.label_21.setText(QCoreApplication.translate("MainWindow", u"\u0633\u0631\u06cc\u0627\u0644 \u0628\u0627\u0631\u06a9\u062f :", None))
+        self.label_23.setText(QCoreApplication.translate("MainWindow", u"\u06a9\u0627\u0631\u0628\u0631:", None))
+        self.label_24.setText(QCoreApplication.translate("MainWindow", u"\u062a\u0627\u0631\u06cc\u062e :     \u0627\u0632", None))
+        self.comboBox_barrep_start_year.setItemText(0, QCoreApplication.translate("MainWindow", u"\u0633\u0627\u0644", None))
+        self.comboBox_barrep_start_year.setItemText(1, QCoreApplication.translate("MainWindow", u"1403", None))
+        self.comboBox_barrep_start_year.setItemText(2, QCoreApplication.translate("MainWindow", u"1404", None))
+        self.comboBox_barrep_start_year.setItemText(3, QCoreApplication.translate("MainWindow", u"1405", None))
+        self.comboBox_barrep_start_year.setItemText(4, QCoreApplication.translate("MainWindow", u"1406", None))
+        self.comboBox_barrep_start_year.setItemText(5, QCoreApplication.translate("MainWindow", u"1407", None))
+        self.comboBox_barrep_start_year.setItemText(6, QCoreApplication.translate("MainWindow", u"1408", None))
+        self.comboBox_barrep_start_year.setItemText(7, QCoreApplication.translate("MainWindow", u"1409", None))
+        self.comboBox_barrep_start_year.setItemText(8, QCoreApplication.translate("MainWindow", u"1410", None))
+
+        self.label_27.setText(QCoreApplication.translate("MainWindow", u"\u062a\u0627\u0631\u06cc\u062e :     \u062a\u0627", None))
+        self.toolButton_barrep_search.setText(QCoreApplication.translate("MainWindow", u"\u062c\u0633\u062a \u0648 \u062c\u0648", None))
+        self.toolButton_barrep_print.setText(QCoreApplication.translate("MainWindow", u"print", None))
+        self.toolButton_barrep_excel.setText(QCoreApplication.translate("MainWindow", u"excel", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.barcode_report), QCoreApplication.translate("MainWindow", u"\u0628\u0627\u0631\u06a9\u062f", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.users_report), QCoreApplication.translate("MainWindow", u"\u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
         self.toolButton_navigscan.setText(QCoreApplication.translate("MainWindow", u"\u0627\u0633\u06a9\u0646", None))

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>756</width>
-    <height>630</height>
+    <height>738</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -1675,17 +1675,22 @@ background-color: rgb(255, 166, 139);
              <bool>false</bool>
             </attribute>
             <attribute name="horizontalHeaderDefaultSectionSize">
-             <number>140</number>
+             <number>207</number>
             </attribute>
             <attribute name="horizontalHeaderMinimumSectionSize">
-             <number>28</number>
+             <number>43</number>
             </attribute>
             <attribute name="verticalHeaderVisible">
              <bool>false</bool>
             </attribute>
             <attribute name="verticalHeaderDefaultSectionSize">
-             <number>23</number>
+             <number>76</number>
             </attribute>
+            <column>
+             <property name="text">
+              <string>تاریخ</string>
+             </property>
+            </column>
             <column>
              <property name="text">
               <string>زمان</string>
@@ -1745,30 +1750,201 @@ background-color: rgb(255, 166, 139);
              <attribute name="title">
               <string>بارکد</string>
              </attribute>
-             <widget class="QTableWidget" name="tableWidget_report_barcode">
-              <property name="geometry">
-               <rect>
-                <x>70</x>
-                <y>90</y>
-                <width>531</width>
-                <height>341</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(255, 255, 255);</string>
-              </property>
-             </widget>
-             <widget class="QToolButton" name="toolButton_barcode_excel">
-              <property name="geometry">
-               <rect>
-                <x>370</x>
-                <y>440</y>
-                <width>21</width>
-                <height>16</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QToolButton{border-radius:11px;
+             <layout class="QVBoxLayout" name="verticalLayout_12">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_24">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_23">
+                  <item>
+                   <widget class="QLabel" name="label_21">
+                    <property name="text">
+                     <string>سریال بارکد :</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="lineEdit_barrep">
+                    <property name="maxLength">
+                     <number>15</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_23">
+                    <property name="text">
+                     <string>کاربر:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="comboBox_barrep_user">
+                    <property name="minimumSize">
+                     <size>
+                      <width>118</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_11">
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_21">
+                    <item>
+                     <widget class="QLabel" name="label_24">
+                      <property name="minimumSize">
+                       <size>
+                        <width>55</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>تاریخ :     از</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="comboBox_barrep_start_day"/>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="comboBox_barrep_start_month"/>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="comboBox_barrep_start_year">
+                      <item>
+                       <property name="text">
+                        <string>سال</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>1403</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>1404</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>1405</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>1406</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>1407</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>1408</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>1409</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>1410</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_22">
+                    <item>
+                     <widget class="QLabel" name="label_27">
+                      <property name="minimumSize">
+                       <size>
+                        <width>55</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>تاریخ :     تا</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="comboBox_barrep_end_day"/>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="comboBox_barrep_end_month"/>
+                    </item>
+                    <item>
+                     <widget class="QComboBox" name="comboBox_barrep_end_year"/>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_25">
+                <item>
+                 <spacer name="horizontalSpacer_21">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="toolButton_barrep_search">
+                  <property name="text">
+                   <string>جست و جو</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_18">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QTableWidget" name="tableWidget_report_barcode">
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::NoEditTriggers</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_18">
+                <item>
+                 <widget class="QToolButton" name="toolButton_barrep_print">
+                  <property name="styleSheet">
+                   <string notr="true">QToolButton{border-radius:11px;
 
 
 	background-color: rgb(132, 171, 108);
@@ -1778,22 +1954,22 @@ background-color: rgb(255, 166, 139);
 }
 
                         </string>
-              </property>
-              <property name="text">
-               <string>excel</string>
-              </property>
-             </widget>
-             <widget class="QToolButton" name="toolButton_barcode_print">
-              <property name="geometry">
-               <rect>
-                <x>280</x>
-                <y>440</y>
-                <width>21</width>
-                <height>16</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">QToolButton{border-radius:11px;
+                  </property>
+                  <property name="text">
+                   <string>print</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="toolButton_barrep_excel">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QToolButton{border-radius:11px;
 
 
 	background-color: rgb(132, 171, 108);
@@ -1803,11 +1979,15 @@ background-color: rgb(255, 166, 139);
 }
 
                         </string>
-              </property>
-              <property name="text">
-               <string>print</string>
-              </property>
-             </widget>
+                  </property>
+                  <property name="text">
+                   <string>excel</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
             </widget>
             <widget class="QWidget" name="users_report">
              <attribute name="title">

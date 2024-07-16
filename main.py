@@ -29,6 +29,7 @@ import jdatetime
 from login import *
 
 import datetime
+from report import *
 
 
 class MainWindow(QMainWindow):
@@ -41,6 +42,7 @@ class MainWindow(QMainWindow):
         self.shortcut.activated.connect(self.handlePrint)
         self.ui.setupUi(self)
         self.database = DataBase(self.ui.tableWidget_excel)
+        self.report = Report(self.database, self.ui)
         self.current_user = None
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_labels)
@@ -84,7 +86,6 @@ class MainWindow(QMainWindow):
         self.ui.tableWidget.setColumnWidth(2, 180)
         self.ui.tableWidget.setColumnWidth(3, 250)
         self.ui.tableWidget_list_users.setColumnWidth(4, 800)
-        self.ui.tableWidget_history.setColumnWidth(1, 1400)
         for col in range(self.ui.tableWidget.columnCount()):
             self.ui.tableWidget.setSortingEnabled(False)
 
@@ -133,7 +134,7 @@ class MainWindow(QMainWindow):
         try:
             action = "کاربر خارج شد"
             self.database.action(
-                self.current_user, f"{self.date_text}-{self.time_text}", action
+                self.current_user, self.date_text,self.time_text, action
             )
             self.current_user = None  # Clear current user session
             # Additional actions to reset UI or return to login state if necessary
@@ -186,7 +187,7 @@ class MainWindow(QMainWindow):
                 self.handelpermissions()
                 action = "کاربر وارد سیستم شد"
                 self.database.action(
-                    self.current_user, f"{self.date_text}-{self.time_text}", action
+                    self.current_user, self.date_text,self.time_text, action
                 )
                 self.print_action()
                 self.ui.stackedWidget.setCurrentIndex(0)
@@ -206,9 +207,11 @@ class MainWindow(QMainWindow):
             current_date = jdatetime.date.today()
             current_time = QTime.currentTime()
             # locale = QLocale(QLocale.Persian, QLocale.Iran)
-
-            self.date_text = jdatetime.date.today()
-            self.date_text = current_date.strftime("%Y/%m/%d")
+            self.date_text2 = jdatetime.date.today()
+            self.date_text2 = current_date.strftime("%Y/%m/%d")
+            persian_date = jdatetime.date.today()
+            gregorian_date = persian_date.togregorian()
+            self.date_text = gregorian_date.strftime("%Y/%m/%d")
             self.time_text = current_time.toString("hh:mm:ss A")
             day_names = [
                 "شنبه",
@@ -222,7 +225,7 @@ class MainWindow(QMainWindow):
             day_text = day_names[current_date.weekday()]
 
             self.ui.label_time.setText(self.time_text)
-            self.ui.label_date.setText(self.date_text)
+            self.ui.label_date.setText(self.date_text2)
             self.ui.label_day.setText(day_text)
         except Exception as e:
             self.error_handler(f"Error upadte labels: {e}")
@@ -632,7 +635,7 @@ class MainWindow(QMainWindow):
                             return
                 action = f"بارکد {self.barcode_serial} اسکن شد"
                 self.database.action(
-                    self.current_user, f"{self.date_text}-{self.time_text}", action
+                    self.current_user, self.date_text,self.time_text, action
                 )
                 options = {
                     "dpi": 2000,
@@ -749,13 +752,13 @@ class MainWindow(QMainWindow):
                     label.setAlignment(Qt.AlignCenter)
                     self.database.barcode_scan(
                         self.current_user,
-                        f"{self.date_text}-{self.time_text}",
+                        self.date_text,self.time_text,
                         f"{self.barcode_serial}",
                     )
                     print(imei2)
                     self.database.barcode_scan(
                         self.current_user,
-                        f"{self.date_text}-{self.time_text}",
+                        self.date_text,self.time_text,
                         f"{imei2}",
                     )
                 except Exception as e:
@@ -1164,61 +1167,11 @@ class MainWindow(QMainWindow):
             self.error_handler(f"Error enable scanning: {e}")
 
     def print_action(self):
-        rows = self.database.get_user_action(self.current_user)
-        self.ui.tableWidget_history.setRowCount(0)
-        all_data = self.database.fetch_one(self.current_user)
-        # print(rows)
-        checkbox_texts = [
-            "تغییر مدل",
-            "مدیریت کاربران",
-            "گزارش گیری",
-            "تولید جعبه",
-            "مدیریت دیتابیس",
-        ]
-        permissions_text = []
-        # Iterate over rows to populate table
-        # for  row_data in enumerate(all_data):
-        for col_idx in range(4, 9):  # Assuming permissions are in columns 4 to 8
-            if all_data[col_idx] == 1:
-                permission_index = (
-                    col_idx - 4
-                )  # Calculate corresponding index in checkbox_texts
-                if permission_index < len(checkbox_texts):
-                    permissions_text.append(checkbox_texts[permission_index])
-            #     pass
-            # print(all_data)
-
-            # Create text from permissions_text list
-            permissions_str = " , ".join(permissions_text)
-        self.ui.label_acclastname.setText(all_data[1])
-        self.ui.label_accname.setText(all_data[0])
-        self.ui.label_accusername.setText(all_data[3])
-        self.ui.label_accperm.setText(permissions_str)
-        for num_row, (time, action) in enumerate(rows):
-            self.ui.tableWidget_history.setRowCount(
-                self.ui.tableWidget_history.rowCount() + 1
-            )
-            self.ui.tableWidget_history.setItem(num_row, 0, QTableWidgetItem(time))
-            self.ui.tableWidget_history.setItem(num_row, 1, QTableWidgetItem(action))
+        self.report.print_action(self.current_user)
 
     def report_barcode(self):
         try:
-            rows = self.database.get_barcode_scan()
-            self.ui.tableWidget_report_barcode.setColumnCount(3)
-            self.ui.tableWidget_report_barcode.setHorizontalHeaderLabels(
-                ["نام کاربری", "زمان", "بارکد"]
-            )
-            self.ui.tableWidget_report_barcode.setColumnWidth(0,110)
-            self.ui.tableWidget_report_barcode.setColumnWidth(1,110)
-            self.ui.tableWidget_report_barcode.setColumnWidth(2,750)
-            self.ui.tableWidget_report_barcode.setRowCount(0)
-            for num_row, (username, time, barcode) in enumerate(rows):
-                self.ui.tableWidget_report_barcode.setRowCount(
-                    self.ui.tableWidget_report_barcode.rowCount() + 1
-                )
-                self.ui.tableWidget_report_barcode.setItem(num_row, 0,QTableWidgetItem(username))
-                self.ui.tableWidget_report_barcode.setItem(num_row, 1,QTableWidgetItem(time))
-                self.ui.tableWidget_report_barcode.setItem(num_row, 2,QTableWidgetItem(barcode))
+            self.report.report_barcode()
         except Exception as e:
             self.error_handler(f"Error report barcode: {e}")
 

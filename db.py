@@ -408,11 +408,11 @@ class DataBase(QWidget):
                 }
         except Exception as e:
             self.error_handler(f"Error db permission: {e}")
-    def action(self,username,time,action):
+    def action(self,username,date,time,action):
         try:
             if self.connect:
                 self.cursor.execute(
-                    'INSERT INTO user_action (username,time,action) VALUES(?,?,?)',(username,time,action)
+                    'INSERT INTO user_action (username,date,time,action) VALUES(?,?,?,?)',(username,date,time,action)
                 )
                 self.commit()
         except Exception as e:
@@ -421,17 +421,17 @@ class DataBase(QWidget):
         try:
             if self.connect:
                 self.cursor.execute(
-                    'SELECT time , action from user_action where username =? ',(username,)
+                    'SELECT date , time , action from user_action where username =? ',(username,)
                 )
                 rows = self.cursor.fetchall()
                 return rows
         except Exception as e:
             self.error_handler(f"Error db get user action: {e}")
-    def barcode_scan(self,username,time,barcode):
+    def barcode_scan(self,username,date,time,barcode):
         try:
             if self.connect:
                 self.cursor.execute(
-                    'INSERT INTO barcode (username,time,barcode) VALUES(?,?,?)',(username,time,barcode)
+                    'INSERT INTO barcode (username,date,time,barcode) VALUES(?,?,?,?)',(username,date,time,barcode)
                 )
                 self.commit()
         except Exception as e:
