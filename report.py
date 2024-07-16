@@ -56,13 +56,13 @@ class Report:
         self.ui.label_accname.setText(all_data[0])
         self.ui.label_accusername.setText(all_data[3])
         self.ui.label_accperm.setText(permissions_str)
-        # self.ui.tableWidget_history.setColumnCount(3)
+        self.ui.tableWidget_history.setColumnCount(3)
         self.ui.tableWidget_history.setColumnWidth(0, 110)
         self.ui.tableWidget_history.setColumnWidth(1, 110)
         self.ui.tableWidget_history.setColumnWidth(2, 1510)
-        # self.ui.tableWidget_history.setHorizontalHeaderLabels(
-        #     [ "تاریخ", "ساعت", "فعالیت"]
-        # )
+        self.ui.tableWidget_history.setHorizontalHeaderLabels(
+            [ "تاریخ", "ساعت", "فعالیت"]
+        )
         for num_row, (date, time, action) in enumerate(rows):
             self.ui.tableWidget_history.setRowCount(
                 self.ui.tableWidget_history.rowCount() + 1

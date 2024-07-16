@@ -134,7 +134,7 @@ class MainWindow(QMainWindow):
         try:
             action = "کاربر خارج شد"
             self.database.action(
-                self.current_user, self.date_text,self.time_text, action
+                self.current_user, "خروج", self.date_text, self.time_text, action
             )
             self.current_user = None  # Clear current user session
             # Additional actions to reset UI or return to login state if necessary
@@ -187,7 +187,7 @@ class MainWindow(QMainWindow):
                 self.handelpermissions()
                 action = "کاربر وارد سیستم شد"
                 self.database.action(
-                    self.current_user, self.date_text,self.time_text, action
+                    self.current_user, "ورود", self.date_text, self.time_text, action
                 )
                 self.print_action()
                 self.ui.stackedWidget.setCurrentIndex(0)
@@ -635,7 +635,7 @@ class MainWindow(QMainWindow):
                             return
                 action = f"بارکد {self.barcode_serial} اسکن شد"
                 self.database.action(
-                    self.current_user, self.date_text,self.time_text, action
+                    self.current_user, "اسکن", self.date_text, self.time_text, action
                 )
                 options = {
                     "dpi": 2000,
@@ -752,13 +752,15 @@ class MainWindow(QMainWindow):
                     label.setAlignment(Qt.AlignCenter)
                     self.database.barcode_scan(
                         self.current_user,
-                        self.date_text,self.time_text,
+                        self.date_text,
+                        self.time_text,
                         f"{self.barcode_serial}",
                     )
                     print(imei2)
                     self.database.barcode_scan(
                         self.current_user,
-                        self.date_text,self.time_text,
+                        self.date_text,
+                        self.time_text,
                         f"{imei2}",
                     )
                 except Exception as e:

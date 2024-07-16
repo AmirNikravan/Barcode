@@ -58,45 +58,51 @@ class DataBase(QWidget):
             self.validation()
         except Exception as e:
             self.error_handler(f"Error loading existing files: {e}")
+
     def commit(self):
         try:
             self.connect.commit()
         except Exception as e:
             self.error_handler(f"Error commit: {e}")
+
     def fetch_all(self):
         try:
             if self.connect:
-                self.cursor.execute('select * from user')
+                self.cursor.execute("select * from user")
                 return self.cursor.fetchall()
         except Exception as e:
             self.error_handler(f"Error fetch all: {e}")
-    def fetch_one(self,username):
+
+    def fetch_one(self, username):
         try:
             if self.connect:
-                self.cursor.execute('select * from user where username = ?',(username,))
+                self.cursor.execute(
+                    "select * from user where username = ?", (username,)
+                )
                 return self.cursor.fetchone()
         except Exception as e:
             self.error_handler(f"Error fetch one: {e}")
+
     def conn(self):
         try:
             self.connect = sqlite3.connect(self.current_db_path)
             self.cursor = self.connect.cursor()
         except Exception as e:
             self.error_handler(f"Error connecting to database: {e}")
+
     def close(self):
         try:
             self.connect.close()
         except Exception as e:
             self.error_handler(f"Error closing database: {e}")
+
     def add_user(self, inform):
         try:
             self.cursor.execute("SELECT * FROM user WHERE username = ?", (inform[2],))
             existing_user = self.cursor.fetchone()
 
             if existing_user:
-                QMessageBox.warning(
-                    self, "Error", f"نام کاربری {inform[2]} موجود است."
-                )
+                QMessageBox.warning(self, "Error", f"نام کاربری {inform[2]} موجود است.")
                 return 3
             # print(inform)
             self.cursor.execute(
@@ -214,7 +220,9 @@ class DataBase(QWidget):
                     if conn:
                         conn.close()
                         shutil.copy(database_file, f"{file_path}.db")
-                        QMessageBox.information(self, "ذخیره", "دیتابیس با موقیت ذخیره شد")
+                        QMessageBox.information(
+                            self, "ذخیره", "دیتابیس با موقیت ذخیره شد"
+                        )
 
                     else:
                         QMessageBox.critical(
@@ -225,6 +233,7 @@ class DataBase(QWidget):
                     QMessageBox.critical(self, "خطا", f"{e}")
         except Exception as e:
             self.error_handler(f"Error export database: {e}")
+
     def importdb(self):
         try:
             options = QFileDialog.Options()
@@ -270,6 +279,7 @@ class DataBase(QWidget):
                     )
         except Exception as e:
             self.error_handler(f"Error import Data Base: {e}")
+
     def importexcel(self):
         try:
             self.file, _ = QFileDialog.getOpenFileName(
@@ -295,6 +305,7 @@ class DataBase(QWidget):
                     )
         except Exception as e:
             self.error_handler(f"Error import excel: {e}")
+
     def load_excel_data(self, file_name):
         try:
             if not self.file:
@@ -348,6 +359,7 @@ class DataBase(QWidget):
                 print("Result: No data loaded or incorrect file format")
         except Exception as e:
             self.error_handler(f"Error search IMEI: {e}")
+
     def validation(self):
         try:
             if os.path.exists(self.current_db_path):
@@ -391,6 +403,7 @@ class DataBase(QWidget):
                 return user is not None
         except Exception as e:
             self.error_handler(f"Error db Login: {e}")
+
     def permission(self, username):
         try:
             if self.connect:
@@ -408,44 +421,50 @@ class DataBase(QWidget):
                 }
         except Exception as e:
             self.error_handler(f"Error db permission: {e}")
-    def action(self,username,date,time,action):
+
+    def action(self, username, op, date, time, action):
         try:
             if self.connect:
                 self.cursor.execute(
-                    'INSERT INTO user_action (username,date,time,action) VALUES(?,?,?,?)',(username,date,time,action)
+                    "INSERT INTO user_action (username,operation,date,time,action) VALUES(?,?,?,?,?)",
+                    (username, op, date, time, action),
                 )
                 self.commit()
         except Exception as e:
             self.error_handler(f"Error db action: {e}")
-    def get_user_action(self,username):
+
+    def get_user_action(self, username):
         try:
             if self.connect:
                 self.cursor.execute(
-                    'SELECT date , time , action from user_action where username =? ',(username,)
+                    "SELECT date , time , action from user_action where username =? ",
+                    (username,),
                 )
                 rows = self.cursor.fetchall()
                 return rows
         except Exception as e:
             self.error_handler(f"Error db get user action: {e}")
-    def barcode_scan(self,username,date,time,barcode):
+
+    def barcode_scan(self, username, date, time, barcode):
         try:
             if self.connect:
                 self.cursor.execute(
-                    'INSERT INTO barcode (username,date,time,barcode) VALUES(?,?,?,?)',(username,date,time,barcode)
+                    "INSERT INTO barcode (username,date,time,barcode) VALUES(?,?,?,?)",
+                    (username, date, time, barcode),
                 )
                 self.commit()
         except Exception as e:
             self.error_handler(f"Error fetching user: {e}")
+
     def get_barcode_scan(self):
         try:
             if self.connect:
-                self.cursor.execute(
-                    'SELECT * from barcode'
-                )
+                self.cursor.execute("SELECT * from barcode")
                 rows = self.cursor.fetchall()
                 return rows
         except Exception as e:
             self.error_handler(f"Error db get barcode scan: {e}")
+
     def error_handler(self, msg):
         try:
             msg_box = QMessageBox(self)
