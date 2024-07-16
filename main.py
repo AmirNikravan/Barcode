@@ -1213,7 +1213,6 @@ class MainWindow(QMainWindow):
             self.ui.tableWidget_report_barcode.setColumnWidth(2,750)
             self.ui.tableWidget_report_barcode.setRowCount(0)
             for num_row, (username, time, barcode) in enumerate(rows):
-                print((username, time, barcode))
                 self.ui.tableWidget_report_barcode.setRowCount(
                     self.ui.tableWidget_report_barcode.rowCount() + 1
                 )

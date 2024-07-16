@@ -40,6 +40,13 @@ class AddUser(QDialog):
 
     def adduser(self):
         try:
+            
+            if self.ui.lineEdit_username.text() == '':
+                QMessageBox.critical(self,'Error','نام کاربری نمیتواند خالی باشد')
+                return
+            if self.ui.lineEdit_password.text() == '':
+                QMessageBox.critical(self,'Error','رمز عبور نمیتواند خالی باشد')
+                return
             self.inform.append(self.ui.lineEdit_usersname.text())
             self.inform.append(self.ui.lineEdit_userslastname.text())
             self.inform.append(self.ui.lineEdit_username.text())
