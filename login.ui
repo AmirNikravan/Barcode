@@ -6,24 +6,55 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>431</width>
-    <height>350</height>
+    <width>446</width>
+    <height>382</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>IRANSansXFaNum</family>
+    <weight>75</weight>
+    <bold>true</bold>
+   </font>
+  </property>
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
+  </property>
+  <property name="mouseTracking">
+   <bool>false</bool>
+  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string/>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(135, 183, 255);</string>
+   <string notr="true">background-color: rgb(255, 255, 255);</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <spacer name="verticalSpacer_4">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
    <item>
     <widget class="QLabel" name="label">
      <property name="font">
       <font>
-       <family>Arial</family>
-       <pointsize>14</pointsize>
+       <family>IRANSansXFaNum</family>
+       <pointsize>24</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(0, 0, 0);</string>
      </property>
      <property name="text">
       <string>ورود به سیستم</string>
@@ -34,80 +65,172 @@
     </widget>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Maximum</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QLineEdit" name="lineEdit_username"/>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="label_2">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
-          </font>
+        <widget class="QLineEdit" name="lineEdit_username">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>40</height>
+          </size>
          </property>
-         <property name="text">
-          <string>نام کاربری:</string>
+         <property name="styleSheet">
+          <string notr="true">background-color:rgb(233, 234, 234);
+font: 87 10pt &quot;IRANSansXFaNum Black&quot;;
+color: rgb(31, 68, 142);
+border-radius: 10px;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="placeholderText">
+          <string>نام کاربری</string>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_pass">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>40</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:rgb(233, 234, 234);
+font: 87 10pt &quot;IRANSansXFaNum Black&quot;;
+color: rgb(31, 68, 142);
+border-radius: 10px;</string>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+         <property name="placeholderText">
+          <string>رمز عبور</string>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLineEdit" name="lineEdit_pass">
-         <property name="echoMode">
-          <enum>QLineEdit::Password</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_3">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>رمز عبور:</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Maximum</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Maximum</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>8</width>
+       <height>9</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
      <item>
       <widget class="QToolButton" name="toolButton_cancel">
        <property name="minimumSize">
         <size>
-         <width>45</width>
+         <width>137</width>
          <height>45</height>
         </size>
        </property>
        <property name="font">
         <font>
-         <family>Arial</family>
+         <family>IRANSansXFaNum Black</family>
          <pointsize>10</pointsize>
+         <weight>10</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">QToolButton{border-radius:11px;
-
-
-	background-color: rgb(132, 171, 108);
+        <string notr="true">
+QToolButton{border-radius:11px;
+color: rgb(233, 234, 234);
+font: 87 10pt &quot;IRANSansXFaNum Black&quot;;
+background-color:rgb(31, 68, 142);
 }
 QToolButton:hover{
-background-color: rgb(255, 166, 139);
-}
+color: rgb(233, 234, 234);
 
-                                                                </string>
+background-color:rgb(7, 21, 52);
+}
+</string>
        </property>
        <property name="text">
         <string>لغو</string>
@@ -115,40 +238,89 @@ background-color: rgb(255, 166, 139);
       </widget>
      </item>
      <item>
+      <spacer name="horizontalSpacer_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Maximum</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>53</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
       <widget class="QToolButton" name="toolButton_enter">
        <property name="minimumSize">
         <size>
-         <width>45</width>
+         <width>137</width>
          <height>45</height>
         </size>
        </property>
        <property name="font">
         <font>
-         <family>Arial</family>
+         <family>IRANSansXFaNum Black</family>
          <pointsize>10</pointsize>
+         <weight>10</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">QToolButton{border-radius:11px;
-
-
-	background-color: rgb(132, 171, 108);
+        <string notr="true">
+QToolButton{border-radius:11px;
+color: rgb(233, 234, 234);
+font: 87 10pt &quot;IRANSansXFaNum Black&quot;;
+background-color:rgb(31, 68, 142);
 }
 QToolButton:hover{
-background-color: rgb(255, 166, 139);
-}
+color: rgb(233, 234, 234);
 
-                                                                </string>
+background-color:rgb(7, 21, 52);
+}
+</string>
        </property>
        <property name="text">
         <string>ورود</string>
        </property>
       </widget>
      </item>
+     <item>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
     </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_3">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="loginres.qrc"/>
+ </resources>
  <connections/>
 </ui>
