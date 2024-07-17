@@ -82,11 +82,12 @@ class Ui_MainWindow(object):
 
         self.toolButton_exit = QToolButton(self.user_info)
         self.toolButton_exit.setObjectName(u"toolButton_exit")
-        self.toolButton_exit.setMinimumSize(QSize(53, 12))
-        self.toolButton_exit.setMaximumSize(QSize(16777215, 23))
+        self.toolButton_exit.setMinimumSize(QSize(60, 24))
+        self.toolButton_exit.setMaximumSize(QSize(16777215, 32))
         font2 = QFont()
-        font2.setFamilies([u"Arial"])
+        font2.setFamilies([u"IRANSansXFaNum"])
         font2.setPointSize(10)
+        font2.setBold(True)
         self.toolButton_exit.setFont(font2)
         self.toolButton_exit.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
 "border-radius:5px;\n"
@@ -97,7 +98,7 @@ class Ui_MainWindow(object):
         icon1 = QIcon()
         icon1.addFile(u":/icons/Icons/icons8-logout-24.png", QSize(), QIcon.Normal, QIcon.Off)
         self.toolButton_exit.setIcon(icon1)
-        self.toolButton_exit.setIconSize(QSize(12, 12))
+        self.toolButton_exit.setIconSize(QSize(16, 23))
         self.toolButton_exit.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
 
         self.horizontalLayout_9.addWidget(self.toolButton_exit)
@@ -105,7 +106,7 @@ class Ui_MainWindow(object):
         self.line_13 = QFrame(self.user_info)
         self.line_13.setObjectName(u"line_13")
         self.line_13.setMinimumSize(QSize(12, 0))
-        self.line_13.setMaximumSize(QSize(16777215, 24))
+        self.line_13.setMaximumSize(QSize(16777215, 29))
         self.line_13.setStyleSheet(u"color: #CECECE;\n"
 "")
         self.line_13.setFrameShape(QFrame.Shape.VLine)
@@ -376,11 +377,7 @@ class Ui_MainWindow(object):
         self.pushButton_clear.setObjectName(u"pushButton_clear")
         self.pushButton_clear.setMinimumSize(QSize(61, 30))
         self.pushButton_clear.setMaximumSize(QSize(16777215, 39))
-        font9 = QFont()
-        font9.setFamilies([u"IRANSansXFaNum"])
-        font9.setPointSize(10)
-        font9.setBold(True)
-        self.pushButton_clear.setFont(font9)
+        self.pushButton_clear.setFont(font2)
         self.pushButton_clear.setToolTipDuration(-1)
         self.pushButton_clear.setStyleSheet(u"background-color: rgb(145, 196, 215);\n"
 "color: rgb(44, 70, 140);")
@@ -396,7 +393,7 @@ class Ui_MainWindow(object):
         self.toolButton_deleterow.setObjectName(u"toolButton_deleterow")
         self.toolButton_deleterow.setMinimumSize(QSize(61, 25))
         self.toolButton_deleterow.setMaximumSize(QSize(74, 39))
-        self.toolButton_deleterow.setFont(font9)
+        self.toolButton_deleterow.setFont(font2)
         self.toolButton_deleterow.setStyleSheet(u"color: rgb(44, 70, 140);\n"
 "background-color:#91c4d7;")
         icon4 = QIcon()
@@ -416,6 +413,10 @@ class Ui_MainWindow(object):
         self.toolButton_print.setMinimumSize(QSize(61, 0))
         self.toolButton_print.setMaximumSize(QSize(78, 39))
         self.toolButton_print.setSizeIncrement(QSize(0, 0))
+        font9 = QFont()
+        font9.setFamilies([u"IRANSansXFaNum"])
+        font9.setPointSize(12)
+        font9.setBold(True)
         self.toolButton_print.setFont(font9)
         self.toolButton_print.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
 "border-radius:5px;\n"
