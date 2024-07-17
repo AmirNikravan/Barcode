@@ -28,19 +28,21 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(756, 738)
+        MainWindow.resize(779, 586)
         MainWindow.setMinimumSize(QSize(450, 450))
         icon = QIcon()
         icon.addFile(u":/icons/Icons/mainicon.png", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
-        MainWindow.setStyleSheet(u"")
+        MainWindow.setStyleSheet(u"background-color:#F3F3F3;")
         self.actionAbout = QAction(MainWindow)
         self.actionAbout.setObjectName(u"actionAbout")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setStyleSheet(u"")
         self.verticalLayout_3 = QVBoxLayout(self.centralwidget)
+        self.verticalLayout_3.setSpacing(0)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.user_info = QWidget(self.centralwidget)
         self.user_info.setObjectName(u"user_info")
         self.user_info.setMinimumSize(QSize(0, 30))
@@ -49,6 +51,10 @@ class Ui_MainWindow(object):
         self.user_info.setFont(font)
         self.horizontalLayout_9 = QHBoxLayout(self.user_info)
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.verticalSpacer_2 = QSpacerItem(7, 37, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+
+        self.horizontalLayout_9.addItem(self.verticalSpacer_2)
+
         self.label_time = QLabel(self.user_info)
         self.label_time.setObjectName(u"label_time")
         self.label_time.setFont(font)
@@ -63,7 +69,10 @@ class Ui_MainWindow(object):
 
         self.label_day = QLabel(self.user_info)
         self.label_day.setObjectName(u"label_day")
-        self.label_day.setFont(font)
+        font1 = QFont()
+        font1.setFamilies([u"IRANSansXV Light"])
+        font1.setPointSize(10)
+        self.label_day.setFont(font1)
 
         self.horizontalLayout_9.addWidget(self.label_day)
 
@@ -73,49 +82,59 @@ class Ui_MainWindow(object):
 
         self.toolButton_exit = QToolButton(self.user_info)
         self.toolButton_exit.setObjectName(u"toolButton_exit")
-        self.toolButton_exit.setMinimumSize(QSize(40, 40))
-        font1 = QFont()
-        font1.setFamilies([u"Arial"])
-        font1.setPointSize(10)
-        self.toolButton_exit.setFont(font1)
-        self.toolButton_exit.setStyleSheet(u"QToolButton{border-radius:11px;\n"
-"\n"
-"\n"
-"	background-color: rgb(132, 171, 108);\n"
+        self.toolButton_exit.setMinimumSize(QSize(53, 12))
+        self.toolButton_exit.setMaximumSize(QSize(16777215, 23))
+        font2 = QFont()
+        font2.setFamilies([u"Arial"])
+        font2.setPointSize(10)
+        self.toolButton_exit.setFont(font2)
+        self.toolButton_exit.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
+"border-radius:5px;\n"
+"color: #FFFFFF;\n"
+"	background-color: #42B4E7;\n"
 "}\n"
-"QToolButton:hover{\n"
-"background-color: rgb(255, 166, 139);\n"
-"}\n"
-"\n"
-"                      ")
+"")
+        icon1 = QIcon()
+        icon1.addFile(u":/icons/Icons/icons8-logout-24.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_exit.setIcon(icon1)
+        self.toolButton_exit.setIconSize(QSize(12, 12))
+        self.toolButton_exit.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
 
         self.horizontalLayout_9.addWidget(self.toolButton_exit)
 
+        self.line_13 = QFrame(self.user_info)
+        self.line_13.setObjectName(u"line_13")
+        self.line_13.setMinimumSize(QSize(12, 0))
+        self.line_13.setMaximumSize(QSize(16777215, 24))
+        self.line_13.setStyleSheet(u"color: #CECECE;\n"
+"")
+        self.line_13.setFrameShape(QFrame.Shape.VLine)
+        self.line_13.setFrameShadow(QFrame.Shadow.Sunken)
+
+        self.horizontalLayout_9.addWidget(self.line_13)
+
         self.label_name = QLabel(self.user_info)
         self.label_name.setObjectName(u"label_name")
-        self.label_name.setMinimumSize(QSize(60, 0))
-        font2 = QFont()
-        font2.setPointSize(10)
-        self.label_name.setFont(font2)
+        self.label_name.setMinimumSize(QSize(78, 0))
+        self.label_name.setMaximumSize(QSize(16777215, 21))
+        self.label_name.setSizeIncrement(QSize(0, 0))
+        font3 = QFont()
+        font3.setPointSize(10)
+        self.label_name.setFont(font3)
 
         self.horizontalLayout_9.addWidget(self.label_name)
-
-        self.label_7 = QLabel(self.user_info)
-        self.label_7.setObjectName(u"label_7")
-        font3 = QFont()
-        font3.setPointSize(12)
-        self.label_7.setFont(font3)
-
-        self.horizontalLayout_9.addWidget(self.label_7)
 
 
         self.verticalLayout_3.addWidget(self.user_info)
 
         self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.horizontalLayout_4.setSizeConstraint(QLayout.SetDefaultConstraint)
+        self.horizontalLayout_4.setContentsMargins(-1, -1, 0, 0)
         self.stackedWidget = QStackedWidget(self.centralwidget)
         self.stackedWidget.setObjectName(u"stackedWidget")
-        self.stackedWidget.setStyleSheet(u"background-color: rgb(231, 235, 255);")
+        self.stackedWidget.setStyleSheet(u"background-color: rgba(233,233,233,255);")
         self.barcode = QWidget()
         self.barcode.setObjectName(u"barcode")
         self.barcode.setStyleSheet(u"QToolButton{border-radius:11px;\n"
@@ -140,7 +159,7 @@ class Ui_MainWindow(object):
         self.label = QLabel(self.barcode)
         self.label.setObjectName(u"label")
         font4 = QFont()
-        font4.setFamilies([u"Arial"])
+        font4.setFamilies([u"IRANSansXFaNum"])
         font4.setPointSize(20)
         font4.setBold(True)
         self.label.setFont(font4)
@@ -148,46 +167,11 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.label)
 
-        self.line = QFrame(self.barcode)
-        self.line.setObjectName(u"line")
-        self.line.setFrameShape(QFrame.Shape.HLine)
-        self.line.setFrameShadow(QFrame.Shadow.Sunken)
-
-        self.verticalLayout.addWidget(self.line)
-
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.pushButton_clear = QToolButton(self.barcode)
-        self.pushButton_clear.setObjectName(u"pushButton_clear")
-        self.pushButton_clear.setMinimumSize(QSize(60, 43))
-        self.pushButton_clear.setMaximumSize(QSize(16777215, 16777215))
-        self.pushButton_clear.setFont(font2)
-        self.pushButton_clear.setToolTipDuration(-1)
-        self.pushButton_clear.setStyleSheet(u"")
-        icon1 = QIcon()
-        icon1.addFile(u":/icons/Icons/deletetable.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.pushButton_clear.setIcon(icon1)
-        self.pushButton_clear.setIconSize(QSize(27, 32))
-        self.pushButton_clear.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+        self.horizontalSpacer_26 = QSpacerItem(106, 20, QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_2.addWidget(self.pushButton_clear)
-
-        self.toolButton_deleterow = QToolButton(self.barcode)
-        self.toolButton_deleterow.setObjectName(u"toolButton_deleterow")
-        self.toolButton_deleterow.setMinimumSize(QSize(61, 36))
-        self.toolButton_deleterow.setFont(font2)
-        self.toolButton_deleterow.setStyleSheet(u"")
-        icon2 = QIcon()
-        icon2.addFile(u":/icons/Icons/deleterow.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_deleterow.setIcon(icon2)
-        self.toolButton_deleterow.setIconSize(QSize(27, 32))
-        self.toolButton_deleterow.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
-        self.horizontalLayout_2.addWidget(self.toolButton_deleterow)
-
-        self.horizontalSpacer_2 = QSpacerItem(23, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_26)
 
         self.doubleSpinBox = QDoubleSpinBox(self.barcode)
         self.doubleSpinBox.setObjectName(u"doubleSpinBox")
@@ -205,23 +189,35 @@ class Ui_MainWindow(object):
         self.label_3 = QLabel(self.barcode)
         self.label_3.setObjectName(u"label_3")
         self.label_3.setMaximumSize(QSize(42, 16777215))
-        self.label_3.setFont(font)
+        font6 = QFont()
+        font6.setFamilies([u"IRANSansXV Medium"])
+        font6.setPointSize(11)
+        font6.setBold(False)
+        self.label_3.setFont(font6)
+        self.label_3.setStyleSheet(u"color: #2C468C;\n"
+"")
 
         self.horizontalLayout_2.addWidget(self.label_3)
 
-        self.horizontalSpacer_5 = QSpacerItem(18, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_5 = QSpacerItem(8, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_5)
 
         self.comboBox_color = QComboBox(self.barcode)
         self.comboBox_color.setObjectName(u"comboBox_color")
         self.comboBox_color.setMinimumSize(QSize(104, 27))
+        self.comboBox_color.setStyleSheet(u"background-color: #2C468C;")
 
         self.horizontalLayout_2.addWidget(self.comboBox_color)
 
         self.label_5 = QLabel(self.barcode)
         self.label_5.setObjectName(u"label_5")
-        self.label_5.setFont(font)
+        font7 = QFont()
+        font7.setFamilies([u"IRANSansXV Medium"])
+        font7.setPointSize(11)
+        self.label_5.setFont(font7)
+        self.label_5.setStyleSheet(u"color: #2C468C;\n"
+"")
 
         self.horizontalLayout_2.addWidget(self.label_5)
 
@@ -232,12 +228,15 @@ class Ui_MainWindow(object):
         self.comboBox_sku = QComboBox(self.barcode)
         self.comboBox_sku.setObjectName(u"comboBox_sku")
         self.comboBox_sku.setMinimumSize(QSize(120, 27))
+        self.comboBox_sku.setStyleSheet(u"background-color: #2C468C;")
 
         self.horizontalLayout_2.addWidget(self.comboBox_sku)
 
         self.label_6 = QLabel(self.barcode)
         self.label_6.setObjectName(u"label_6")
-        self.label_6.setFont(font3)
+        self.label_6.setFont(font7)
+        self.label_6.setStyleSheet(u"color: #2C468C;\n"
+"")
 
         self.horizontalLayout_2.addWidget(self.label_6)
 
@@ -248,40 +247,51 @@ class Ui_MainWindow(object):
         self.comboBox_model = QComboBox(self.barcode)
         self.comboBox_model.setObjectName(u"comboBox_model")
         self.comboBox_model.setMinimumSize(QSize(76, 27))
-        self.comboBox_model.setStyleSheet(u"")
+        self.comboBox_model.setStyleSheet(u"background-color: #2C468C;")
 
         self.horizontalLayout_2.addWidget(self.comboBox_model)
 
         self.label_4 = QLabel(self.barcode)
         self.label_4.setObjectName(u"label_4")
-        self.label_4.setFont(font3)
+        self.label_4.setFont(font7)
+        self.label_4.setStyleSheet(u"color: #2C468C;\n"
+"")
 
         self.horizontalLayout_2.addWidget(self.label_4)
+
+        self.horizontalSpacer_23 = QSpacerItem(20, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_23)
+
+        self.pushButton_scan = QToolButton(self.barcode)
+        self.pushButton_scan.setObjectName(u"pushButton_scan")
+        self.pushButton_scan.setMinimumSize(QSize(36, 17))
+        self.pushButton_scan.setMaximumSize(QSize(106, 31))
+        self.pushButton_scan.setFont(font3)
+        self.pushButton_scan.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
+"border-radius:5px;\n"
+"color: #FFFFFF;\n"
+"	background-color: #42B4E7;\n"
+"}\n"
+"")
+        icon2 = QIcon()
+        icon2.addFile(u":/icons/Icons/icons8-search-64.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton_scan.setIcon(icon2)
+        self.pushButton_scan.setIconSize(QSize(26, 26))
+        self.pushButton_scan.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.horizontalLayout_2.addWidget(self.pushButton_scan)
 
         self.horizontalSpacer = QSpacerItem(17, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer)
-
-        self.pushButton_scan = QToolButton(self.barcode)
-        self.pushButton_scan.setObjectName(u"pushButton_scan")
-        self.pushButton_scan.setMinimumSize(QSize(49, 46))
-        self.pushButton_scan.setMaximumSize(QSize(111, 16777215))
-        self.pushButton_scan.setFont(font2)
-        self.pushButton_scan.setStyleSheet(u"")
-        icon3 = QIcon()
-        icon3.addFile(u":/icons/Icons/scan.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.pushButton_scan.setIcon(icon3)
-        self.pushButton_scan.setIconSize(QSize(31, 36))
-        self.pushButton_scan.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
-        self.horizontalLayout_2.addWidget(self.pushButton_scan)
 
         self.lineEdit = QLineEdit(self.barcode)
         self.lineEdit.setObjectName(u"lineEdit")
         self.lineEdit.setMinimumSize(QSize(0, 30))
         self.lineEdit.setMaximumSize(QSize(300, 16777215))
         self.lineEdit.setStyleSheet(u"QLineEdit{border-radius:5px;\n"
-"background-color: rgb(217, 255, 193);\n"
+"background-color: rgb(255, 255, 255);\n"
 "}\n"
 "QLineEdit:focus{\n"
 "border: 2px solid rgb(255, 215, 238);\n"
@@ -291,17 +301,19 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.lineEdit)
 
+        self.horizontalSpacer_22 = QSpacerItem(13, 20, QSizePolicy.Policy.Maximum, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_22)
+
         self.label_2 = QLabel(self.barcode)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setMinimumSize(QSize(0, 50))
-        font6 = QFont()
-        font6.setFamilies([u"Arial"])
-        font6.setPointSize(18)
-        font6.setBold(True)
-        self.label_2.setFont(font6)
-        self.label_2.setStyleSheet(u"border-radius:5px;\n"
-"color: rgb(67, 86, 92);\n"
-"                              ")
+        font8 = QFont()
+        font8.setFamilies([u"Arial"])
+        font8.setPointSize(18)
+        font8.setBold(True)
+        self.label_2.setFont(font8)
+        self.label_2.setStyleSheet(u"color: #2C468C")
 
         self.horizontalLayout_2.addWidget(self.label_2)
 
@@ -335,8 +347,7 @@ class Ui_MainWindow(object):
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setMinimumSize(QSize(0, 0))
         self.tableWidget.setMaximumSize(QSize(16777215, 16777215))
-        self.tableWidget.setStyleSheet(u"background-color: rgb(215, 226, 255);\n"
-"\n"
+        self.tableWidget.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
 "border-radius:10px\n"
 "\n"
 "                              ")
@@ -348,7 +359,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addWidget(self.tableWidget)
 
-        self.horizontalSpacer_7 = QSpacerItem(135, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_7 = QSpacerItem(86, 20, QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer_7)
 
@@ -357,18 +368,76 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalSpacer_24 = QSpacerItem(89, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer_24)
+
+        self.pushButton_clear = QToolButton(self.barcode)
+        self.pushButton_clear.setObjectName(u"pushButton_clear")
+        self.pushButton_clear.setMinimumSize(QSize(61, 30))
+        self.pushButton_clear.setMaximumSize(QSize(16777215, 39))
+        font9 = QFont()
+        font9.setFamilies([u"IRANSansXFaNum"])
+        font9.setPointSize(10)
+        font9.setBold(True)
+        self.pushButton_clear.setFont(font9)
+        self.pushButton_clear.setToolTipDuration(-1)
+        self.pushButton_clear.setStyleSheet(u"background-color: rgb(145, 196, 215);\n"
+"color: rgb(44, 70, 140);")
+        icon3 = QIcon()
+        icon3.addFile(u":/icons/Icons/deletetable.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton_clear.setIcon(icon3)
+        self.pushButton_clear.setIconSize(QSize(27, 32))
+        self.pushButton_clear.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.horizontalLayout.addWidget(self.pushButton_clear)
+
+        self.toolButton_deleterow = QToolButton(self.barcode)
+        self.toolButton_deleterow.setObjectName(u"toolButton_deleterow")
+        self.toolButton_deleterow.setMinimumSize(QSize(61, 25))
+        self.toolButton_deleterow.setMaximumSize(QSize(74, 39))
+        self.toolButton_deleterow.setFont(font9)
+        self.toolButton_deleterow.setStyleSheet(u"color: rgb(44, 70, 140);\n"
+"background-color:#91c4d7;")
+        icon4 = QIcon()
+        icon4.addFile(u":/icons/Icons/deleterow.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_deleterow.setIcon(icon4)
+        self.toolButton_deleterow.setIconSize(QSize(27, 32))
+        self.toolButton_deleterow.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+
+        self.horizontalLayout.addWidget(self.toolButton_deleterow)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer_2)
+
         self.toolButton_print = QToolButton(self.barcode)
         self.toolButton_print.setObjectName(u"toolButton_print")
-        self.toolButton_print.setMinimumSize(QSize(80, 0))
-        self.toolButton_print.setMaximumSize(QSize(78, 16777215))
-        self.toolButton_print.setFont(font3)
-        icon4 = QIcon()
-        icon4.addFile(u"Icons/print.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_print.setIcon(icon4)
+        self.toolButton_print.setMinimumSize(QSize(61, 0))
+        self.toolButton_print.setMaximumSize(QSize(78, 39))
+        self.toolButton_print.setSizeIncrement(QSize(0, 0))
+        self.toolButton_print.setFont(font9)
+        self.toolButton_print.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
+"border-radius:5px;\n"
+"color: #FFFFFF;\n"
+"	background-color: #42B4E7;\n"
+"}\n"
+"")
+        icon5 = QIcon()
+        icon5.addFile(u"Icons/print.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_print.setIcon(icon5)
         self.toolButton_print.setIconSize(QSize(35, 54))
         self.toolButton_print.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
         self.horizontalLayout.addWidget(self.toolButton_print)
+
+        self.horizontalSpacer_25 = QSpacerItem(54, 20, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer_25)
+
+        self.verticalSpacer_3 = QSpacerItem(20, 112, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Maximum)
+
+        self.horizontalLayout.addItem(self.verticalSpacer_3)
 
 
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -383,7 +452,11 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.label_8 = QLabel(self.users)
         self.label_8.setObjectName(u"label_8")
-        self.label_8.setFont(font4)
+        font10 = QFont()
+        font10.setFamilies([u"Arial"])
+        font10.setPointSize(20)
+        font10.setBold(True)
+        self.label_8.setFont(font10)
 
         self.verticalLayout_4.addWidget(self.label_8)
 
@@ -400,7 +473,9 @@ class Ui_MainWindow(object):
 
         self.label_9 = QLabel(self.users)
         self.label_9.setObjectName(u"label_9")
-        self.label_9.setFont(font3)
+        font11 = QFont()
+        font11.setPointSize(12)
+        self.label_9.setFont(font11)
 
         self.verticalLayout_5.addWidget(self.label_9)
 
@@ -430,7 +505,7 @@ class Ui_MainWindow(object):
         self.toolButton_deleteuser = QToolButton(self.users)
         self.toolButton_deleteuser.setObjectName(u"toolButton_deleteuser")
         self.toolButton_deleteuser.setMinimumSize(QSize(0, 34))
-        self.toolButton_deleteuser.setFont(font3)
+        self.toolButton_deleteuser.setFont(font11)
         self.toolButton_deleteuser.setStyleSheet(u"QToolButton{border-radius:11px;\n"
 "background-color: rgb(195, 152, 255);\n"
 "\n"
@@ -446,7 +521,7 @@ class Ui_MainWindow(object):
         self.toolButton_newuser = QToolButton(self.users)
         self.toolButton_newuser.setObjectName(u"toolButton_newuser")
         self.toolButton_newuser.setMinimumSize(QSize(0, 34))
-        self.toolButton_newuser.setFont(font3)
+        self.toolButton_newuser.setFont(font11)
         self.toolButton_newuser.setStyleSheet(u"QToolButton{border-radius:11px;\n"
 "background-color: rgb(195, 152, 255);\n"
 "\n"
@@ -462,7 +537,7 @@ class Ui_MainWindow(object):
         self.toolButton_edituser = QToolButton(self.users)
         self.toolButton_edituser.setObjectName(u"toolButton_edituser")
         self.toolButton_edituser.setMinimumSize(QSize(0, 36))
-        self.toolButton_edituser.setFont(font3)
+        self.toolButton_edituser.setFont(font11)
         self.toolButton_edituser.setStyleSheet(u"QToolButton{border-radius:11px;\n"
 "background-color: rgb(195, 152, 255);\n"
 "\n"
@@ -504,7 +579,7 @@ class Ui_MainWindow(object):
         self.toolButton_dbcheck = QToolButton(self.database)
         self.toolButton_dbcheck.setObjectName(u"toolButton_dbcheck")
         self.toolButton_dbcheck.setMinimumSize(QSize(23, 29))
-        self.toolButton_dbcheck.setFont(font2)
+        self.toolButton_dbcheck.setFont(font3)
         self.toolButton_dbcheck.setStyleSheet(u"QToolButton{border-radius:11px;\n"
 "\n"
 "\n"
@@ -524,7 +599,7 @@ class Ui_MainWindow(object):
 
         self.label_11 = QLabel(self.database)
         self.label_11.setObjectName(u"label_11")
-        self.label_11.setFont(font4)
+        self.label_11.setFont(font10)
 
         self.horizontalLayout_14.addWidget(self.label_11)
 
@@ -540,7 +615,7 @@ class Ui_MainWindow(object):
 
         self.label_12 = QLabel(self.database)
         self.label_12.setObjectName(u"label_12")
-        self.label_12.setFont(font2)
+        self.label_12.setFont(font3)
 
         self.verticalLayout_7.addWidget(self.label_12)
 
@@ -581,13 +656,13 @@ class Ui_MainWindow(object):
         self.label_excel_status = QLabel(self.database)
         self.label_excel_status.setObjectName(u"label_excel_status")
         self.label_excel_status.setMinimumSize(QSize(50, 0))
-        self.label_excel_status.setFont(font2)
+        self.label_excel_status.setFont(font3)
 
         self.horizontalLayout_10.addWidget(self.label_excel_status)
 
         self.label_14 = QLabel(self.database)
         self.label_14.setObjectName(u"label_14")
-        self.label_14.setFont(font2)
+        self.label_14.setFont(font3)
 
         self.horizontalLayout_10.addWidget(self.label_14)
 
@@ -598,14 +673,14 @@ class Ui_MainWindow(object):
         self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
         self.label_count = QLabel(self.database)
         self.label_count.setObjectName(u"label_count")
-        self.label_count.setFont(font2)
+        self.label_count.setFont(font3)
         self.label_count.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.horizontalLayout_11.addWidget(self.label_count)
 
         self.label_15 = QLabel(self.database)
         self.label_15.setObjectName(u"label_15")
-        self.label_15.setFont(font2)
+        self.label_15.setFont(font3)
 
         self.horizontalLayout_11.addWidget(self.label_15)
 
@@ -632,7 +707,7 @@ class Ui_MainWindow(object):
         self.toolButton_inputexcel = QToolButton(self.database)
         self.toolButton_inputexcel.setObjectName(u"toolButton_inputexcel")
         self.toolButton_inputexcel.setMinimumSize(QSize(49, 36))
-        self.toolButton_inputexcel.setFont(font2)
+        self.toolButton_inputexcel.setFont(font3)
         self.toolButton_inputexcel.setStyleSheet(u"QToolButton{border-radius:11px;\n"
 "\n"
 "\n"
@@ -643,9 +718,9 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "                              ")
-        icon5 = QIcon()
-        icon5.addFile(u":/icons/Icons/icons8-input-64.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_inputexcel.setIcon(icon5)
+        icon6 = QIcon()
+        icon6.addFile(u":/icons/Icons/icons8-input-64.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_inputexcel.setIcon(icon6)
         self.toolButton_inputexcel.setIconSize(QSize(27, 31))
         self.toolButton_inputexcel.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
@@ -660,7 +735,7 @@ class Ui_MainWindow(object):
 
         self.label_13 = QLabel(self.database)
         self.label_13.setObjectName(u"label_13")
-        self.label_13.setFont(font2)
+        self.label_13.setFont(font3)
 
         self.verticalLayout_7.addWidget(self.label_13)
 
@@ -673,13 +748,13 @@ class Ui_MainWindow(object):
         self.label_db_status = QLabel(self.database)
         self.label_db_status.setObjectName(u"label_db_status")
         self.label_db_status.setMinimumSize(QSize(71, 0))
-        self.label_db_status.setFont(font2)
+        self.label_db_status.setFont(font3)
 
         self.horizontalLayout_12.addWidget(self.label_db_status)
 
         self.label_16 = QLabel(self.database)
         self.label_16.setObjectName(u"label_16")
-        self.label_16.setFont(font2)
+        self.label_16.setFont(font3)
 
         self.horizontalLayout_12.addWidget(self.label_16)
 
@@ -691,7 +766,7 @@ class Ui_MainWindow(object):
         self.toolButton_exportdb = QToolButton(self.database)
         self.toolButton_exportdb.setObjectName(u"toolButton_exportdb")
         self.toolButton_exportdb.setMinimumSize(QSize(49, 36))
-        self.toolButton_exportdb.setFont(font2)
+        self.toolButton_exportdb.setFont(font3)
         self.toolButton_exportdb.setStyleSheet(u"QToolButton{border-radius:11px;\n"
 "\n"
 "\n"
@@ -702,9 +777,9 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "                              ")
-        icon6 = QIcon()
-        icon6.addFile(u"Icons/icons8-export-64.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_exportdb.setIcon(icon6)
+        icon7 = QIcon()
+        icon7.addFile(u"Icons/icons8-export-64.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_exportdb.setIcon(icon7)
         self.toolButton_exportdb.setIconSize(QSize(27, 31))
         self.toolButton_exportdb.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
@@ -714,7 +789,7 @@ class Ui_MainWindow(object):
         self.toolButton_inputdb.setObjectName(u"toolButton_inputdb")
         self.toolButton_inputdb.setEnabled(True)
         self.toolButton_inputdb.setMinimumSize(QSize(49, 36))
-        self.toolButton_inputdb.setFont(font2)
+        self.toolButton_inputdb.setFont(font3)
         self.toolButton_inputdb.setStyleSheet(u"QToolButton{border-radius:11px;\n"
 "\n"
 "\n"
@@ -725,7 +800,7 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "                              ")
-        self.toolButton_inputdb.setIcon(icon5)
+        self.toolButton_inputdb.setIcon(icon6)
         self.toolButton_inputdb.setIconSize(QSize(27, 31))
         self.toolButton_inputdb.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
 
@@ -741,10 +816,10 @@ class Ui_MainWindow(object):
         self.verticalLayout_9.setObjectName(u"verticalLayout_9")
         self.label_17 = QLabel(self.account)
         self.label_17.setObjectName(u"label_17")
-        font7 = QFont()
-        font7.setFamilies([u"Arial"])
-        font7.setPointSize(20)
-        self.label_17.setFont(font7)
+        font12 = QFont()
+        font12.setFamilies([u"Arial"])
+        font12.setPointSize(20)
+        self.label_17.setFont(font12)
 
         self.verticalLayout_9.addWidget(self.label_17)
 
@@ -904,9 +979,9 @@ class Ui_MainWindow(object):
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
         self.label_19 = QLabel(self.report)
         self.label_19.setObjectName(u"label_19")
-        font8 = QFont()
-        font8.setPointSize(14)
-        self.label_19.setFont(font8)
+        font13 = QFont()
+        font13.setPointSize(14)
+        self.label_19.setFont(font13)
 
         self.verticalLayout_10.addWidget(self.label_19)
 
@@ -1098,147 +1173,185 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_4.addWidget(self.stackedWidget)
 
+        self.widget = QWidget(self.centralwidget)
+        self.widget.setObjectName(u"widget")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.widget.sizePolicy().hasHeightForWidth())
+        self.widget.setSizePolicy(sizePolicy)
+        self.widget.setMinimumSize(QSize(5, 0))
+        self.widget.setStyleSheet(u"background-color: #2C468C;")
+
+        self.horizontalLayout_4.addWidget(self.widget)
+
         self.navigation = QWidget(self.centralwidget)
         self.navigation.setObjectName(u"navigation")
-        self.navigation.setMinimumSize(QSize(72, 0))
-        self.navigation.setStyleSheet(u"background-color: rgb(252, 224, 255);")
-        self.verticalLayout_2 = QVBoxLayout(self.navigation)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.navigation.setMinimumSize(QSize(62, 0))
+        self.navigation.setStyleSheet(u"background-color: #FFFFFF;")
         self.toolButton_navigscan = QToolButton(self.navigation)
         self.toolButton_navigscan.setObjectName(u"toolButton_navigscan")
-        self.toolButton_navigscan.setMinimumSize(QSize(54, 47))
-        self.toolButton_navigscan.setFont(font3)
-        self.toolButton_navigscan.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+        self.toolButton_navigscan.setGeometry(QRect(0, 32, 61, 58))
+        self.toolButton_navigscan.setMinimumSize(QSize(61, 52))
+        font14 = QFont()
+        font14.setFamilies([u"IRANSansXV Medium"])
+        font14.setPointSize(12)
+        self.toolButton_navigscan.setFont(font14)
+        self.toolButton_navigscan.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
 "\n"
+"color: #2C468C;\n"
 "\n"
-"	background-color: rgb(132, 171, 108);\n"
 "}\n"
-"QToolButton:hover{\n"
-"background-color: rgb(255, 166, 139);\n"
-"}\n"
-"\n"
-"                        ")
-        icon7 = QIcon()
-        icon7.addFile(u":/icons/Icons/icons8-barcode-64 (1).png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_navigscan.setIcon(icon7)
+"")
+        icon8 = QIcon()
+        icon8.addFile(u":/icons/Icons/icons8-barcode-scanner-64.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_navigscan.setIcon(icon8)
         self.toolButton_navigscan.setIconSize(QSize(34, 33))
         self.toolButton_navigscan.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
-        self.verticalLayout_2.addWidget(self.toolButton_navigscan)
-
         self.toolButton_navigbox = QToolButton(self.navigation)
         self.toolButton_navigbox.setObjectName(u"toolButton_navigbox")
-        self.toolButton_navigbox.setEnabled(False)
+        self.toolButton_navigbox.setEnabled(True)
+        self.toolButton_navigbox.setGeometry(QRect(0, 110, 61, 68))
         self.toolButton_navigbox.setMinimumSize(QSize(54, 59))
-        self.toolButton_navigbox.setFont(font3)
-        self.toolButton_navigbox.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+        self.toolButton_navigbox.setFont(font14)
+        self.toolButton_navigbox.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
 "\n"
+"color: #2C468C;\n"
 "\n"
-"	background-color: rgb(132, 171, 108);\n"
 "}\n"
-"QToolButton:hover{\n"
-"background-color: rgb(255, 166, 139);\n"
-"}\n"
-"\n"
-"                        ")
-        icon8 = QIcon()
-        icon8.addFile(u":/icons/Icons/icons8-box-64.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_navigbox.setIcon(icon8)
+"")
+        icon9 = QIcon()
+        icon9.addFile(u":/icons/Icons/icons8-big-parcel-96.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_navigbox.setIcon(icon9)
         self.toolButton_navigbox.setIconSize(QSize(31, 34))
         self.toolButton_navigbox.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
-        self.verticalLayout_2.addWidget(self.toolButton_navigbox)
-
         self.toolButton_navigdatabase = QToolButton(self.navigation)
         self.toolButton_navigdatabase.setObjectName(u"toolButton_navigdatabase")
+        self.toolButton_navigdatabase.setGeometry(QRect(0, 190, 61, 68))
         self.toolButton_navigdatabase.setMinimumSize(QSize(54, 59))
-        self.toolButton_navigdatabase.setFont(font3)
-        self.toolButton_navigdatabase.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+        font15 = QFont()
+        font15.setFamilies([u"IRANSansXV Medium"])
+        font15.setPointSize(10)
+        self.toolButton_navigdatabase.setFont(font15)
+        self.toolButton_navigdatabase.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
 "\n"
+"color: #2C468C;\n"
 "\n"
-"	background-color: rgb(132, 171, 108);\n"
 "}\n"
-"QToolButton:hover{\n"
-"background-color: rgb(255, 166, 139);\n"
-"}\n"
-"\n"
-"                        ")
-        icon9 = QIcon()
-        icon9.addFile(u":/icons/Icons/icons8-database-64.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_navigdatabase.setIcon(icon9)
-        self.toolButton_navigdatabase.setIconSize(QSize(34, 37))
+"")
+        icon10 = QIcon()
+        icon10.addFile(u":/icons/Icons/icons8-database-64 (1).png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_navigdatabase.setIcon(icon10)
+        self.toolButton_navigdatabase.setIconSize(QSize(32, 34))
         self.toolButton_navigdatabase.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
-        self.verticalLayout_2.addWidget(self.toolButton_navigdatabase)
-
         self.toolButton_naviguser = QToolButton(self.navigation)
         self.toolButton_naviguser.setObjectName(u"toolButton_naviguser")
+        self.toolButton_naviguser.setGeometry(QRect(0, 270, 61, 68))
         self.toolButton_naviguser.setMinimumSize(QSize(54, 59))
-        self.toolButton_naviguser.setFont(font3)
-        self.toolButton_naviguser.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+        self.toolButton_naviguser.setFont(font15)
+        self.toolButton_naviguser.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
 "\n"
+"color: #2C468C;\n"
 "\n"
-"	background-color: rgb(132, 171, 108);\n"
 "}\n"
-"QToolButton:hover{\n"
-"background-color: rgb(255, 166, 139);\n"
-"}\n"
-"\n"
-"                        ")
-        icon10 = QIcon()
-        icon10.addFile(u":/icons/Icons/icons8-user-40.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_naviguser.setIcon(icon10)
+"")
+        icon11 = QIcon()
+        icon11.addFile(u":/icons/Icons/icons8-user-account-96.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_naviguser.setIcon(icon11)
         self.toolButton_naviguser.setIconSize(QSize(31, 34))
         self.toolButton_naviguser.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
-        self.verticalLayout_2.addWidget(self.toolButton_naviguser)
-
         self.toolButton_navigreport = QToolButton(self.navigation)
         self.toolButton_navigreport.setObjectName(u"toolButton_navigreport")
         self.toolButton_navigreport.setEnabled(True)
-        self.toolButton_navigreport.setMinimumSize(QSize(54, 59))
-        self.toolButton_navigreport.setFont(font3)
-        self.toolButton_navigreport.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+        self.toolButton_navigreport.setGeometry(QRect(2, 345, 61, 68))
+        self.toolButton_navigreport.setMinimumSize(QSize(54, 44))
+        self.toolButton_navigreport.setFont(font15)
+        self.toolButton_navigreport.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
 "\n"
+"color: #2C468C;\n"
 "\n"
-"	background-color: rgb(132, 171, 108);\n"
 "}\n"
-"QToolButton:hover{\n"
-"background-color: rgb(255, 166, 139);\n"
-"}\n"
-"\n"
-"                        ")
-        icon11 = QIcon()
-        icon11.addFile(u":/icons/Icons/icons8-report-64.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_navigreport.setIcon(icon11)
-        self.toolButton_navigreport.setIconSize(QSize(31, 34))
+"")
+        icon12 = QIcon()
+        icon12.addFile(u":/icons/Icons/icons8-terms-and-conditions-90.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_navigreport.setIcon(icon12)
+        self.toolButton_navigreport.setIconSize(QSize(41, 40))
         self.toolButton_navigreport.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
-        self.verticalLayout_2.addWidget(self.toolButton_navigreport)
-
         self.toolButton_navigaccount = QToolButton(self.navigation)
         self.toolButton_navigaccount.setObjectName(u"toolButton_navigaccount")
         self.toolButton_navigaccount.setEnabled(True)
-        self.toolButton_navigaccount.setMinimumSize(QSize(54, 59))
-        self.toolButton_navigaccount.setFont(font3)
-        self.toolButton_navigaccount.setStyleSheet(u"QToolButton{border-radius:11px;\n"
+        self.toolButton_navigaccount.setGeometry(QRect(2, 428, 61, 59))
+        self.toolButton_navigaccount.setMinimumSize(QSize(61, 59))
+        self.toolButton_navigaccount.setFont(font15)
+        self.toolButton_navigaccount.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
 "\n"
+"color: #2C468C;\n"
 "\n"
-"	background-color: rgb(132, 171, 108);\n"
 "}\n"
-"QToolButton:hover{\n"
-"background-color: rgb(255, 166, 139);\n"
-"}\n"
-"\n"
-"                        ")
-        icon12 = QIcon()
-        icon12.addFile(u":/icons/Icons/icons8-account-64.png", QSize(), QIcon.Normal, QIcon.Off)
-        self.toolButton_navigaccount.setIcon(icon12)
-        self.toolButton_navigaccount.setIconSize(QSize(31, 34))
+"")
+        icon13 = QIcon()
+        icon13.addFile(u":/icons/Icons/icons8-user-90.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.toolButton_navigaccount.setIcon(icon13)
+        self.toolButton_navigaccount.setIconSize(QSize(36, 34))
         self.toolButton_navigaccount.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
-
-        self.verticalLayout_2.addWidget(self.toolButton_navigaccount)
-
+        self.line_7 = QFrame(self.navigation)
+        self.line_7.setObjectName(u"line_7")
+        self.line_7.setGeometry(QRect(13, 90, 37, 16))
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.line_7.sizePolicy().hasHeightForWidth())
+        self.line_7.setSizePolicy(sizePolicy1)
+        self.line_7.setMinimumSize(QSize(1, 8))
+        self.line_7.setMaximumSize(QSize(37, 16777215))
+        self.line_7.setStyleSheet(u"color: #CECECE;")
+        self.line_7.setFrameShape(QFrame.Shape.HLine)
+        self.line_7.setFrameShadow(QFrame.Shadow.Sunken)
+        self.line_8 = QFrame(self.navigation)
+        self.line_8.setObjectName(u"line_8")
+        self.line_8.setGeometry(QRect(13, 173, 37, 16))
+        sizePolicy1.setHeightForWidth(self.line_8.sizePolicy().hasHeightForWidth())
+        self.line_8.setSizePolicy(sizePolicy1)
+        self.line_8.setMinimumSize(QSize(1, 8))
+        self.line_8.setMaximumSize(QSize(37, 16777215))
+        self.line_8.setFrameShape(QFrame.Shape.HLine)
+        self.line_8.setFrameShadow(QFrame.Shadow.Sunken)
+        self.line_9 = QFrame(self.navigation)
+        self.line_9.setObjectName(u"line_9")
+        self.line_9.setGeometry(QRect(13, 257, 37, 15))
+        sizePolicy1.setHeightForWidth(self.line_9.sizePolicy().hasHeightForWidth())
+        self.line_9.setSizePolicy(sizePolicy1)
+        self.line_9.setMinimumSize(QSize(1, 8))
+        self.line_9.setMaximumSize(QSize(37, 16777215))
+        self.line_9.setFrameShape(QFrame.Shape.HLine)
+        self.line_9.setFrameShadow(QFrame.Shadow.Sunken)
+        self.line_10 = QFrame(self.navigation)
+        self.line_10.setObjectName(u"line_10")
+        self.line_10.setGeometry(QRect(13, 330, 37, 16))
+        sizePolicy1.setHeightForWidth(self.line_10.sizePolicy().hasHeightForWidth())
+        self.line_10.setSizePolicy(sizePolicy1)
+        self.line_10.setMinimumSize(QSize(1, 8))
+        self.line_10.setMaximumSize(QSize(37, 16777215))
+        self.line_10.setFrameShape(QFrame.Shape.HLine)
+        self.line_10.setFrameShadow(QFrame.Shadow.Sunken)
+        self.line_11 = QFrame(self.navigation)
+        self.line_11.setObjectName(u"line_11")
+        self.line_11.setGeometry(QRect(13, 410, 37, 16))
+        sizePolicy1.setHeightForWidth(self.line_11.sizePolicy().hasHeightForWidth())
+        self.line_11.setSizePolicy(sizePolicy1)
+        self.line_11.setMinimumSize(QSize(1, 8))
+        self.line_11.setMaximumSize(QSize(37, 16777215))
+        self.line_11.setFrameShape(QFrame.Shape.HLine)
+        self.line_11.setFrameShadow(QFrame.Shadow.Sunken)
+        self.line_12 = QFrame(self.navigation)
+        self.line_12.setObjectName(u"line_12")
+        self.line_12.setGeometry(QRect(13, 480, 37, 16))
+        sizePolicy1.setHeightForWidth(self.line_12.sizePolicy().hasHeightForWidth())
+        self.line_12.setSizePolicy(sizePolicy1)
+        self.line_12.setMinimumSize(QSize(1, 8))
+        self.line_12.setMaximumSize(QSize(37, 16777215))
+        self.line_12.setFrameShape(QFrame.Shape.HLine)
+        self.line_12.setFrameShadow(QFrame.Shadow.Sunken)
 
         self.horizontalLayout_4.addWidget(self.navigation)
 
@@ -1248,7 +1361,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 756, 18))
+        self.menubar.setGeometry(QRect(0, 0, 779, 18))
         self.menuHelp = QMenu(self.menubar)
         self.menuHelp.setObjectName(u"menuHelp")
         MainWindow.setMenuBar(self.menubar)
@@ -1258,7 +1371,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(4)
+        self.stackedWidget.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
 
 
@@ -1273,17 +1386,14 @@ class Ui_MainWindow(object):
         self.label_day.setText("")
         self.toolButton_exit.setText(QCoreApplication.translate("MainWindow", u"\u062e\u0631\u0648\u062c", None))
         self.label_name.setText("")
-        self.label_7.setText(QCoreApplication.translate("MainWindow", u"\u06a9\u0627\u0631\u0628\u0631 :", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"\u0627\u0633\u06a9\u0646 \u0628\u0627\u0631\u06a9\u062f", None))
-        self.pushButton_clear.setText(QCoreApplication.translate("MainWindow", u"\u062d\u0630\u0641 \u062c\u062f\u0648\u0644", None))
-        self.toolButton_deleterow.setText(QCoreApplication.translate("MainWindow", u"\u062d\u0630\u0641 \u0633\u0637\u0631", None))
         self.doubleSpinBox.setSuffix(QCoreApplication.translate("MainWindow", u"\u062b\u0627\u0646\u06cc\u0647", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u062a\u0627\u062e\u06cc\u0631:", None))
-        self.label_5.setText(QCoreApplication.translate("MainWindow", u"\u0631\u0646\u06af:", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u":SKU", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"\u0645\u062f\u0644:", None))
-        self.pushButton_scan.setText(QCoreApplication.translate("MainWindow", u"\u0627\u0633\u06a9\u0646", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u0628\u0627\u0631\u06a9\u062f: ", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u062a\u0627\u062e\u06cc\u0631", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"\u0631\u0646\u06af", None))
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"SKU", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"\u0645\u062f\u0644", None))
+        self.pushButton_scan.setText("")
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u0628\u0627\u0631\u06a9\u062f   ", None))
         ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"\u0633\u0631\u06cc\u0627\u0644", None));
         ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
@@ -1292,7 +1402,9 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"\u0633\u0631\u06cc\u0627\u0644", None));
         ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
         ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u062a\u0635\u0648\u06cc\u0631", None));
-        self.toolButton_print.setText(QCoreApplication.translate("MainWindow", u"\u067e\u0631\u06cc\u0646\u062a", None))
+        self.pushButton_clear.setText(QCoreApplication.translate("MainWindow", u"\u062d\u0630\u0641 \u062c\u062f\u0648\u0644", None))
+        self.toolButton_deleterow.setText(QCoreApplication.translate("MainWindow", u"\u062d\u0630\u0641 \u0633\u0637\u0631", None))
+        self.toolButton_print.setText(QCoreApplication.translate("MainWindow", u"\u0686\u0627\u067e", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"\u0645\u062f\u06cc\u0631\u06cc\u062a \u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"\u0644\u06cc\u0633\u062a \u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
         ___qtablewidgetitem4 = self.tableWidget_list_users.horizontalHeaderItem(0)

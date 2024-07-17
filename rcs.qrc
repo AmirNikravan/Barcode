@@ -1,32 +1,12 @@
 <RCC>
   <qresource prefix="icons">
-    <file>Icons/icons8-box-64.png</file>
-    <file>Icons/icons8-report-64.png</file>
-    <file>Icons/icons8-account-64.png</file>
-    <file>Icons/icons8-export-64.png</file>
-    <file>Icons/icons8-input-64.png</file>
-    <file>Icons/icons8-database-64.png</file>
-    <file>Icons/icons8-add-administrator-50.png</file>
-    <file>Icons/icons8-delete-user-male-50.png</file>
-    <file>Icons/icons8-edit-64.png</file>
-    <file>Icons/icons8-user-40.png</file>
-    <file>Icons/icons8-barcode-64 (1).png</file>
-    <file>Icons/print.png</file>
-    <file>Icons/preview.png</file>
-    <file>Icons/mainicon.png</file>
-    <file>Icons/deletetable.png</file>
-    <file>Icons/deleterow.png</file>
-    <file>Icons/scan.png</file>
-  </qresource>
-  <qresource prefix="fonts">
-    <file>fonts/IRANSansXFaNum-Black.ttf</file>
-    <file>fonts/IRANSansXFaNum-Bold.ttf</file>
-    <file>fonts/IRANSansXFaNum-DemiBold.ttf</file>
-    <file>fonts/IRANSansXFaNum-ExtraBold.ttf</file>
-    <file>fonts/IRANSansXFaNum-Light.ttf</file>
-    <file>fonts/IRANSansXFaNum-Medium.ttf</file>
-    <file>fonts/IRANSansXFaNum-Regular.ttf</file>
-    <file>fonts/IRANSansXFaNum-Thin.ttf</file>
-    <file>fonts/IRANSansXFaNum-UltraLight.ttf</file>
+    <file>Icons/icons8-terms-and-conditions-90.png</file>
+    <file>Icons/icons8-database-64 (1).png</file>
+    <file>Icons/icons8-user-account-96.png</file>
+    <file>Icons/icons8-barcode-scanner-64.png</file>
+    <file>Icons/icons8-big-parcel-96.png</file>
+    <file>Icons/icons8-logout-24.png</file>
+    <file>Icons/icons8-search-64.png</file>
+    <file>Icons/icons8-user-90.png</file>
   </qresource>
 </RCC>
