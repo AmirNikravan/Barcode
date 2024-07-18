@@ -877,6 +877,7 @@ class MainWindow(QMainWindow):
             dialog = QtPrintSupport.QPrintDialog()
             if dialog.exec() == QtWidgets.QDialog.Accepted:
                 self.handlePaintRequest(dialog.printer())
+                self.database.update_box(self.box[0][0] + 1)
                 self.clear_table()
         except Exception as e:
             self.error_handler(f"Error Handel Print: {e}")
@@ -950,7 +951,7 @@ class MainWindow(QMainWindow):
             self.database.update_box(self.box[0][0] + 1)
             formatted_text = self.format_number(self.box[0][0])
             formatted_text = "SAMTEL" + formatted_text
-            print(formatted_text)
+            # print(formatted_text)
             self.print_box(formatted_text)
             bala_rast.addSVG(
                 f"./svgs/blank11.svg", alignment=ss.AlignTop | ss.AlignLeft
