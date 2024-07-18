@@ -49,7 +49,6 @@ class MainWindow(QMainWindow):
         self.timer.start(1000)  # Update every second
         self.setWindowTitle("IMEI SCANNER")
         self.update_labels()
-        self.box = 1
         # signals
         self.ui.toolButton_navigscan.clicked.connect(lambda: self.navigation("scan"))
         self.ui.toolButton_naviguser.clicked.connect(lambda: self.navigation("user"))
@@ -85,8 +84,8 @@ class MainWindow(QMainWindow):
         self.ui.tableWidget.setColumnWidth(1, 400)
         self.ui.tableWidget.setColumnWidth(2, 180)
         self.ui.tableWidget.setColumnWidth(3, 250)
-        self.ui.tableWidget_userstatus.setColumnWidth(0,100)
-        self.ui.tableWidget_userstatus.setColumnWidth(3,1300)
+        self.ui.tableWidget_userstatus.setColumnWidth(0, 100)
+        self.ui.tableWidget_userstatus.setColumnWidth(3, 1300)
         self.ui.tableWidget_list_users.setColumnWidth(4, 800)
         for col in range(self.ui.tableWidget.columnCount()):
             self.ui.tableWidget.setSortingEnabled(False)
@@ -170,7 +169,7 @@ class MainWindow(QMainWindow):
                 self.ui.toolButton_navigreport.setEnabled(False)
                 self.ui.toolButton_navigreport.hide()
                 self.ui.line_11.hide()
-                
+
             else:
                 self.ui.line_11.show()
                 self.ui.toolButton_navigreport.show()
@@ -303,8 +302,8 @@ class MainWindow(QMainWindow):
     def show_table(self):
         if self.validation() == False:
             return
-        rows = self.database.fetch_all('user')
-        rows2 = self.database.fetch_all('user_action')
+        rows = self.database.fetch_all("user")
+        rows2 = self.database.fetch_all("user_action")
         if not rows:
             return
 
@@ -329,13 +328,17 @@ class MainWindow(QMainWindow):
             col_idx = 0
             actual_col_idx = 0  # This will track the actual index in the table
             for col_data in row_data:
-                if col_idx == 3:  # Skip the 3rd column (index 2 in the original question)
+                if (
+                    col_idx == 3
+                ):  # Skip the 3rd column (index 2 in the original question)
                     col_idx += 1
                     continue
                 if actual_col_idx == 1:
                     item = QTableWidgetItem(self.report.date_convertor(col_data))
                 else:
-                    item = QTableWidgetItem(str(col_data))  # Ensure col_data is converted to string
+                    item = QTableWidgetItem(
+                        str(col_data)
+                    )  # Ensure col_data is converted to string
                 self.ui.tableWidget_userstatus.setItem(row_idx, actual_col_idx, item)
                 col_idx += 1
                 actual_col_idx += 1
@@ -421,6 +424,7 @@ class MainWindow(QMainWindow):
             selected_items,
             self.show_table,
         )
+
     def navigation(self, text):
         if text == "scan":
             self.ui.stackedWidget.setCurrentIndex(0)
@@ -943,9 +947,10 @@ class MainWindow(QMainWindow):
                 1,
                 1,
             )
-            formatted_text = self.format_number(self.box)
+            self.box = self.database.fetch_all("box_num")
+            self.database.update_box(self.box[0][0] + 1)
+            formatted_text = self.format_number(self.box[0][0])
             formatted_text = "SAMTEL" + formatted_text
-            self.box += 1
             self.print_box(formatted_text)
             bala_rast.addSVG(
                 f"./svgs/blank11.svg", alignment=ss.AlignTop | ss.AlignLeft

@@ -64,7 +64,12 @@ class DataBase(QWidget):
             self.connect.commit()
         except Exception as e:
             self.error_handler(f"Error commit: {e}")
-
+    def update_box(self,number):
+        try:
+            self.cursor.execute(f'UPDATE box_num SET number={number}')
+            self.commit()
+        except Exception as e:
+            self.error_handler(f"Error commit: {e}")
     def fetch_all(self,table):
         try:
             if self.connect:
