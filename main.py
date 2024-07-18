@@ -421,23 +421,6 @@ class MainWindow(QMainWindow):
             selected_items,
             self.show_table,
         )
-
-        result = dialog.exec()
-
-        if result == QDialog.Accepted:
-            self.handelpermissions()
-            print("User clicked OK")
-        elif result == QDialog.Rejected:
-            print("User clicked Cancel or closed the dialog")
-
-    # def refresh_table(self):
-    #     rows = self.database.fetch_all()
-    #     self.ui.tableWidget_list_users.setRowCount(len(rows))
-    #     self.ui.tableWidget_list_users.setColumnCount(len(rows[0]))
-    #     for row_idx, row_data in enumerate(rows):
-    #         for col_idx, col_data in enumerate(row_data):
-    #             item = QTableWidgetItem(str(col_data))
-    #             self.ui.tableWidget_list_users.setItem(row_idx, col_idx, item)
     def navigation(self, text):
         if text == "scan":
             self.ui.stackedWidget.setCurrentIndex(0)
@@ -711,7 +694,7 @@ class MainWindow(QMainWindow):
                         try:
                             barcode_instance.write(f, options=options2)
                         except Exception as e:
-                            print(f"Error creating ImageWriter: {e}")
+                            self.error_handler(f"Error creating ImageWriter: {e}")
                             traceback.print_exc()
 
                     with open(f"./images/{imei2}.png", "wb") as f:
@@ -725,7 +708,7 @@ class MainWindow(QMainWindow):
                         try:
                             barcode_instance.write(f, options=options2)
                         except Exception as e:
-                            print(f"Error creating ImageWriter: {e}")
+                            self.error_handler(f"Error creating ImageWriter: {e}")
                             traceback.print_exc()
 
                     with open(f"./images/{self.barcode_serial}.svg", "wb") as f:
