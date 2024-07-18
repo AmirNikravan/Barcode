@@ -883,16 +883,16 @@ class MainWindow(QMainWindow):
 
     def handlePrint(self):
         try:
-            # if (self.ui.tableWidget.item(9, 2)) == None:
-            #     QMessageBox.warning(self, "تعداد IMEI", "بارکد ها ناقص می باشند")
-            #     return
-            # if self.ui.comboBox_model.currentText() == "select":
-            #     msg_box = QtWidgets.QMessageBox(self)
-            #     msg_box.setIcon(QtWidgets.QMessageBox.Warning)
-            #     msg_box.setWindowTitle("هشدار")
-            #     msg_box.setText("لطفا مدل را وارد کنید")
-            #     msg_box.exec()
-            #     return
+            if (self.ui.tableWidget.item(9, 2)) == None:
+                QMessageBox.warning(self, "تعداد IMEI", "بارکد ها ناقص می باشند")
+                return
+            if self.ui.comboBox_model.currentText() == "select":
+                msg_box = QtWidgets.QMessageBox(self)
+                msg_box.setIcon(QtWidgets.QMessageBox.Warning)
+                msg_box.setWindowTitle("هشدار")
+                msg_box.setText("لطفا مدل را وارد کنید")
+                msg_box.exec()
+                return
             dialog = QtPrintSupport.QPrintDialog()
             if dialog.exec() == QtWidgets.QDialog.Accepted:
 
@@ -924,13 +924,13 @@ class MainWindow(QMainWindow):
             color = self.ui.comboBox_color.currentText()
         except Exception as e:
             self.error_handler(f"Error Handel print: {e}")
-        # if model == "select":
-        #     msg_box = QtWidgets.QMessageBox(self)
-        #     msg_box.setIcon(QtWidgets.QMessageBox.Warning)
-        #     msg_box.setWindowTitle("هشدار")
-        #     msg_box.setText("لطفا مدل را وارد کنید")
-        #     msg_box.exec()
-        #     return
+        if model == "select":
+            msg_box = QtWidgets.QMessageBox(self)
+            msg_box.setIcon(QtWidgets.QMessageBox.Warning)
+            msg_box.setWindowTitle("هشدار")
+            msg_box.setText("لطفا مدل را وارد کنید")
+            msg_box.exec()
+            return
         try:
             bala_layout = ss.VBoxLayout()
             bala_rast = ss.VBoxLayout()
