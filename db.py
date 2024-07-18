@@ -65,10 +65,10 @@ class DataBase(QWidget):
         except Exception as e:
             self.error_handler(f"Error commit: {e}")
 
-    def fetch_all(self):
+    def fetch_all(self,table):
         try:
             if self.connect:
-                self.cursor.execute("select * from user")
+                self.cursor.execute(f"select * from {table}")
                 return self.cursor.fetchall()
         except Exception as e:
             self.error_handler(f"Error fetch all: {e}")

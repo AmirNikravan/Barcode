@@ -85,6 +85,8 @@ class MainWindow(QMainWindow):
         self.ui.tableWidget.setColumnWidth(1, 400)
         self.ui.tableWidget.setColumnWidth(2, 180)
         self.ui.tableWidget.setColumnWidth(3, 250)
+        self.ui.tableWidget_userstatus.setColumnWidth(0,100)
+        self.ui.tableWidget_userstatus.setColumnWidth(3,1300)
         self.ui.tableWidget_list_users.setColumnWidth(4, 800)
         for col in range(self.ui.tableWidget.columnCount()):
             self.ui.tableWidget.setSortingEnabled(False)
@@ -158,19 +160,36 @@ class MainWindow(QMainWindow):
                 self.ui.comboBox_model.setEnabled(True)
             if self.permissions["user"] == 0:
                 self.ui.toolButton_naviguser.setEnabled(False)
+                self.ui.toolButton_naviguser.hide()
+                self.ui.line_10.hide()
             else:
+                self.ui.line_10.show()
+                self.ui.toolButton_naviguser.show()
                 self.ui.toolButton_naviguser.setEnabled(True)
             if self.permissions["report"] == 0:
                 self.ui.toolButton_navigreport.setEnabled(False)
+                self.ui.toolButton_navigreport.hide()
+                self.ui.line_11.hide()
+                
             else:
+                self.ui.line_11.show()
+                self.ui.toolButton_navigreport.show()
                 self.ui.toolButton_navigreport.setEnabled(True)
             if self.permissions["toolid"] == 0:
+                self.ui.toolButton_navigbox.hide()
+                self.ui.line_8.hide()
                 self.ui.toolButton_navigbox.setEnabled(False)
             else:
+                self.ui.toolButton_navigbox.show()
+                self.ui.line_8.show()
                 self.ui.toolButton_navigbox.setEnabled(True)
             if self.permissions["db"] == 0:
+                self.ui.line_9.hide()
+                self.ui.toolButton_navigdatabase.hide()
                 self.ui.toolButton_navigdatabase.setEnabled(False)
             else:
+                self.ui.line_9.show()
+                self.ui.toolButton_navigdatabase.show()
                 self.ui.toolButton_navigdatabase.setEnabled(True)
         except Exception as e:
             self.error_handler(f"Error fetching user: {e}")
@@ -284,15 +303,17 @@ class MainWindow(QMainWindow):
     def show_table(self):
         if self.validation() == False:
             return
-        rows = self.database.fetch_all()
+        rows = self.database.fetch_all('user')
+        rows2 = self.database.fetch_all('user_action')
         if not rows:
             return
 
         # Clear existing table contents
         self.ui.tableWidget_list_users.clearContents()
-
+        self.ui.tableWidget_userstatus.clearContents()
         # Set the number of rows and columns in the table widget
         self.ui.tableWidget_list_users.setRowCount(len(rows))
+        self.ui.tableWidget_userstatus.setRowCount(len(rows2))
         self.ui.tableWidget_list_users.setColumnCount(
             5
         )  # Assuming 4 general info columns + 1 permissions column
@@ -304,7 +325,7 @@ class MainWindow(QMainWindow):
             "تولید جعبه",
             "مدیریت دیتابیس",
         ]
-
+        for row
         # Iterate over rows to populate table
         for row_idx, row_data in enumerate(rows):
             # Display general information (first 4 columns)
