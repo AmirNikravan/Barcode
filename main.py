@@ -325,7 +325,20 @@ class MainWindow(QMainWindow):
             "تولید جعبه",
             "مدیریت دیتابیس",
         ]
-        for row
+        for row_idx, row_data in enumerate(rows2):
+            col_idx = 0
+            actual_col_idx = 0  # This will track the actual index in the table
+            for col_data in row_data:
+                if col_idx == 3:  # Skip the 3rd column (index 2 in the original question)
+                    col_idx += 1
+                    continue
+                if actual_col_idx == 1:
+                    item = QTableWidgetItem(self.report.date_convertor(col_data))
+                else:
+                    item = QTableWidgetItem(str(col_data))  # Ensure col_data is converted to string
+                self.ui.tableWidget_userstatus.setItem(row_idx, actual_col_idx, item)
+                col_idx += 1
+                actual_col_idx += 1
         # Iterate over rows to populate table
         for row_idx, row_data in enumerate(rows):
             # Display general information (first 4 columns)
@@ -777,7 +790,6 @@ class MainWindow(QMainWindow):
                         self.time_text,
                         f"{self.barcode_serial}",
                     )
-                    print(imei2)
                     self.database.barcode_scan(
                         self.current_user,
                         self.date_text,
@@ -930,13 +942,10 @@ class MainWindow(QMainWindow):
                 1,
                 1,
             )
-            print(model)
             if model == "NOKIA 110TA-1567 DS":
                 model_text = "1.752"
             else:
-                print(234234)
                 model_text = "1.750"
-            print(model_text)
             self.create_svg(
                 f"Weight: {model_text}kg",
                 "./images/wieght.svg",
