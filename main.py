@@ -893,7 +893,6 @@ class MainWindow(QMainWindow):
         dwg.save()
 
     def handlePaintRequest(self, printer):
-        print(f'123123123{datetime.now().year}')
         doc = ss.Document()
         final_layout = ss.VBoxLayout()
         try:
@@ -915,7 +914,6 @@ class MainWindow(QMainWindow):
             bala_chap = ss.VBoxLayout()
             bala_vasat = ss.HBoxLayout()
             bala_final = ss.HBoxLayout()
-            print(datetime.now().year)
             self.create_svg(
                 f"Manufacture Date: {datetime.now().year}/{datetime.now().month}",
                 "./images/date.svg",
