@@ -1234,6 +1234,7 @@ class Ui_MainWindow(object):
         self.tableWidget_box.setObjectName(u"tableWidget_box")
         self.tableWidget_box.setLayoutDirection(Qt.RightToLeft)
         self.tableWidget_box.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.tableWidget_box.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         self.verticalLayout_13.addWidget(self.tableWidget_box)
 
