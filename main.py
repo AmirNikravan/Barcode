@@ -51,6 +51,7 @@ class MainWindow(QMainWindow):
         self.update_labels()
         # signals
         self.ui.toolButton_navigscan.clicked.connect(lambda: self.navigation("scan"))
+        self.ui.toolButton_navigbox.clicked.connect(lambda: self.navigation("box"))
         self.ui.toolButton_naviguser.clicked.connect(lambda: self.navigation("user"))
         self.ui.toolButton_navigreport.clicked.connect(
             lambda: self.navigation("report")
@@ -80,6 +81,7 @@ class MainWindow(QMainWindow):
         self.ui.toolButton_dbcheck.clicked.connect(self.validation)
         # self.ui.tableWidget.itemSelectionChanged.connect(self.changeRowColor)
         # table config
+        self.ui.tableWidget_box.setColumnWidth(1, 1500)
         self.ui.tableWidget.setColumnWidth(0, 180)
         self.ui.tableWidget.setColumnWidth(1, 400)
         self.ui.tableWidget.setColumnWidth(2, 180)
@@ -425,6 +427,8 @@ class MainWindow(QMainWindow):
             self.show_table,
         )
         dialog.exec()
+        self.handelpermissions()
+
     def navigation(self, text):
         if text == "scan":
             self.ui.stackedWidget.setCurrentIndex(0)
@@ -439,6 +443,21 @@ class MainWindow(QMainWindow):
         if text == "report":
             self.report_barcode()
             self.ui.stackedWidget.setCurrentIndex(4)
+        if text == "box":
+            self.box_handel()
+            self.ui.stackedWidget.setCurrentIndex(5)
+
+    def box_handel(self):
+        rows = self.database.fetch_all("box")
+        self.ui.tableWidget_box.clearContents()
+        self.ui.tableWidget_box.setRowCount(len(rows))
+        for row_indx, row_data in enumerate(rows):
+            self.ui.tableWidget_box.setRowHeight(
+                self.ui.tableWidget_box.currentRow(), 25
+            )
+            self.ui.tableWidget_box.setItem(row_indx, 0, QTableWidgetItem(row_data[0]))
+            self.ui.tableWidget_box.setItem(row_indx, 1, QTableWidgetItem(row_data[1]))
+        self.ui.label_29.setText(str(self.database.fetch_all("box_num")[0][0]))
 
     def generate_svg_with_text(text, filename, width="100mm", height="50mm"):
         # Ensure width and height are strings with units
@@ -876,7 +895,10 @@ class MainWindow(QMainWindow):
             #     return
             dialog = QtPrintSupport.QPrintDialog()
             if dialog.exec() == QtWidgets.QDialog.Accepted:
+
                 self.handlePaintRequest(dialog.printer())
+                self.database.insert_box(self.box[0][0], self.barcodes)
+                self.barcodes.clear()
                 self.database.update_box(self.box[0][0] + 1)
                 self.clear_table()
         except Exception as e:
@@ -1016,7 +1038,8 @@ class MainWindow(QMainWindow):
                     pattern = re.compile(r"IMEI\s*:\s*(\d+)", re.IGNORECASE)
                     match = pattern.search(text_column1)
                     imei_number = match.group(1) if match else ""
-                    # Build the path
+                    # Build the patha
+                    self.barcodes.append(f"{imei_number}")
                     imei1 += str(imei_number)
                     path1 = f"./images/{imei_number}.svg"
                     # Print the path
@@ -1049,6 +1072,7 @@ class MainWindow(QMainWindow):
                     match = pattern.search(text_column2)
                     imei_number = match.group(1) if match else "t"
                     imei2 += str(imei_number)
+                    self.barcodes.append(f"{imei_number}")
                     # Build the path
                     path2 = f"./images/{imei_number}.svg"
                     if row == 0:

@@ -313,11 +313,7 @@ class Ui_MainWindow(object):
         self.label_2 = QLabel(self.barcode)
         self.label_2.setObjectName(u"label_2")
         self.label_2.setMinimumSize(QSize(0, 50))
-        font8 = QFont()
-        font8.setFamilies([u"Arial"])
-        font8.setPointSize(18)
-        font8.setBold(True)
-        self.label_2.setFont(font8)
+        self.label_2.setFont(font2)
         self.label_2.setStyleSheet(u"color: #2C468C")
 
         self.horizontalLayout_2.addWidget(self.label_2)
@@ -341,13 +337,20 @@ class Ui_MainWindow(object):
         self.tableWidget = QTableWidget(self.barcode)
         if (self.tableWidget.columnCount() < 4):
             self.tableWidget.setColumnCount(4)
+        font8 = QFont()
+        font8.setFamilies([u"IRANSansXV Light"])
+        font8.setPointSize(10)
         __qtablewidgetitem = QTableWidgetItem()
+        __qtablewidgetitem.setFont(font8);
         self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
         __qtablewidgetitem1 = QTableWidgetItem()
+        __qtablewidgetitem1.setFont(font8);
         self.tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem1)
         __qtablewidgetitem2 = QTableWidgetItem()
+        __qtablewidgetitem2.setFont(font8);
         self.tableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem2)
         __qtablewidgetitem3 = QTableWidgetItem()
+        __qtablewidgetitem3.setFont(font8);
         self.tableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem3)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setMinimumSize(QSize(0, 0))
@@ -1188,6 +1191,53 @@ class Ui_MainWindow(object):
         self.verticalLayout_10.addWidget(self.tabWidget)
 
         self.stackedWidget.addWidget(self.report)
+        self.page = QWidget()
+        self.page.setObjectName(u"page")
+        self.verticalLayout_13 = QVBoxLayout(self.page)
+        self.verticalLayout_13.setObjectName(u"verticalLayout_13")
+        self.label_7 = QLabel(self.page)
+        self.label_7.setObjectName(u"label_7")
+        font14 = QFont()
+        font14.setFamilies([u"IRANSansXV"])
+        font14.setPointSize(12)
+        self.label_7.setFont(font14)
+
+        self.verticalLayout_13.addWidget(self.label_7)
+
+        self.horizontalLayout_26 = QHBoxLayout()
+        self.horizontalLayout_26.setObjectName(u"horizontalLayout_26")
+        self.horizontalSpacer_27 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_26.addItem(self.horizontalSpacer_27)
+
+        self.label_29 = QLabel(self.page)
+        self.label_29.setObjectName(u"label_29")
+        self.label_29.setMinimumSize(QSize(13, 0))
+
+        self.horizontalLayout_26.addWidget(self.label_29)
+
+        self.label_25 = QLabel(self.page)
+        self.label_25.setObjectName(u"label_25")
+
+        self.horizontalLayout_26.addWidget(self.label_25)
+
+
+        self.verticalLayout_13.addLayout(self.horizontalLayout_26)
+
+        self.tableWidget_box = QTableWidget(self.page)
+        if (self.tableWidget_box.columnCount() < 2):
+            self.tableWidget_box.setColumnCount(2)
+        __qtablewidgetitem18 = QTableWidgetItem()
+        self.tableWidget_box.setHorizontalHeaderItem(0, __qtablewidgetitem18)
+        __qtablewidgetitem19 = QTableWidgetItem()
+        self.tableWidget_box.setHorizontalHeaderItem(1, __qtablewidgetitem19)
+        self.tableWidget_box.setObjectName(u"tableWidget_box")
+        self.tableWidget_box.setLayoutDirection(Qt.RightToLeft)
+        self.tableWidget_box.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+
+        self.verticalLayout_13.addWidget(self.tableWidget_box)
+
+        self.stackedWidget.addWidget(self.page)
 
         self.horizontalLayout_4.addWidget(self.stackedWidget)
 
@@ -1212,10 +1262,10 @@ class Ui_MainWindow(object):
         self.toolButton_navigscan = QToolButton(self.navigation)
         self.toolButton_navigscan.setObjectName(u"toolButton_navigscan")
         self.toolButton_navigscan.setMinimumSize(QSize(51, 52))
-        font14 = QFont()
-        font14.setFamilies([u"IRANSansXV Medium"])
-        font14.setPointSize(12)
-        self.toolButton_navigscan.setFont(font14)
+        font15 = QFont()
+        font15.setFamilies([u"IRANSansXV Medium"])
+        font15.setPointSize(12)
+        self.toolButton_navigscan.setFont(font15)
         self.toolButton_navigscan.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
 "\n"
 "color: #2C468C;\n"
@@ -1249,7 +1299,7 @@ class Ui_MainWindow(object):
         self.toolButton_navigbox.setObjectName(u"toolButton_navigbox")
         self.toolButton_navigbox.setEnabled(True)
         self.toolButton_navigbox.setMinimumSize(QSize(51, 59))
-        self.toolButton_navigbox.setFont(font14)
+        self.toolButton_navigbox.setFont(font15)
         self.toolButton_navigbox.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
 "\n"
 "color: #2C468C;\n"
@@ -1278,10 +1328,10 @@ class Ui_MainWindow(object):
         self.toolButton_navigdatabase = QToolButton(self.navigation)
         self.toolButton_navigdatabase.setObjectName(u"toolButton_navigdatabase")
         self.toolButton_navigdatabase.setMinimumSize(QSize(51, 59))
-        font15 = QFont()
-        font15.setFamilies([u"IRANSansXV Medium"])
-        font15.setPointSize(10)
-        self.toolButton_navigdatabase.setFont(font15)
+        font16 = QFont()
+        font16.setFamilies([u"IRANSansXV Medium"])
+        font16.setPointSize(10)
+        self.toolButton_navigdatabase.setFont(font16)
         self.toolButton_navigdatabase.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
 "\n"
 "color: #2C468C;\n"
@@ -1310,7 +1360,7 @@ class Ui_MainWindow(object):
         self.toolButton_naviguser = QToolButton(self.navigation)
         self.toolButton_naviguser.setObjectName(u"toolButton_naviguser")
         self.toolButton_naviguser.setMinimumSize(QSize(51, 59))
-        self.toolButton_naviguser.setFont(font15)
+        self.toolButton_naviguser.setFont(font16)
         self.toolButton_naviguser.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
 "\n"
 "color: #2C468C;\n"
@@ -1340,7 +1390,7 @@ class Ui_MainWindow(object):
         self.toolButton_navigreport.setObjectName(u"toolButton_navigreport")
         self.toolButton_navigreport.setEnabled(True)
         self.toolButton_navigreport.setMinimumSize(QSize(51, 44))
-        self.toolButton_navigreport.setFont(font15)
+        self.toolButton_navigreport.setFont(font16)
         self.toolButton_navigreport.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
 "\n"
 "color: #2C468C;\n"
@@ -1370,7 +1420,7 @@ class Ui_MainWindow(object):
         self.toolButton_navigaccount.setObjectName(u"toolButton_navigaccount")
         self.toolButton_navigaccount.setEnabled(True)
         self.toolButton_navigaccount.setMinimumSize(QSize(52, 59))
-        self.toolButton_navigaccount.setFont(font15)
+        self.toolButton_navigaccount.setFont(font16)
         self.toolButton_navigaccount.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
 "\n"
 "color: #2C468C;\n"
@@ -1415,7 +1465,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(5)
         self.tabWidget.setCurrentIndex(0)
 
 
@@ -1530,6 +1580,13 @@ class Ui_MainWindow(object):
         self.toolButton_barrep_excel.setText(QCoreApplication.translate("MainWindow", u"excel", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.barcode_report), QCoreApplication.translate("MainWindow", u"\u0628\u0627\u0631\u06a9\u062f", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.users_report), QCoreApplication.translate("MainWindow", u"\u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"\u062c\u0639\u0628\u0647", None))
+        self.label_29.setText("")
+        self.label_25.setText(QCoreApplication.translate("MainWindow", u"\u0634\u0645\u0627\u0631\u0647 \u062c\u0639\u0628\u0647:", None))
+        ___qtablewidgetitem18 = self.tableWidget_box.horizontalHeaderItem(0)
+        ___qtablewidgetitem18.setText(QCoreApplication.translate("MainWindow", u"\u0634\u0645\u0627\u0631\u0647 \u062c\u0639\u0628\u0647", None));
+        ___qtablewidgetitem19 = self.tableWidget_box.horizontalHeaderItem(1)
+        ___qtablewidgetitem19.setText(QCoreApplication.translate("MainWindow", u"\u0633\u0631\u06cc\u0627\u0644", None));
         self.toolButton_navigscan.setText(QCoreApplication.translate("MainWindow", u"\u0627\u0633\u06a9\u0646", None))
         self.toolButton_navigbox.setText(QCoreApplication.translate("MainWindow", u"\u062c\u0639\u0628\u0647", None))
         self.toolButton_navigdatabase.setText(QCoreApplication.translate("MainWindow", u"\u062f\u06cc\u062a\u0627\u0628\u06cc\u0633", None))
