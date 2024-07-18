@@ -28,7 +28,7 @@ from EditUser import EditUser
 import jdatetime
 from login import *
 
-import datetime
+from datetime import datetime
 from report import *
 
 
@@ -424,7 +424,7 @@ class MainWindow(QMainWindow):
             selected_items,
             self.show_table,
         )
-
+        dialog.exec()
     def navigation(self, text):
         if text == "scan":
             self.ui.stackedWidget.setCurrentIndex(0)
@@ -864,16 +864,16 @@ class MainWindow(QMainWindow):
 
     def handlePrint(self):
         try:
-            if (self.ui.tableWidget.item(9, 2)) == None:
-                QMessageBox.warning(self, "تعداد IMEI", "بارکد ها ناقص می باشند")
-                return
-            if self.ui.comboBox_model.currentText() == "select":
-                msg_box = QtWidgets.QMessageBox(self)
-                msg_box.setIcon(QtWidgets.QMessageBox.Warning)
-                msg_box.setWindowTitle("هشدار")
-                msg_box.setText("لطفا مدل را وارد کنید")
-                msg_box.exec()
-                return
+            # if (self.ui.tableWidget.item(9, 2)) == None:
+            #     QMessageBox.warning(self, "تعداد IMEI", "بارکد ها ناقص می باشند")
+            #     return
+            # if self.ui.comboBox_model.currentText() == "select":
+            #     msg_box = QtWidgets.QMessageBox(self)
+            #     msg_box.setIcon(QtWidgets.QMessageBox.Warning)
+            #     msg_box.setWindowTitle("هشدار")
+            #     msg_box.setText("لطفا مدل را وارد کنید")
+            #     msg_box.exec()
+            #     return
             dialog = QtPrintSupport.QPrintDialog()
             if dialog.exec() == QtWidgets.QDialog.Accepted:
                 self.handlePaintRequest(dialog.printer())
@@ -893,7 +893,7 @@ class MainWindow(QMainWindow):
         dwg.save()
 
     def handlePaintRequest(self, printer):
-
+        print(f'123123123{datetime.now().year}')
         doc = ss.Document()
         final_layout = ss.VBoxLayout()
         try:
@@ -915,8 +915,9 @@ class MainWindow(QMainWindow):
             bala_chap = ss.VBoxLayout()
             bala_vasat = ss.HBoxLayout()
             bala_final = ss.HBoxLayout()
+            print(datetime.now().year)
             self.create_svg(
-                f"Manufacture Date: {datetime.datetime.now().year}/{datetime.datetime.now().month}",
+                f"Manufacture Date: {datetime.now().year}/{datetime.now().month}",
                 "./images/date.svg",
                 10,
                 1,
@@ -951,6 +952,7 @@ class MainWindow(QMainWindow):
             self.database.update_box(self.box[0][0] + 1)
             formatted_text = self.format_number(self.box[0][0])
             formatted_text = "SAMTEL" + formatted_text
+            print(formatted_text)
             self.print_box(formatted_text)
             bala_rast.addSVG(
                 f"./svgs/blank11.svg", alignment=ss.AlignTop | ss.AlignLeft

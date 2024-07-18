@@ -632,8 +632,8 @@ border: 2px solid rgb(255, 215, 238);
               </property>
               <property name="font">
                <font>
-                <family>Arial</family>
-                <pointsize>18</pointsize>
+                <family>IRANSansXFaNum</family>
+                <pointsize>10</pointsize>
                 <weight>75</weight>
                 <bold>true</bold>
                </font>
@@ -712,20 +712,44 @@ border-radius:10px
                <property name="text">
                 <string>سریال</string>
                </property>
+               <property name="font">
+                <font>
+                 <family>IRANSansXV Light</family>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
               </column>
               <column>
                <property name="text">
                 <string>تصویر</string>
+               </property>
+               <property name="font">
+                <font>
+                 <family>IRANSansXV Light</family>
+                 <pointsize>10</pointsize>
+                </font>
                </property>
               </column>
               <column>
                <property name="text">
                 <string>سریال</string>
                </property>
+               <property name="font">
+                <font>
+                 <family>IRANSansXV Light</family>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
               </column>
               <column>
                <property name="text">
                 <string>تصویر</string>
+               </property>
+               <property name="font">
+                <font>
+                 <family>IRANSansXV Light</family>
+                 <pointsize>10</pointsize>
+                </font>
                </property>
               </column>
              </widget>
@@ -2262,6 +2286,27 @@ background-color: rgb(255, 166, 139);
            </widget>
           </item>
          </layout>
+        </widget>
+        <widget class="QWidget" name="page">
+         <widget class="QLabel" name="label_7">
+          <property name="geometry">
+           <rect>
+            <x>654</x>
+            <y>30</y>
+            <width>51</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>IRANSansXV</family>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>جعبه</string>
+          </property>
+         </widget>
         </widget>
        </widget>
       </item>
