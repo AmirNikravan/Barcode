@@ -1157,6 +1157,7 @@ class MainWindow(QMainWindow):
         try:
             self.convert_svg_to_pdf()
         except Exception as e:
+            # print(e)
             self.error_handler(f"Error convert_svg_to_pdf: {e}")
 
     def svg_to_pdf(self, input_svg_path, output_pdf_path):
@@ -1190,6 +1191,7 @@ class MainWindow(QMainWindow):
             if output_pdf:
                 self.svg_to_pdf(input_svg, output_pdf)
         except Exception as e:
+            # print(e)
             self.error_handler(f"Error convert svg to pdf: {e}")
 
     def disable_scanning(self):
