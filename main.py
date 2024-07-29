@@ -27,10 +27,11 @@ from db import DataBase
 from EditUser import EditUser
 import jdatetime
 from login import *
+import cairosvg
 
 from datetime import datetime
 from report import *
-
+from pre import *
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
@@ -74,6 +75,7 @@ class MainWindow(QMainWindow):
         self.ui.toolButton_exportdb.clicked.connect(lambda: self.dbhandel("exportdb"))
         self.ui.toolButton_inputdb.clicked.connect(lambda: self.dbhandel("importdb"))
         self.ui.toolButton_exit.clicked.connect(self.logout)
+        self.ui.toolButton_preview.clicked.connect(self.handelpreview)
         self.ui.tableWidget_list_users.itemSelectionChanged.connect(
             self.on_table_item_selection_changed
         )
@@ -120,7 +122,28 @@ class MainWindow(QMainWindow):
         self.handlecombo()
         # self.show_table()
         self.validation()
+    def handelpreview(self):
+        try:
+            # if (self.ui.tableWidget.item(9, 2)) == None:
+            #     QMessageBox.warning(self, "تعداد IMEI", "بارکد ها ناقص می باشند")
+            #     return
+            # if self.ui.comboBox_model.currentText() == "select":
+            #     msg_box = QtWidgets.QMessageBox(self)
+            #     msg_box.setIcon(QtWidgets.QMessageBox.Warning)
+            #     msg_box.setWindowTitle("هشدار")
+            #     msg_box.setText("لطفا مدل را وارد کنید")
+            #     msg_box.exec()
+            #     return
+            self.handlePaintRequest('preview')
+            cairosvg.svg2png(url='qt_api_test.svg', write_to='converted_image.png',)
 
+            ui = Preview('converted_image.png')
+            # pixmap = QPixmap('converted_image.png')
+            # ui.label.setText('amir')
+            # self.ui2.label.setPixmap(pixmap)
+            ui.exec()        
+        except Exception as e:
+            self.error_handler(f"Error Handle Preview: {e}")
     def show_main_window(self):
         try:
             self.show()
@@ -883,16 +906,17 @@ class MainWindow(QMainWindow):
 
     def handlePrint(self):
         try:
-            if (self.ui.tableWidget.item(9, 2)) == None:
-                QMessageBox.warning(self, "تعداد IMEI", "بارکد ها ناقص می باشند")
-                return
-            if self.ui.comboBox_model.currentText() == "select":
-                msg_box = QtWidgets.QMessageBox(self)
-                msg_box.setIcon(QtWidgets.QMessageBox.Warning)
-                msg_box.setWindowTitle("هشدار")
-                msg_box.setText("لطفا مدل را وارد کنید")
-                msg_box.exec()
-                return
+            # if (self.ui.tableWidget.item(9, 2)) == None:
+            #     QMessageBox.warning(self, "تعداد IMEI", "بارکد ها ناقص می باشند")
+            #     return
+            # if self.ui.comboBox_model.currentText() == "select":
+            #     msg_box = QtWidgets.QMessageBox(self)
+            #     msg_box.setIcon(QtWidgets.QMessageBox.Warning)
+            #     msg_box.setWindowTitle("هشدار")
+            #     msg_box.setText("لطفا مدل را وارد کنید")
+            #     msg_box.exec()
+            #     return
+            self.handlePaintRequest('preview')
             dialog = QtPrintSupport.QPrintDialog()
             if dialog.exec() == QtWidgets.QDialog.Accepted:
 
@@ -1099,7 +1123,7 @@ class MainWindow(QMainWindow):
                 qr = qrcode.QRCode(
                     version=1,  # Controls the size of the QR Code: 1 is the smallest
                     error_correction=qrcode.constants.ERROR_CORRECT_L,  # Error correction level
-                    box_size=14,  # Size of each box in pixels
+                    box_size=10,  # Size of each box in pixels
                     border=4,  # Thickness of the border (default is 4)
                 )
                 qr.add_data(data)
@@ -1122,6 +1146,9 @@ class MainWindow(QMainWindow):
             )
             full_qr_layout.addSVG(
                 "./images/qrcode2.svg", alignment=ss.AlignTop | ss.AlignLeft
+            )
+            full_qr_layout.addSVG(
+                "./svgs/blank12.svg", alignment=ss.AlignTop | ss.AlignLeft
             )
         except Exception as e:
             self.error_handler(f"Error creating Qr code: {e}")
@@ -1154,6 +1181,8 @@ class MainWindow(QMainWindow):
         # Example usage
         # input_svg = "qt_api_test.svg"
         # output_pdf = "output.pdf"
+        if printer == 'preview':
+            return
         try:
             self.convert_svg_to_pdf()
         except Exception as e:

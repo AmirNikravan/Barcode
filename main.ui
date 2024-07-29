@@ -252,7 +252,7 @@ color: #FFFFFF;
          <string notr="true">background-color: rgba(233,233,233,255);</string>
         </property>
         <property name="currentIndex">
-         <number>5</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="barcode">
          <property name="styleSheet">
@@ -893,6 +893,35 @@ background-color:#91c4d7;</string>
                </size>
               </property>
              </spacer>
+            </item>
+            <item>
+             <widget class="QToolButton" name="toolButton_preview">
+              <property name="minimumSize">
+               <size>
+                <width>61</width>
+                <height>39</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>IRANSansXFaNum</family>
+                <pointsize>12</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QToolButton{ border: none; background: none; 
+border-radius:5px;
+color: #FFFFFF;
+	background-color: #42B4E7;
+}
+</string>
+              </property>
+              <property name="text">
+               <string>پیش نمایش</string>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QToolButton" name="toolButton_print">
@@ -1584,6 +1613,9 @@ background-color: rgb(255, 166, 139);
            <layout class="QHBoxLayout" name="horizontalLayout_6">
             <item>
              <widget class="QToolButton" name="toolButton_exportdb">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="minimumSize">
                <size>
                 <width>49</width>
@@ -1628,7 +1660,7 @@ background-color: rgb(255, 166, 139);
             <item>
              <widget class="QToolButton" name="toolButton_inputdb">
               <property name="enabled">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
               <property name="minimumSize">
                <size>

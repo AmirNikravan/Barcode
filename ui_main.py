@@ -415,15 +415,28 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addItem(self.horizontalSpacer_2)
 
+        self.toolButton_preview = QToolButton(self.barcode)
+        self.toolButton_preview.setObjectName(u"toolButton_preview")
+        self.toolButton_preview.setMinimumSize(QSize(61, 39))
+        font9 = QFont()
+        font9.setFamilies([u"IRANSansXFaNum"])
+        font9.setPointSize(12)
+        font9.setBold(True)
+        self.toolButton_preview.setFont(font9)
+        self.toolButton_preview.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
+"border-radius:5px;\n"
+"color: #FFFFFF;\n"
+"	background-color: #42B4E7;\n"
+"}\n"
+"")
+
+        self.horizontalLayout.addWidget(self.toolButton_preview)
+
         self.toolButton_print = QToolButton(self.barcode)
         self.toolButton_print.setObjectName(u"toolButton_print")
         self.toolButton_print.setMinimumSize(QSize(61, 0))
         self.toolButton_print.setMaximumSize(QSize(78, 39))
         self.toolButton_print.setSizeIncrement(QSize(0, 0))
-        font9 = QFont()
-        font9.setFamilies([u"IRANSansXFaNum"])
-        font9.setPointSize(12)
-        font9.setBold(True)
         self.toolButton_print.setFont(font9)
         self.toolButton_print.setStyleSheet(u"QToolButton{ border: none; background: none; \n"
 "border-radius:5px;\n"
@@ -786,6 +799,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
         self.toolButton_exportdb = QToolButton(self.database)
         self.toolButton_exportdb.setObjectName(u"toolButton_exportdb")
+        self.toolButton_exportdb.setEnabled(False)
         self.toolButton_exportdb.setMinimumSize(QSize(49, 36))
         self.toolButton_exportdb.setFont(font3)
         self.toolButton_exportdb.setStyleSheet(u"QToolButton{border-radius:11px;\n"
@@ -808,7 +822,7 @@ class Ui_MainWindow(object):
 
         self.toolButton_inputdb = QToolButton(self.database)
         self.toolButton_inputdb.setObjectName(u"toolButton_inputdb")
-        self.toolButton_inputdb.setEnabled(True)
+        self.toolButton_inputdb.setEnabled(False)
         self.toolButton_inputdb.setMinimumSize(QSize(49, 36))
         self.toolButton_inputdb.setFont(font3)
         self.toolButton_inputdb.setStyleSheet(u"QToolButton{border-radius:11px;\n"
@@ -1466,7 +1480,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(5)
+        self.stackedWidget.setCurrentIndex(2)
         self.tabWidget.setCurrentIndex(0)
 
 
@@ -1499,6 +1513,7 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"\u062a\u0635\u0648\u06cc\u0631", None));
         self.pushButton_clear.setText(QCoreApplication.translate("MainWindow", u"\u062d\u0630\u0641 \u062c\u062f\u0648\u0644", None))
         self.toolButton_deleterow.setText(QCoreApplication.translate("MainWindow", u"\u062d\u0630\u0641 \u0633\u0637\u0631", None))
+        self.toolButton_preview.setText(QCoreApplication.translate("MainWindow", u"\u067e\u06cc\u0634 \u0646\u0645\u0627\u06cc\u0634", None))
         self.toolButton_print.setText(QCoreApplication.translate("MainWindow", u"\u0686\u0627\u067e", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"\u0645\u062f\u06cc\u0631\u06cc\u062a \u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"\u0644\u06cc\u0633\u062a \u06a9\u0627\u0631\u0628\u0631\u0627\u0646", None))
