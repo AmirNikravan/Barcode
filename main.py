@@ -706,7 +706,7 @@ class MainWindow(QMainWindow):
                     "module_height": 8,
                     "quiet_zone": 1,
                     "text_distance": 5,
-                    "font_size": 8.5,
+                    "font_size": 10.5,
                     "font_path": "ARIAL.TTF",
                 }
                 options2 = {
@@ -906,16 +906,16 @@ class MainWindow(QMainWindow):
 
     def handlePrint(self):
         try:
-            # if (self.ui.tableWidget.item(9, 2)) == None:
-            #     QMessageBox.warning(self, "تعداد IMEI", "بارکد ها ناقص می باشند")
-            #     return
-            # if self.ui.comboBox_model.currentText() == "select":
-            #     msg_box = QtWidgets.QMessageBox(self)
-            #     msg_box.setIcon(QtWidgets.QMessageBox.Warning)
-            #     msg_box.setWindowTitle("هشدار")
-            #     msg_box.setText("لطفا مدل را وارد کنید")
-            #     msg_box.exec()
-            #     return
+            if (self.ui.tableWidget.item(9, 2)) == None:
+                QMessageBox.warning(self, "تعداد IMEI", "بارکد ها ناقص می باشند")
+                return
+            if self.ui.comboBox_model.currentText() == "select":
+                msg_box = QtWidgets.QMessageBox(self)
+                msg_box.setIcon(QtWidgets.QMessageBox.Warning)
+                msg_box.setWindowTitle("هشدار")
+                msg_box.setText("لطفا مدل را وارد کنید")
+                msg_box.exec()
+                return
             self.handlePaintRequest('preview')
             dialog = QtPrintSupport.QPrintDialog()
             if dialog.exec() == QtWidgets.QDialog.Accepted:
@@ -1218,7 +1218,7 @@ class MainWindow(QMainWindow):
                 f"{self.save_file_dialog()}.pdf"  # Get save file path from dialog
             )
             if output_pdf:
-                self.svg_to_pdf(input_svg, output_pdf)
+                cairosvg.svg2pdf(url=input_svg, write_to=output_pdf, output_width=800, output_height=600)
         except Exception as e:
             # print(e)
             self.error_handler(f"Error convert svg to pdf: {e}")
